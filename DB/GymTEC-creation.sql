@@ -101,7 +101,7 @@ CREATE TABLE Empleado
 	Distrito			VARCHAR(100) NOT NULL,
 	Salario				INT NOT NULL,
 	Email				VARCHAR(100) NOT NULL,
-	Contraseña			VARCHAR(100) NOT NULL,
+	Contrase�a			VARCHAR(100) NOT NULL,
 	HorasLaboradas		INT,
 	NombreSucursal		VARCHAR(100),
 	IdTipoPlanilla		INT,
@@ -117,7 +117,7 @@ CREATE TABLE Sucursal
 	Provincia			VARCHAR(100) NOT NULL,
 	Canton				VARCHAR(100) NOT NULL,
 	Distrito			VARCHAR(100) NOT NULL,
-    Señas			    VARCHAR(100) NOT NULL,
+    Se�as			    VARCHAR(100) NOT NULL,
 	CapacidadMaxima     INT NOT NULL,
 	FechaApertura		DATE NOT NULL,
 	TiendaAbierta	    BIT NOT NULL, -- 1 true, 0 false
@@ -140,7 +140,7 @@ CREATE TABLE Cliente
 	Canton				VARCHAR(100) NOT NULL,
 	Distrito			VARCHAR(100) NOT NULL,
 	Email				VARCHAR(100) NOT NULL,
-	Contraseña			VARCHAR(100) NOT NULL,
+	Contrase�a		VARCHAR(100) NOT NULL,
 	FechaNacimiento		DATE NOT NULL,
 	Peso	            FLOAT(2),
 	IMC	                FLOAT(2),
@@ -216,10 +216,6 @@ CREATE TABLE TipoEquipo
 
 	PRIMARY KEY (Id)
 );
-
-
-
-
 
 
 -- RELACIONES
