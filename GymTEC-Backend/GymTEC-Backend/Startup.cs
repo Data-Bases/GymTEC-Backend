@@ -1,4 +1,7 @@
-﻿
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using GymTEC_Backend.Repositories;
+using GymTEC_Backend.Repositories.Interfaces;
 
 namespace GymTEC_Backend
 {
@@ -19,14 +22,26 @@ namespace GymTEC_Backend
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+            services.Configure<SqlOptions>(configRoot);
+            services.AddScoped<IGymTecRepository, GymTecRepository>();
+
         }
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
+            app.UseCors(options =>
+            {
+                options.WithOrigins("http://localhost:4200");
+                options.AllowAnyMethod();
+                options.AllowAnyHeader();
+            });
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseRouting();
 
             app.UseHttpsRedirection();
 
