@@ -19,19 +19,6 @@ namespace GymTEC_Backend.Repositories
             _sqlOptions = options.Value;
         }
 
-        private SqlDataReader ExecuteQueryVersion1(string query)
-        {
-            var sqlConnection = new SqlConnection(_sqlOptions.DefaultConnection);
-            sqlConnection.Open();
-            var command = new SqlCommand(query, sqlConnection);
-            command.CommandTimeout = Timeout;
-            SqlDataReader response = command.ExecuteReader();
-            response.Close();
-            command.Dispose();
-            sqlConnection.Close();
-            return response;
-        }
-
         private IDataReader ExecuteQuery(string query)
         {
 
