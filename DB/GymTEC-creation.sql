@@ -1,4 +1,23 @@
+DROP TABLE IF EXISTS Cliente;
+DROP TABLE IF EXISTS Sucursal;
+DROP TABLE IF EXISTS Empleado;
+DROP TABLE IF EXISTS ClienteClase;
+DROP TABLE IF EXISTS TipoEquipo;
+DROP TABLE IF EXISTS TratamientoSpa;
+DROP TABLE IF EXISTS ServiciosClases;
+DROP TABLE IF EXISTS TipoPlanilla;
+DROP TABLE IF EXISTS Puesto;
+DROP TABLE IF EXISTS Horario;
+DROP TABLE IF EXISTS Producto;
+DROP TABLE IF EXISTS Clase;
 DROP TABLE IF EXISTS Maquina;
+DROP TABLE IF EXISTS NumerosTelefono;
+DROP TABLE IF EXISTS ServiciosSucursal;
+DROP TABLE IF EXISTS TratamientoSucursal;
+DROP TABLE IF EXISTS HorariosSucursal;
+DROP TABLE IF EXISTS ProductoSucursal;
+--ALTER TABLE EMPLOYEE DROP CONSTRAINT EMPLOYEE_DEPARTMENT_FK;
+
 CREATE TABLE Maquina
 (
 	NumeroSerie			INT NOT NULL,
@@ -10,7 +29,6 @@ CREATE TABLE Maquina
 	PRIMARY KEY (NumeroSerie)
 );
 
-DROP TABLE IF EXISTS ServiciosSucursal;
 CREATE TABLE ServiciosSucursal
 (
 	Id					INT NOT NULL,
@@ -22,7 +40,6 @@ CREATE TABLE ServiciosSucursal
 
 
 
-DROP TABLE IF EXISTS TratamientoSucursal;
 CREATE TABLE TratamientoSucursal
 (
 	Id					INT NOT NULL,
@@ -33,7 +50,6 @@ CREATE TABLE TratamientoSucursal
 );
 
 
-DROP TABLE IF EXISTS HorariosSucursal;
 CREATE TABLE HorariosSucursal
 (
 	Id					INT NOT NULL,
@@ -43,7 +59,6 @@ CREATE TABLE HorariosSucursal
 	PRIMARY KEY (Id)
 );
 
-DROP TABLE IF EXISTS ProductoSucursal;
 CREATE TABLE ProductoSucursal
 (
 	Id					    INT NOT NULL,
@@ -53,7 +68,6 @@ CREATE TABLE ProductoSucursal
 	PRIMARY KEY (Id)
 );
 
-DROP TABLE IF EXISTS NumerosTelefono;
 CREATE TABLE NumerosTelefono
 (
 	Id					INT NOT NULL,
@@ -63,10 +77,10 @@ CREATE TABLE NumerosTelefono
 	PRIMARY KEY (Id)
 );
 
-DROP TABLE IF EXISTS Clase;
 CREATE TABLE Clase
 (
 	Id					INT NOT NULL,
+	NombreClase			VARCHAR(100) NOT NULL,
 	HoraInicio			TIME(0) NOT NULL, --'15:30'
 	HoraFinalizacion	TIME(0) NOT NULL,
 	Fecha				DATE NOT NULL,					
@@ -78,7 +92,67 @@ CREATE TABLE Clase
 );
  
 
-DROP TABLE IF EXISTS ClienteClase;
+CREATE TABLE Producto
+(
+	CodigoBarras        INT NOT NULL,
+    Nombre				VARCHAR(100) NOT NULL,
+	Costo				INT NOT NULL,
+	Descripcion			VARCHAR(100),
+
+	PRIMARY KEY (CodigoBarras)
+);
+
+CREATE TABLE Horario
+(
+	Id					INT NOT NULL,
+	Dia				    DATE NOT NULL,					
+	HoraApertura		TIME(0) NOT NULL, --'15:30'
+	HoraCierra	        TIME(0) NOT NULL,
+
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE Puesto
+(
+	Id					INT NOT NULL,
+	Descripcion			VARCHAR(100) NOT NULL UNIQUE,
+
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE TipoPlanilla
+(
+	Id					INT NOT NULL,
+	Descripcion			VARCHAR(100) NOT NULL UNIQUE,
+
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE ServiciosClases
+(
+	Id					INT NOT NULL,
+	Descripcion			VARCHAR(100) NOT NULL UNIQUE,
+
+	PRIMARY KEY (Id)
+);
+
+
+CREATE TABLE TratamientoSpa
+(
+	Id					INT NOT NULL,
+	Nombre			    VARCHAR(100) NOT NULL UNIQUE,
+
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE TipoEquipo
+(
+	Id					INT NOT NULL,
+	Descripcion			VARCHAR(100) NOT NULL UNIQUE,
+
+	PRIMARY KEY (Id)
+);
+
 CREATE TABLE ClienteClase
 (
 	Id					INT NOT NULL,
@@ -89,7 +163,6 @@ CREATE TABLE ClienteClase
 );
 
 
-DROP TABLE IF EXISTS Empleado;
 CREATE TABLE Empleado
 (
 	Cedula              INT NOT NULL,
@@ -110,7 +183,6 @@ CREATE TABLE Empleado
 	PRIMARY KEY (Cedula)
 );
 
-DROP TABLE IF EXISTS Sucursal;
 CREATE TABLE Sucursal
 (
 	Nombre              VARCHAR(100) NOT NULL,
@@ -129,7 +201,6 @@ CREATE TABLE Sucursal
 
 
 
-DROP TABLE IF EXISTS Cliente;
 CREATE TABLE Cliente
 (
 	Cedula              INT NOT NULL,
@@ -148,74 +219,6 @@ CREATE TABLE Cliente
 	PRIMARY KEY (Cedula)
 );
 
-
-DROP TABLE IF EXISTS Producto;
-CREATE TABLE Producto
-(
-	CodigoBarras        INT NOT NULL,
-    Nombre				VARCHAR(100) NOT NULL,
-	Costo				INT NOT NULL,
-	Descripcion			VARCHAR(100),
-
-	PRIMARY KEY (CodigoBarras)
-);
-
-DROP TABLE IF EXISTS Horario;
-CREATE TABLE Horario
-(
-	Id					INT NOT NULL,
-	Dia				    DATE NOT NULL,					
-	HoraApertura		TIME(0) NOT NULL, --'15:30'
-	HoraCierra	        TIME(0) NOT NULL,
-
-	PRIMARY KEY (Id)
-);
-
-DROP TABLE IF EXISTS Puesto;
-CREATE TABLE Puesto
-(
-	Id					INT NOT NULL,
-	Descripcion			VARCHAR(100) NOT NULL UNIQUE,
-
-	PRIMARY KEY (Id)
-);
-
-DROP TABLE IF EXISTS TipoPlanilla;
-CREATE TABLE TipoPlanilla
-(
-	Id					INT NOT NULL,
-	Descripcion			VARCHAR(100) NOT NULL UNIQUE,
-
-	PRIMARY KEY (Id)
-);
-
-DROP TABLE IF EXISTS ServiciosClases;
-CREATE TABLE ServiciosClases
-(
-	Id					INT NOT NULL,
-	Descripcion			VARCHAR(100) NOT NULL UNIQUE,
-
-	PRIMARY KEY (Id)
-);
-
-
-DROP TABLE IF EXISTS TratamientoSpa;
-CREATE TABLE TratamientoSpa
-(
-	Id					INT NOT NULL,
-	Nombre			    VARCHAR(100) NOT NULL UNIQUE,
-
-	PRIMARY KEY (Id)
-);
-
-DROP TABLE IF EXISTS TipoEquipo;
-CREATE TABLE TipoEquipo
-(
-	Id					INT NOT NULL,
-	Descripcion			VARCHAR(100) NOT NULL UNIQUE,
-
-	PRIMARY KEY (Id)
-);
 
 
 -- RELACIONES
