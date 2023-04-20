@@ -20,8 +20,9 @@ namespace Hospital_TECNológico_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("GetClientById/{id}", Name = "GetClient")]
-        public ActionResult<string> GetPatient([Required] int id)
+        public ActionResult<string> GetClientNameById([Required] int id)
         {
 
             if (!ModelState.IsValid)
@@ -33,7 +34,7 @@ namespace Hospital_TECNológico_Backend.Controllers
 
 
 
-            if (patient == null)
+            if (patient.Equals(string.Empty))
             {
                 return NotFound();
             }
