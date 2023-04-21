@@ -10,7 +10,7 @@ using System.Data.SqlTypes;
 
 namespace GymTEC_Backend.Repositories
 {
-    public class GymTecRepository:IBranchModel
+    public class GymTecRepository:IGymTecRepository
     {
         private const int Timeout = 1600;
         private const string GymTecSqlDiani = "Server=LAPTOP-SKUFJ66D\\SQLEXPRESS; Database=GymTEC; Trusted_Connection=True; Encrypt=False;";

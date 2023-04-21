@@ -9,9 +9,9 @@ namespace Hospital_TECNológico_Backend.Controllers
     public class ClientController : ControllerBase
     {
         private readonly ILogger<ClientController> _logger;
-        private readonly IBranchModel _model;
+        private readonly IGymTecRepository _model;
 
-        public ClientController(ILogger<ClientController> logger, IBranchModel gymTecRepository)
+        public ClientController(ILogger<ClientController> logger, IGymTecRepository gymTecRepository)
         {
             _logger = logger;
             _model = gymTecRepository;
