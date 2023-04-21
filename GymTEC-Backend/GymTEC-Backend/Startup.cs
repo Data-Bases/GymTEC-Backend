@@ -23,7 +23,7 @@ namespace GymTEC_Backend
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.Configure<SqlOptions>(configRoot);
-            services.AddScoped<IGymTecRepository, GymTecRepository>();
+            services.AddScoped<IBranchModel, GymTecRepository>();
 
         }
         public void Configure(WebApplication app, IWebHostEnvironment env)

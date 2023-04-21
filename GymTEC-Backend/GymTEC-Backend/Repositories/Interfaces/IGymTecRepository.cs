@@ -1,6 +1,6 @@
 ﻿namespace GymTEC_Backend.Repositories.Interfaces
 {
-    public interface IGymTecRepository
+    public interface IBranchModel
     {
         string GetClientName(int id);
     }
