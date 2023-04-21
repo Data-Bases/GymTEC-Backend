@@ -1,7 +1,9 @@
-﻿namespace GymTEC_Backend.Repositories.Interfaces
+﻿using GymTEC_Backend.Dtos;
+namespace GymTEC_Backend.Repositories.Interfaces
 {
-    public interface IBranchModel
+    public interface IGymTecRepository
     {
+        BranchDto GetBranchByName(string name);
         string GetClientName(int id);
     }
 }

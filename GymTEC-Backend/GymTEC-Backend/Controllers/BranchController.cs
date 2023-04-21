@@ -1,5 +1,5 @@
 using GymTEC_Backend.Dtos;
-using GymTEC_Backend.Repositories.Interfaces;
+using GymTEC_Backend.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -31,16 +31,14 @@ namespace Hospital_TECNológico_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var patient = _model.GetClientName(id);
+            var branchDto = _model.GetBranchByName(name);
 
-
-
-            if (patient.Equals(string.Empty))
+            if (branchDto.Equals(string.Empty))
             {
                 return NotFound();
             }
 
-            return Ok(patient);
+            return Ok(branchDto);
         }
 
 

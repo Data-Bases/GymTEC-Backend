@@ -67,14 +67,23 @@ namespace GymTEC_Backend.Repositories
                 while (reader.Read())
                 {
                     branchDtoResponse.Name = reader["Nombre"].ToString();
-                    // resto de atributos
+                    branchDtoResponse.Province = reader["Provincia"].ToString();
+                    branchDtoResponse.Canton = reader["Canton"].ToString();
+                    branchDtoResponse.District = reader["Distrito"].ToString();
+                    branchDtoResponse.Directions = reader["Senas"].ToString();
+                    branchDtoResponse.MaxCapacity = reader["CapacidadMaxima"].ToString();
+                    branchDtoResponse.StartDate = reader["FechaApertura"].ToString();
+                    branchDtoResponse.OpenStore = reader["TiendaAbierta"].ToString();
+                    branchDtoResponse.OpenSpa = reader["SpaAbierto"].ToString();
+                    branchDtoResponse.IdEmployeeAdmin = reader["IdEmpleadoAdmin"].ToString();
+            
                 }
 
-                return response;
+                return branchDtoResponse;
             }
             catch (Exception ex)
             {
-                return string.Empty;
+                return null;
             }
         }
 
