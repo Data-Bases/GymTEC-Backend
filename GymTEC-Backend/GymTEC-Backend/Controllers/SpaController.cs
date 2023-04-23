@@ -9,21 +9,22 @@ namespace Hospital_TECNológico_Backend.Controllers
 {
     [ApiController]
     [Route("gymtec/[controller]")]
-    public class EmployeeController : ControllerBase
+    public class SpaController : ControllerBase
     {
-        private readonly IEmployeeModel _model;
+        private readonly IGymTecRepository _gymTecRepository;
 
-        public EmployeeController(IEmployeeModel employeeModel)
+        public SpaController(IGymTecRepository gymTecRepository)
         {
-            _model = employeeModel;
+            _gymTecRepository = gymTecRepository;
         }
 
+        /*
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("GetEmployeeById/{id}", Name = "GetEmployeeById")]
-        public ActionResult<EmployeeWithNamesDto> GetEmployeeById([Required] int id)
+        [HttpGet("GetAllSpaTreatments", Name = "GetAllSpaTreatments")]
+        public ActionResult<IEnumerable<SpaDto>> GetAllSpaTreatments()
         {
 
             if (!ModelState.IsValid)
@@ -31,24 +32,25 @@ namespace Hospital_TECNológico_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var employee = _model.GetEmployeeById(id);
+            var spaTreatment = _gymTecRepository.GetAllSpaTreatments();
 
 
-            if (string.IsNullOrEmpty(employee.Name))
+            if (string.IsNullOrEmpty(spaTreatment.Name))
             {
                 return NotFound();
             }
 
-            return Ok(employee);
+            return Ok(spaTreatment);
         }
+        */
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpPost("CreateEmployee", Name = "CreateEmployee")]
-        public ActionResult<Result> CreateEmployee([Required] EmployeeDto employeeDto)
+        [HttpGet("GetSpaTreatmentByName/{name}", Name = "GetSpaTreatmentByName")]
+        public ActionResult<SpaDto> GetSpaTreatmentByName([Required] string name)
         {
 
             if (!ModelState.IsValid)
@@ -56,8 +58,32 @@ namespace Hospital_TECNológico_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _model.CreateEmployee(employeeDto);
+            var spaTreatment = _gymTecRepository.GetSpaTreatmentByName(name);
 
+
+            if (string.IsNullOrEmpty(spaTreatment.Name))
+            {
+                return NotFound();
+            }
+
+            return Ok(spaTreatment);
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("CreateSpaTreatment", Name = "CreateSpaTreatment")]
+        public ActionResult<Result> CreateSpaTreatment(SpaNoIdDto spaDto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _gymTecRepository.CreateSpaTreatment(spaDto);
 
             if (result.Equals(Result.Error))
             {
@@ -66,29 +92,10 @@ namespace Hospital_TECNológico_Backend.Controllers
 
             if (result.Equals(Result.Noop))
             {
-                return Forbid();
+                return BadRequest();
             }
 
             return Ok();
-        }
-
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("EmployeeLogIn/{id}", Name = "EmployeeLogIn")]
-        public ActionResult<EmployeeWithNamesDto> EmployeeLogIn([Required] int id, [Required] string password)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var employee = _model.EmployeeLogIn(id, password);
-
-            return Ok(employee);
         }
 
 

@@ -14,7 +14,7 @@ namespace GymTEC_Backend.Models
         {
             _gymRepository = gymRepository;
         }
-        public EmployeeDto GetEmployeeById(int id)
+        public EmployeeWithNamesDto GetEmployeeById(int id)
         {
             var employee = _gymRepository.GetEmployeeById(id);
 
@@ -22,20 +22,20 @@ namespace GymTEC_Backend.Models
 
         }
 
-        public EmployeeDto EmployeeLogIn(int id, string password)
+        public EmployeeWithNamesDto EmployeeLogIn(int id, string password)
         {
             var employee = _gymRepository.GetEmployeeById(id);
 
             if (string.IsNullOrEmpty(password))
             {
-                return new EmployeeDto();
+                return new EmployeeWithNamesDto();
             }
 
             var expectedEncodedPassword = PassowordHelper.EncodePassword(password);
 
             if (!expectedEncodedPassword.Equals(employee.Password))
             {
-                return new EmployeeDto();
+                return new EmployeeWithNamesDto();
             }
 
             return employee;

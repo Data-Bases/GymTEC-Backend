@@ -1,4 +1,5 @@
 ﻿using GymTEC_Backend.Dtos;
+using Nest;
 using System.Diagnostics;
 
 namespace GymTEC_Backend.Helpers
@@ -20,13 +21,39 @@ namespace GymTEC_Backend.Helpers
 
         public static string GetEmployeeById(int id)
         {
-            return $@"SELECT Cedula, Nombre, Apellido1, Apellido2, Provincia, Canton, Distrito, Salario, Email, Contrasena, HorasLaboradas, NombreSucursal, IdTipoPlanilla, IdPuesto FROM Empleado WHERE Cedula = {id}";
+            return $@"SELECT Empleado.Cedula, Empleado.Nombre, Empleado.Apellido1, Empleado.Apellido2, Empleado.Provincia, Empleado.Canton, Empleado.Distrito, Empleado.Salario, Empleado.Email, Empleado.Contrasena, Empleado.HorasLaboradas, Empleado.NombreSucursal,TipoPlanilla.Nombre as NombrePlanilla, Puesto.Nombre as Puesto
+                        FROM Empleado 
+                        JOIN TipoPlanilla ON Empleado.IdTipoPlanilla = TipoPlanilla.Id
+                        JOIN Puesto ON Empleado.IdPuesto = Puesto.Id
+                        WHERE Empleado.Cedula = {id};";
         }
 
         public static string CreateEmployee(EmployeeDto employee, string encodedPassword)
         {
             return $@"INSERT INTO Empleado(Cedula, Nombre, Apellido1, Apellido2, Provincia, Canton, Distrito, Salario, Email, Contrasena, HorasLaboradas, NombreSucursal, IdTipoPlanilla, IdPuesto) 
                             VALUES ({employee.Id},'{employee.Name}', '{employee.LastName1}', '{employee.LastName2}', '{employee.Province}', '{employee.Canton}', '{employee.District}', '{employee.Salary}', '{employee.Email}', '{encodedPassword}', {employee.WorkedHours}, '{employee.BranchName}', {employee.PayrollId}, {employee.JobId});";
+        }
+
+        public static string CreateSpaTreatment(SpaNoIdDto spaDto)
+        {
+            return $@"INSERT INTO TratamientoSpa(Nombre, Descripcion) 
+                            VALUES ('{spaDto.Name}', '{spaDto.Description}');";
+        }
+
+        public static string GetSpaTreatmentByName(string name)
+        {
+            return $@"SELECT Id, Nombre, Descripcion FROM TratamientoSpa WHERE Nombre = '{name}'";
+        }
+
+        public static string CreateJob(JobNoIdDto jobDto)
+        {
+            return $@"INSERT INTO Puesto(Nombre, Descripcion) 
+                            VALUES ('{jobDto.Name}', '{jobDto.Description}');";
+        }
+
+        public static string GetJobByName(string name)
+        {
+            return $@"SELECT Id, Nombre, Descripcion FROM Puesto WHERE Nombre = '{name}'";
         }
     }
 }

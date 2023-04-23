@@ -7,7 +7,11 @@ namespace GymTEC_Backend.Repositories.Interfaces
     {
         ClientDto GetClientById(int id);
         Result CreateClient(ClientDto client);
-        EmployeeDto GetEmployeeById(int id);
+        EmployeeWithNamesDto GetEmployeeById(int id);
         Result CreateEmployee(EmployeeDto employee);
+        Result CreateSpaTreatment(SpaNoIdDto spaDto);
+        SpaDto GetSpaTreatmentByName(string name);
+        Result CreateJob(JobNoIdDto spaDto);
+        JobDto GetJobByName(string name);
     }
 }

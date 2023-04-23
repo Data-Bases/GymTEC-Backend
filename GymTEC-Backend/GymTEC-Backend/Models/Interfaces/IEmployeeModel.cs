@@ -5,8 +5,8 @@ namespace GymTEC_Backend.Models.Interfaces
 {
     public interface IEmployeeModel
     {
-        EmployeeDto GetEmployeeById(int id);
-        EmployeeDto EmployeeLogIn(int id, string password);
+        EmployeeWithNamesDto GetEmployeeById(int id);
+        EmployeeWithNamesDto EmployeeLogIn(int id, string password);
         Result CreateEmployee(EmployeeDto client);
     }
 }

@@ -70,7 +70,7 @@ namespace GymTEC_Backend.Repositories
             }
             catch (Exception ex)
             {
-                return clientDto;
+                return new ClientDto();
             }
         }
 
@@ -95,10 +95,10 @@ namespace GymTEC_Backend.Repositories
         /*
         **** Employee Repository ****
         */
-        public EmployeeDto GetEmployeeById(int id)
+        public EmployeeWithNamesDto GetEmployeeById(int id)
         {
             string query = string.Empty;
-            EmployeeDto employeeDto = new EmployeeDto();
+            EmployeeWithNamesDto employeeDto = new EmployeeWithNamesDto();
             try
             {
                 query = SqlHelper.GetEmployeeById(id);
@@ -119,8 +119,8 @@ namespace GymTEC_Backend.Repositories
                     employeeDto.Password = reader.GetString(9);
                     employeeDto.WorkedHours = Convert.IsDBNull(reader["HorasLaboradas"]) ? null : (int?)reader["HorasLaboradas"];
                     employeeDto.BranchName = (string?)(Convert.IsDBNull(reader["NombreSucursal"]) ? null : reader["NombreSucursal"]);
-                    employeeDto.PayrollId = Convert.IsDBNull(reader["IdTipoPlanilla"]) ? null : (int?)reader["IdTipoPlanilla"];
-                    employeeDto.JobId = Convert.IsDBNull(reader["IdPuesto"]) ? null : (int?)reader["IdPuesto"];
+                    employeeDto.PayrollName = Convert.IsDBNull(reader["NombrePlanilla"]) ? null : reader["NombrePlanilla"].ToString();
+                    employeeDto.JobName = Convert.IsDBNull(reader["Puesto"]) ? null : reader["Puesto"].ToString();
                 };
 
 
@@ -128,7 +128,7 @@ namespace GymTEC_Backend.Repositories
             }
             catch (Exception ex)
             {
-                return employeeDto;
+                return new EmployeeWithNamesDto();
             }
         }
 
@@ -147,6 +147,96 @@ namespace GymTEC_Backend.Repositories
             catch (Exception ex)
             {
                 return Result.Noop;
+            }
+        }
+
+        /*
+        **** Spa Repository ****
+        */
+        public Result CreateSpaTreatment(SpaNoIdDto spaDto)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreateSpaTreatment(spaDto);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        } 
+
+        public SpaDto GetSpaTreatmentByName(string name)
+        {
+            string query = string.Empty;
+            SpaDto spaDto = new SpaDto();
+            try
+            {
+                query = SqlHelper.GetSpaTreatmentByName(name);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    spaDto.Id = (int)reader["Id"];
+                    spaDto.Name = reader["Nombre"].ToString();
+                    spaDto.Description = reader["Descripcion"].ToString();
+                };
+
+
+                return spaDto;
+            }
+            catch (Exception ex)
+            {
+                return new SpaDto();
+            }
+        }
+
+        /*
+        **** Job Repository ****
+        */
+        public Result CreateJob(JobNoIdDto spaDto)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreateJob(spaDto);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public JobDto GetJobByName(string name)
+        {
+            string query = string.Empty;
+            JobDto jobDto = new JobDto();
+            try
+            {
+                query = SqlHelper.GetJobByName(name);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    jobDto.Id = (int)reader["Id"];
+                    jobDto.Name = reader["Nombre"].ToString();
+                    jobDto.Description = reader["Descripcion"].ToString();
+                };
+
+
+                return jobDto;
+            }
+            catch (Exception ex)
+            {
+                return new JobDto();
             }
         }
     }
