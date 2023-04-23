@@ -26,6 +26,7 @@ namespace GymTEC_Backend
             services.AddSwaggerGen();
             services.Configure<SqlOptions>(configRoot);
             services.AddScoped<IClientModel, ClientModel>();
+            services.AddScoped<IEmployeeModel, EmployeeModel>();
             services.AddScoped<IGymTecRepository, GymTecRepository>();
 
         }

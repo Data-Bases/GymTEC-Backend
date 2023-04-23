@@ -36,6 +36,9 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
+        /*
+         **** Client Repository ****
+        */
         public ClientDto GetClientById(int id)
         {
             string query = string.Empty;
@@ -78,6 +81,64 @@ namespace GymTEC_Backend.Repositories
             try
             {
                 query = SqlHelper.CreateClient(client, password);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        /*
+        **** Employee Repository ****
+        */
+        public EmployeeDto GetEmployeeById(int id)
+        {
+            string query = string.Empty;
+            EmployeeDto employeeDto = new EmployeeDto();
+            try
+            {
+                query = SqlHelper.GetEmployeeById(id);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+
+                    employeeDto.Id = (int)reader["Cedula"];
+                    employeeDto.Name = reader.GetString(1);
+                    employeeDto.LastName1 = reader.GetString(2);
+                    employeeDto.LastName2 = reader.GetString(3);
+                    employeeDto.Province = reader.GetString(4);
+                    employeeDto.Canton = reader.GetString(5);
+                    employeeDto.District = reader.GetString(6);
+                    employeeDto.Salary = (int)reader["Salario"];
+                    employeeDto.Email = reader.GetString(8);
+                    employeeDto.Password = reader.GetString(9);
+                    employeeDto.WorkedHours = Convert.IsDBNull(reader["HorasLaboradas"]) ? null : (int?)reader["HorasLaboradas"];
+                    employeeDto.BranchName = (string?)(Convert.IsDBNull(reader["NombreSucursal"]) ? null : reader["NombreSucursal"]);
+                    employeeDto.PayrollId = Convert.IsDBNull(reader["IdTipoPlanilla"]) ? null : (int?)reader["IdTipoPlanilla"];
+                    employeeDto.JobId = Convert.IsDBNull(reader["IdPuesto"]) ? null : (int?)reader["IdPuesto"];
+                };
+
+
+                return employeeDto;
+            }
+            catch (Exception ex)
+            {
+                return employeeDto;
+            }
+        }
+
+        public Result CreateEmployee(EmployeeDto employee)
+        {
+            string query = string.Empty;
+            var password = PassowordHelper.EncodePassword(employee.Password);
+            try
+            {
+                query = SqlHelper.CreateEmployee(employee, password);
 
                 var reader = ExecuteQuery(query);
 
