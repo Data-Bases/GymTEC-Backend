@@ -49,8 +49,7 @@ CREATE TABLE NumerosTelefono
 (
 	Id INT NOT NULL IDENTITY(1,1),
 	NumeroTelefono INT NOT NULL,
-	NombreSucursal VARCHAR(100),
-
+	NombreSucursal VARCHAR(100) NOT NULL,
 	PRIMARY KEY (Id)
 );
 
@@ -67,7 +66,6 @@ CREATE TABLE Clase
 
 	PRIMARY KEY (Id)
 );
-
 
 CREATE TABLE Producto
 (
@@ -116,7 +114,6 @@ CREATE TABLE ServiciosClases
 	PRIMARY KEY (Id)
 );
 
-
 CREATE TABLE TratamientoSpa
 (
 	Id INT NOT NULL IDENTITY(1,1),
@@ -144,10 +141,9 @@ CREATE TABLE ClienteClase
 	PRIMARY KEY (Id)
 );
 
-
 CREATE TABLE Empleado
 (
-	Cedula INT NOT NULL,
+	Cedula INT NOT NULL CHECK(LEN(Cedula) >= 9),
 	Nombre VARCHAR(100) NOT NULL,
 	Apellido1 VARCHAR(100) NOT NULL,
 	Apellido2 VARCHAR(100),
@@ -165,6 +161,7 @@ CREATE TABLE Empleado
 	PRIMARY KEY (Cedula)
 );
 
+
 CREATE TABLE Sucursal
 (
 	Nombre VARCHAR(100) NOT NULL,
@@ -181,11 +178,9 @@ CREATE TABLE Sucursal
 	PRIMARY KEY (Nombre)
 );
 
-
-
 CREATE TABLE Cliente
 (
-	Cedula INT NOT NULL,
+	Cedula INT NOT NULL CHECK(LEN(Cedula) >= 9),
 	Nombre VARCHAR(100) NOT NULL,
 	Apellido1 VARCHAR(100) NOT NULL,
 	Apellido2 VARCHAR(100),
@@ -201,7 +196,23 @@ CREATE TABLE Cliente
 	PRIMARY KEY (Cedula)
 );
 
+-- Default values
 
+ALTER TABLE Cliente
+ADD CONSTRAINT df_peso
+DEFAULT 0 FOR Peso;
+
+ALTER TABLE Cliente
+ADD CONSTRAINT df_imc
+DEFAULT 0 FOR IMC;
+
+ALTER TABLE Empleado
+ADD CONSTRAINT df_horasLaboradas
+DEFAULT 0 FOR HorasLaboradas;
+
+ALTER TABLE Producto
+ADD CONSTRAINT df_descripcionProducto
+DEFAULT '' FOR Descripcion;
 
 -- RELACIONES
 
