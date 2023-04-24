@@ -61,8 +61,8 @@ namespace GymTEC_Backend.Repositories
                     clientDto.Email = reader.GetString(7);
                     clientDto.Password = reader.GetString(8);
                     clientDto.Birthday = (DateTime)reader.GetValue(9);
-                    clientDto.Weight = Convert.IsDBNull(reader["Peso"]) ? null : (int?)reader["Peso"];
-                    clientDto.IMC = Convert.IsDBNull(reader["IMC"]) ? null : (int?)reader["IMC"];
+                    clientDto.Weight = Convert.IsDBNull(reader["Peso"]) ? null : (float)reader["Peso"];
+                    clientDto.IMC = Convert.IsDBNull(reader["IMC"]) ? null : (float)reader["IMC"];
                 };
 
 
@@ -117,7 +117,7 @@ namespace GymTEC_Backend.Repositories
                     employeeDto.Salary = (int)reader["Salario"];
                     employeeDto.Email = reader.GetString(8);
                     employeeDto.Password = reader.GetString(9);
-                    employeeDto.WorkedHours = Convert.IsDBNull(reader["HorasLaboradas"]) ? null : (int?)reader["HorasLaboradas"];
+                    employeeDto.WorkedHours = (int)reader["HorasLaboradas"];
                     employeeDto.BranchName = (string?)(Convert.IsDBNull(reader["NombreSucursal"]) ? null : reader["NombreSucursal"]);
                     employeeDto.PayrollName = Convert.IsDBNull(reader["NombrePlanilla"]) ? null : reader["NombrePlanilla"].ToString();
                     employeeDto.JobName = Convert.IsDBNull(reader["Puesto"]) ? null : reader["Puesto"].ToString();

@@ -23,8 +23,8 @@ namespace GymTEC_Backend.Helpers
         {
             return $@"SELECT Empleado.Cedula, Empleado.Nombre, Empleado.Apellido1, Empleado.Apellido2, Empleado.Provincia, Empleado.Canton, Empleado.Distrito, Empleado.Salario, Empleado.Email, Empleado.Contrasena, Empleado.HorasLaboradas, Empleado.NombreSucursal,TipoPlanilla.Nombre as NombrePlanilla, Puesto.Nombre as Puesto
                         FROM Empleado 
-                        JOIN TipoPlanilla ON Empleado.IdTipoPlanilla = TipoPlanilla.Id
-                        JOIN Puesto ON Empleado.IdPuesto = Puesto.Id
+                        LEFT JOIN TipoPlanilla ON Empleado.IdTipoPlanilla = TipoPlanilla.Id
+                        LEFT JOIN Puesto ON Empleado.IdPuesto = Puesto.Id
                         WHERE Empleado.Cedula = {id};";
         }
 
