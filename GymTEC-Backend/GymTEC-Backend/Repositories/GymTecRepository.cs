@@ -261,11 +261,11 @@ namespace GymTEC_Backend.Repositories
                     branchDtoResponse.Canton = reader.GetString(reader.GetOrdinal("Canton"));
                     branchDtoResponse.District = reader.GetString(reader.GetOrdinal("Distrito"));
                     branchDtoResponse.Directions = reader.GetString(reader.GetOrdinal("Senas"));
-                    branchDtoResponse.MaxCapacity = reader.GetInt32(reader.GetOrdinal("CapacidadMaxima")).ToString();
-                    branchDtoResponse.StartDate = reader.GetDateTime(reader.GetOrdinal("FechaApertura")).ToString();
-                    branchDtoResponse.OpenStore = reader.GetBoolean(reader.GetOrdinal("TiendaAbierta")).ToString();
-                    branchDtoResponse.OpenSpa = reader.GetBoolean(reader.GetOrdinal("SpaAbierto")).ToString();
-                    branchDtoResponse.IdEmployeeAdmin = reader.GetInt32(reader.GetOrdinal("IdEmpleadoAdmin")).ToString();
+                    branchDtoResponse.MaxCapacity = (int)reader["CapacidadMaxima"];
+                    branchDtoResponse.StartDate = (DateTime)reader.GetValue(6);
+                    branchDtoResponse.OpenStore = (int)reader["TiendaAbierta"];
+                    branchDtoResponse.OpenSpa = (int)reader["SpaAbierto"];
+                    branchDtoResponse.IdEmployeeAdmin = (int)reader["IdEmpleadoAdmin"];
 
                 };
 
@@ -274,6 +274,56 @@ namespace GymTEC_Backend.Repositories
             catch (Exception ex)
             {
                 return new BranchDto();
+            }
+        }
+        public Result CreateBranch(BranchDto branch)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreateBranch(branch);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public List<BranchDto> GetBranches()
+        {
+            List<BranchDto> branches = new List<BranchDto>();
+            string query;
+            try
+            {
+                query = SqlHelper.GetBranches();
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    BranchDto branchDtoResponse = new BranchDto();
+                    branchDtoResponse.Name = reader.GetString(reader.GetOrdinal("Nombre"));
+                    branchDtoResponse.Province = reader.GetString(reader.GetOrdinal("Provincia"));
+                    branchDtoResponse.Canton = reader.GetString(reader.GetOrdinal("Canton"));
+                    branchDtoResponse.District = reader.GetString(reader.GetOrdinal("Distrito"));
+                    branchDtoResponse.Directions = reader.GetString(reader.GetOrdinal("Senas"));
+                    branchDtoResponse.MaxCapacity = (int)reader["CapacidadMaxima"];
+                    branchDtoResponse.StartDate = (DateTime)reader.GetValue(6);
+                    branchDtoResponse.OpenStore = (int)reader["TiendaAbierta"];
+                    branchDtoResponse.OpenSpa = (int)reader["SpaAbierto"];
+                    branchDtoResponse.IdEmployeeAdmin = (int)reader["IdEmpleadoAdmin"];
+
+                    branches.Add(branchDtoResponse);
+                };
+
+                return branches;
+            }
+            catch (Exception ex)
+            {
+                return new List<BranchDto>();
             }
         }
 

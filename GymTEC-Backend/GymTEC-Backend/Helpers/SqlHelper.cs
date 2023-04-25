@@ -59,5 +59,15 @@ namespace GymTEC_Backend.Helpers
         {
             return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, TiendaAbierta, SpaAbierto, IdEmpleadoAdmin FROM Sucursal WHERE Nombre = '{name}'";
         }
+        public static string CreateBranch(BranchDto branch)
+        {
+            return $@"INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, IdEmpleadoAdmin) 
+                            VALUES ('{branch.Name}','{branch.Province}', '{branch.Canton}', '{branch.District}', '{branch.Directions}', {branch.MaxCapacity}, '{branch.StartDate}', {branch.OpenSpa}, {branch.OpenStore}, {branch.IdEmployeeAdmin});";
+        }
+
+        public static string GetBranches()
+        {
+            return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, IdEmpleadoAdmin FROM Sucursal;";
+        }
     }
 }

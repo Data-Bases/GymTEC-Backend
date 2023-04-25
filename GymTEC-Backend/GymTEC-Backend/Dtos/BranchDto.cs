@@ -1,3 +1,4 @@
+using Microsoft.OData.Edm;
 namespace GymTEC_Backend.Dtos
 {
     public class BranchDto
@@ -7,10 +8,10 @@ namespace GymTEC_Backend.Dtos
         public string Canton{ get; set; }
         public string District { get; set; }
         public string Directions { get; set; }
-        public string MaxCapacity { get; set; }
-        public string StartDate { get; set; }
-        public string OpenStore { get; set; }
-        public string OpenSpa { get; set; }
-        public string IdEmployeeAdmin { get; set; }
+        public int MaxCapacity { get; set; }
+        public Date StartDate { get; set; }
+        public int OpenStore { get; set; }
+        public int OpenSpa { get; set; }
+        public int IdEmployeeAdmin { get; set; }
     }
 }
