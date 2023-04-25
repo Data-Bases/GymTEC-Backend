@@ -171,8 +171,8 @@ CREATE TABLE Sucursal
 	Senas VARCHAR(100) NOT NULL,
 	CapacidadMaxima INT NOT NULL,
 	FechaApertura DATE NOT NULL,
-	TiendaAbierta BIT NOT NULL,
-	SpaAbierto BIT NOT NULL,
+	TiendaAbierta INT NOT NULL,
+	SpaAbierto INT NOT NULL,
 	IdEmpleadoAdmin INT NOT NULL,
 
 	PRIMARY KEY (Nombre)
