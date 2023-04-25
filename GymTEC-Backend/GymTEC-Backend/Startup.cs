@@ -28,6 +28,7 @@ namespace GymTEC_Backend
             services.AddScoped<IClientModel, ClientModel>();
             services.AddScoped<IEmployeeModel, EmployeeModel>();
             services.AddScoped<IGymTecRepository, GymTecRepository>();
+            services.AddScoped<IBranchModel, BranchModel>();
 
         }
         public void Configure(WebApplication app, IWebHostEnvironment env)

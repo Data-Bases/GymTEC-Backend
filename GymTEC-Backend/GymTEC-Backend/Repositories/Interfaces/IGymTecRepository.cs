@@ -13,5 +13,7 @@ namespace GymTEC_Backend.Repositories.Interfaces
         SpaDto GetSpaTreatmentByName(string name);
         Result CreateJob(JobNoIdDto spaDto);
         JobDto GetJobByName(string name);
+        BranchDto GetBranchByName(string name);
+        string GetClientName(int id);
     }
 }
