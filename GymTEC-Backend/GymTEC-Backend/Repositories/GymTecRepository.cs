@@ -1,12 +1,14 @@
-﻿using Azure;
-using GymTEC_Backend.Dtos;
+﻿using GymTEC_Backend.Dtos;
 using GymTEC_Backend.FuntionalExtensions;
 using GymTEC_Backend.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using Nest;
 using System.Data;
 using System.Data.SqlTypes;
+using System.Text;
+
 
 namespace GymTEC_Backend.Repositories
 {
@@ -34,6 +36,7 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
+
         public string GetClientName(int id)
         {
             string query = string.Empty;
@@ -55,10 +58,14 @@ namespace GymTEC_Backend.Repositories
                 return string.Empty;
             }
         }
+
+        /*
+         **** Branch Repository ****
+        */
         public BranchDto GetBranchByName(string name)
         {
-            string query = string.Empty;
-            var branchDtoResponse = new BranchDto();
+            string query;
+            BranchDto branchDtoResponse = new BranchDto();
             try
             {
                 query = SqlHelper.GetBranchByName(name);
@@ -66,24 +73,24 @@ namespace GymTEC_Backend.Repositories
 
                 while (reader.Read())
                 {
-                    branchDtoResponse.Name = reader["Nombre"].ToString();
-                    branchDtoResponse.Province = reader["Provincia"].ToString();
-                    branchDtoResponse.Canton = reader["Canton"].ToString();
-                    branchDtoResponse.District = reader["Distrito"].ToString();
-                    branchDtoResponse.Directions = reader["Senas"].ToString();
-                    branchDtoResponse.MaxCapacity = reader["CapacidadMaxima"].ToString();
-                    branchDtoResponse.StartDate = reader["FechaApertura"].ToString();
-                    branchDtoResponse.OpenStore = reader["TiendaAbierta"].ToString();
-                    branchDtoResponse.OpenSpa = reader["SpaAbierto"].ToString();
-                    branchDtoResponse.IdEmployeeAdmin = reader["IdEmpleadoAdmin"].ToString();
-            
-                }
+                    branchDtoResponse.Name = reader.GetString(reader.GetOrdinal("Nombre"));
+                    branchDtoResponse.Province = reader.GetString(reader.GetOrdinal("Provincia"));
+                    branchDtoResponse.Canton = reader.GetString(reader.GetOrdinal("Canton"));
+                    branchDtoResponse.District = reader.GetString(reader.GetOrdinal("Distrito"));
+                    branchDtoResponse.Directions = reader.GetString(reader.GetOrdinal("Senas"));
+                    branchDtoResponse.MaxCapacity = reader.GetInt32(reader.GetOrdinal("CapacidadMaxima")).ToString();
+                    branchDtoResponse.StartDate = reader.GetDateTime(reader.GetOrdinal("FechaApertura")).ToString();
+                    branchDtoResponse.OpenStore = reader.GetBoolean(reader.GetOrdinal("TiendaAbierta")).ToString();
+                    branchDtoResponse.OpenSpa = reader.GetBoolean(reader.GetOrdinal("SpaAbierto")).ToString();
+                    branchDtoResponse.IdEmployeeAdmin = reader.GetInt32(reader.GetOrdinal("IdEmpleadoAdmin")).ToString();
+
+                };
 
                 return branchDtoResponse;
             }
             catch (Exception ex)
             {
-                return null;
+                return new BranchDto();
             }
         }
 

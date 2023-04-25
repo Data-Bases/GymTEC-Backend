@@ -5,13 +5,13 @@ namespace GymTEC_Backend.Repositories
     public class SqlHelper
     {
         public static string GetClientById(int id)
-        {
+        {   
             return $@"SELECT Nombre FROM Cliente WHERE Cedula = {id}";
         }
 
-        public static string GetBranchByName(string name) // me devuelve un string?
+        public static string GetBranchByName(string name)
         {
-            return $@"SELECT * FROM Sucursal WHERE Nombre = {name}";
+            return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, TiendaAbierta, SpaAbierto, IdEmpleadoAdmin FROM Sucursal WHERE Nombre = '{name}'";
         }
     }
 }

@@ -10,21 +10,16 @@ namespace GymTEC_Backend.Models
 {
 	public class BranchModel : IBranchModel
 	{
-        private readonly ILogger<BranchModel> _logger;
         private readonly IGymTecRepository _gymTecRepository;
-        public BranchModel(ILogger<BranchModel> logger, IGymTecRepository gymTecRepository)
+        public BranchModel(IGymTecRepository gymTecRepository)
         {
-            _logger = logger;
             _gymTecRepository = gymTecRepository;
         }
         public BranchDto GetBranchByName(string name)
         {
             var branch = _gymTecRepository.GetBranchByName(name);
-            if (branch == null)
-            {
-                return null;
-            }
-            return (BranchDto)branch;
+
+            return branch;
         }
     }
 

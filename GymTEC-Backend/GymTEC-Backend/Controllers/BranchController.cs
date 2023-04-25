@@ -17,12 +17,12 @@ namespace Hospital_TECNológico_Backend.Controllers
             _logger = logger;
             _model = branchModel;
         }
-
+        
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("GetBranch/{Name}", Name = "GetBranchByName")]
+        [HttpGet("GetBranch/{name}", Name = "GetBranchByName")]
         public ActionResult<BranchDto> GetBranchByName([Required] string name)
         {
 
@@ -33,7 +33,7 @@ namespace Hospital_TECNológico_Backend.Controllers
 
             var branchDto = _model.GetBranchByName(name);
 
-            if (branchDto.Equals(string.Empty))
+            if (string.IsNullOrEmpty(branchDto.Name))
             {
                 return NotFound();
             }

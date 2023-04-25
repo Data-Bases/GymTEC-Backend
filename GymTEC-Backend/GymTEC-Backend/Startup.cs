@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using GymTEC_Backend.Repositories;
 using GymTEC_Backend.Repositories.Interfaces;
+using GymTEC_Backend.Models.Interfaces;
+using GymTEC_Backend.Models;
 
 namespace GymTEC_Backend
 {
@@ -24,6 +26,7 @@ namespace GymTEC_Backend
             services.AddSwaggerGen();
             services.Configure<SqlOptions>(configRoot);
             services.AddScoped<IGymTecRepository, GymTecRepository>();
+            services.AddScoped<IBranchModel, BranchModel>();
 
         }
         public void Configure(WebApplication app, IWebHostEnvironment env)
