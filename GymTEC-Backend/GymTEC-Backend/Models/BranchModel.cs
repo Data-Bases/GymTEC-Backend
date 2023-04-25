@@ -27,6 +27,13 @@ namespace GymTEC_Backend.Models
 
             return insertBranch;
         }
+
+        public IEnumerable<BranchDto> GetBranches()
+        {
+            var branches = _gymTecRepository.GetBranches();
+
+            return branches;
+        }
     }
 
 }

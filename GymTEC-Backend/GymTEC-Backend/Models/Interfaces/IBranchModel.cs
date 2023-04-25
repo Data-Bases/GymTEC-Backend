@@ -7,6 +7,7 @@ namespace GymTEC_Backend.Models.Interfaces
     {
         BranchDto GetBranchByName(string name);
         Result CreateBranch(BranchDto branch);
+        IEnumerable<BranchDto> GetBranches();
 
     }
 }

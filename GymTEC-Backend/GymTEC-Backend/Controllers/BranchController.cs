@@ -66,10 +66,28 @@ namespace Hospital_TECNológico_Backend.Controllers
 
             if (result.Equals(Result.Noop))
             {
-                return Forbid();
+                return BadRequest();
             }
 
             return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetBranches", Name = "GetBranches")]
+        public ActionResult<IEnumerable<BranchDto>> GetBranches()
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var branches = _model.GetBranches();
+
+            return Ok(branches);
         }
 
     }
