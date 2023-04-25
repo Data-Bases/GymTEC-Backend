@@ -55,5 +55,9 @@ namespace GymTEC_Backend.Helpers
         {
             return $@"SELECT Id, Nombre, Descripcion FROM Puesto WHERE Nombre = '{name}'";
         }
+        public static string GetBranchByName(string name)
+        {
+            return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, TiendaAbierta, SpaAbierto, IdEmpleadoAdmin FROM Sucursal WHERE Nombre = '{name}'";
+        }
     }
 }
