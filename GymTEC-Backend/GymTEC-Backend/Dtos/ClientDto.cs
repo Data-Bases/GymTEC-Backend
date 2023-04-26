@@ -13,8 +13,8 @@ namespace GymTEC_Backend.Dtos
         public string District { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public Date Birthday { get; set; }
         public float? Weight { get; set; }
         public float? IMC { get; set; }
+        public DateTime Birthday { get; set; }
     }
 }
