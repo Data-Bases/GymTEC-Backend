@@ -15,10 +15,8 @@ namespace GymTEC_Backend.Helpers
         public static string CreateClient(ClientDto client, string encodedPassword)
         {
             var birthday = new SqlDateTime(client.Birthday);
-            var weight = !client.Weight.Equals(null) ? client.Weight : (object)DBNull.Value;
-            var imc = !client.Weight.Equals(null) ? client.IMC : (object)DBNull.Value;
             return $@"INSERT INTO Cliente(Cedula, Nombre, Apellido1, Apellido2, Provincia, Canton, Distrito, Email, Contrasena, FechaNacimiento, Peso, IMC) 
-                            VALUES ({client.Id},'{client.Name}', '{client.LastName1}', '{client.LastName2}', '{client.Province}', '{client.Canton}', '{client.District}', '{client.Email}', '{encodedPassword}', '{birthday}', {weight}, {imc});";
+                            VALUES ({client.Id},'{client.Name}', '{client.LastName1}', '{client.LastName2}', '{client.Province}', '{client.Canton}', '{client.District}', '{client.Email}', '{encodedPassword}', '{birthday}', {client.Weight}, {client.IMC});";
         }
 
         public static string GetEmployeeById(int id)

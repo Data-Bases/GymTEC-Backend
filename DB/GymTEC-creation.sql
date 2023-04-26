@@ -59,11 +59,18 @@ CREATE TABLE Clase
 	NombreClase VARCHAR(100) NOT NULL,
 	HoraInicio TIME(0) NOT NULL,
 	HoraFinalizacion TIME(0) NOT NULL,
-	Fecha DATE NOT NULL,
 	Capacidad INT NOT NULL,
 	EsGrupal BIT NOT NULL,
 	CedulaEmpleado INT,
 
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE ClaseFecha
+(
+	Id INT NOT NULL IDENTITY(1,1),
+	IdClase INT NOT NULL,
+	Fecha DATE NOT NULL,
 	PRIMARY KEY (Id)
 );
 
@@ -135,7 +142,7 @@ CREATE TABLE TipoEquipo
 CREATE TABLE ClienteClase
 (
 	Id INT NOT NULL IDENTITY(1,1),
-	IdClase INT NOT NULL,
+	IdClaseFecha INT NOT NULL,
 	CedulaCliente INT NOT NULL,
 
 	PRIMARY KEY (Id)
@@ -216,6 +223,11 @@ DEFAULT '' FOR Descripcion;
 
 -- RELACIONES
 
+-- Clase-fecha
+ALTER TABLE ClaseFecha
+ADD CONSTRAINT ClaseEnFecha FOREIGN KEY (IdClase)
+REFERENCES Clase(Id);
+
 -- Clase-Empleado
 ALTER TABLE Clase
 ADD CONSTRAINT EmpleadoEncargadoClase FOREIGN KEY (CedulaEmpleado)
@@ -276,10 +288,10 @@ ALTER TABLE ClienteClase
 ADD CONSTRAINT ClienteRecibeClase FOREIGN KEY (CedulaCliente)
 REFERENCES Cliente(Cedula);
 
--- ClienteClase - Clase
+-- ClienteClase - ClaseFecha
 ALTER TABLE ClienteClase
-ADD CONSTRAINT TipoDeClase FOREIGN KEY (IdClase)
-REFERENCES Clase(Id);
+ADD CONSTRAINT TipoDeClase FOREIGN KEY (IdClaseFecha)
+REFERENCES ClaseFecha(Id);
 
 -- Sucursal - Empleado
 ALTER TABLE Sucursal
