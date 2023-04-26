@@ -2,6 +2,7 @@ using GymTEC_Backend.Dtos;
 using GymTEC_Backend.Models.Interfaces;
 using GymTEC_Backend.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Nest;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,13 +19,13 @@ namespace Hospital_TECNológico_Backend.Controllers
             _gymTecRepository = gymTecRepository;
         }
 
-        /*
+        
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("GetAllSpaTreatments", Name = "GetAllSpaTreatments")]
-        public ActionResult<IEnumerable<SpaDto>> GetAllSpaTreatments()
+        [HttpGet("GetNamesSpaTreatments", Name = "GetNamesSpaTreatments")]
+        public ActionResult<IEnumerable<SpaDto>> GetNamesSpaTreatments()
         {
 
             if (!ModelState.IsValid)
@@ -32,25 +33,25 @@ namespace Hospital_TECNológico_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var spaTreatment = _gymTecRepository.GetAllSpaTreatments();
+            var spaTreatments = _gymTecRepository.GetNamesSpaTreatments();
 
 
-            if (string.IsNullOrEmpty(spaTreatment.Name))
+            if (spaTreatments.IsNullOrEmpty())
             {
                 return NotFound();
             }
 
-            return Ok(spaTreatment);
+            return Ok(spaTreatments);
         }
-        */
+        
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpGet("GetSpaTreatmentByName/{name}", Name = "GetSpaTreatmentByName")]
-        public ActionResult<SpaDto> GetSpaTreatmentByName([Required] string name)
+        [HttpGet("GetSpaDescriptionByName/{name}", Name = "GetSpaDescriptionByName")]
+        public ActionResult<string> GetSpaDescriptionByName([Required] string name)
         {
 
             if (!ModelState.IsValid)
@@ -58,15 +59,15 @@ namespace Hospital_TECNológico_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var spaTreatment = _gymTecRepository.GetSpaTreatmentByName(name);
+            var description = _gymTecRepository.GetSpaDescriptionByName(name);
 
 
-            if (string.IsNullOrEmpty(spaTreatment.Name))
+            if (string.IsNullOrEmpty(description))
             {
                 return NotFound();
             }
 
-            return Ok(spaTreatment);
+            return Ok(description);
         }
 
 
@@ -98,6 +99,97 @@ namespace Hospital_TECNológico_Backend.Controllers
             return Ok();
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("DeleteSpaTreatment", Name = "DeleteSpaTreatment")]
+        public ActionResult<Result> DeleteSpaTreatment([Required]string name) // hace falta validar que se pueda eliminar solo si no esta ligado a ninguna sucursal
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _gymTecRepository.DeleteSpaTreatment(name);
+
+            if (result.Equals(Result.Noop))
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("AddSpaTreatmentToBranch", Name = "AddSpaTreatmentToBranch")]
+        public ActionResult<Result> AddSpaTreatmentToBranch([Required] int spaTreatmentId, [Required] string branchName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _gymTecRepository.AddSpaTreatmentToBranch(spaTreatmentId, branchName);
+
+            if (result.Equals(Result.Noop))
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("DeleteSpaTreatmentInBranch", Name = "DeleteSpaTreatmentInBranch")]
+        public ActionResult<Result> DeleteSpaTreatmentInBranch([Required] int spaTreatmentId, [Required] string branchName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _gymTecRepository.DeleteSpaTreatmentInBranch(spaTreatmentId, branchName);
+
+            if (result.Equals(Result.Noop))
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("UpdateDescriptionSpaTreatment", Name = "UpdateDescriptionSpaTreatment")]
+        public ActionResult<Result> UpdateDescriptionSpaTreatment([Required]string name, [Required]string newDescription)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _gymTecRepository.UpdateDescriptionSpaTreatment(name, newDescription);
+
+            if (result.Equals(Result.Noop))
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
 
     }
 }
