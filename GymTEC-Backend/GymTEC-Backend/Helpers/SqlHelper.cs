@@ -63,8 +63,9 @@ namespace GymTEC_Backend.Helpers
         }
         public static string CreateBranch(BranchDto branch)
         {
+            var startDate = new SqlDateTime(branch.StartDate);
             return $@"INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, IdEmpleadoAdmin) 
-                            VALUES ('{branch.Name}','{branch.Province}', '{branch.Canton}', '{branch.District}', '{branch.Directions}', {branch.MaxCapacity}, '{branch.StartDate}', {branch.OpenSpa}, {branch.OpenStore}, {branch.IdEmployeeAdmin});";
+                            VALUES ('{branch.Name}','{branch.Province}', '{branch.Canton}', '{branch.District}', '{branch.Directions}', {branch.MaxCapacity}, '{startDate}', {branch.OpenSpa}, {branch.OpenStore}, {branch.IdEmployeeAdmin});";
         }
 
         public static string GetBranches()
