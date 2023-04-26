@@ -14,7 +14,7 @@ INSERT INTO TratamientoSpa(Nombre, Descripcion)
             VALUES  ('Masaje Relajante', 'Masaje relajante utilizando vapor y aceites esenciales'),
                     ('Masaje descarga muscular', 'Masaje perfecto para la recuperacion de los musculos'),
                     ('Sauna', 'Ideal sesion para desestresarse'),
-                    ('ba�os a vapor', 'Son utiles para liberar toxinas y limpiar poros')
+                    ('bannos a vapor', 'Son utiles para liberar toxinas y limpiar poros')
 
 -- Insert Puestos
 INSERT INTO Puesto(Nombre, Descripcion)

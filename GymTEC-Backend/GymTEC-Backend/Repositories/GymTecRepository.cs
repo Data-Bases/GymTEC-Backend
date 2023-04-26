@@ -17,7 +17,7 @@ namespace GymTEC_Backend.Repositories
     public class GymTecRepository : IGymTecRepository
     {
         private const int Timeout = 1600;
-        private const string GymTecSqlDiani = "Server=LAPTOP-SKUFJ66D\\SQLEXPRESS; Database=GymTEC; Trusted_Connection=True; Encrypt=False;";
+        private const string GymTecSqlDiani = "Server=LAPTOP-SKUFJ66D\\SQLEXPRESS; Database=GymTEC_v2; Trusted_Connection=True; Encrypt=False;";
         private const string GymTecSqlVale = "Server=ValesskasEnvy\\SQLEXPRESS; Database=GymTEC; Trusted_Connection=True; Encrypt=False;";
         private readonly SqlOptions _sqlOptions;
 
@@ -32,7 +32,7 @@ namespace GymTEC_Backend.Repositories
             using (IDbCommand command = new SqlCommand { CommandText = query, CommandType = CommandType.Text })
             {
                 command.CommandTimeout = Timeout;
-                command.Connection = new SqlConnection(GymTecSqlVale);
+                command.Connection = new SqlConnection(GymTecSqlDiani);
                 command.Connection.Open();
                 return command.ExecuteReader();
             }
@@ -170,30 +170,122 @@ namespace GymTEC_Backend.Repositories
             {
                 return Result.Noop;
             }
-        } 
+        }
 
-        public SpaDto GetSpaTreatmentByName(string name)
+        public Result DeleteSpaTreatment(string name)
         {
             string query = string.Empty;
-            SpaDto spaDto = new SpaDto();
             try
             {
-                query = SqlHelper.GetSpaTreatmentByName(name);
+                query = SqlHelper.DeleteSpaTreatment(name);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result AddSpaTreatmentToBranch(int spaTreatmentId, string branchName)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.AddSpaTreatmentToBranch(spaTreatmentId, branchName);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result DeleteSpaTreatmentInBranch(int spaTreatmentId, string branchName)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.DeleteSpaTreatmentInBranch(spaTreatmentId, branchName);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public string GetSpaDescriptionByName(string name)
+        {
+            string query = string.Empty;
+            var description = string.Empty;
+            try
+            {
+                query = SqlHelper.GetSpaDescriptionByName(name);
                 var reader = ExecuteQuery(query);
 
                 while (reader.Read())
                 {
-                    spaDto.Id = (int)reader["Id"];
-                    spaDto.Name = reader["Nombre"].ToString();
-                    spaDto.Description = reader["Descripcion"].ToString();
+                    description = reader["Descripcion"].ToString();
                 };
 
 
-                return spaDto;
+                return description;
             }
             catch (Exception ex)
             {
-                return new SpaDto();
+                return description;
+            }
+        }
+
+        public IEnumerable<SpaDto> GetNamesSpaTreatments()
+        {
+            string query = string.Empty;
+            List<SpaDto> spaDtos = new List<SpaDto>();
+            try
+            {
+                query = SqlHelper.GetNamesSpaTreatments();
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    spaDtos.Add(new SpaDto
+                    {
+                        Id = (int)reader["Id"],
+                        Name = reader["Nombre"].ToString(),
+                    });
+                };
+
+
+                return spaDtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<SpaDto>();
+            }
+        }
+
+        public Result UpdateDescriptionSpaTreatment(string name, string desciption)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.UpdateDescriptionSpaTreatment(name, desciption);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
             }
         }
 
