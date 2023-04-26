@@ -5,8 +5,8 @@ INSERT INTO Empleado(Cedula, Nombre, Apellido1, Apellido2, Provincia, Canton, Di
 
 -- Insert Branches
 
-INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, IdEmpleadoAdmin)
-            VALUES  ('GymASETEC', 'Cartago', 'Central', 'Oriental', '50m oeste y 200m norte de la entrada del ITCR', 100, '01-01-2000', 0,0, 305320066)
+INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, Horario, IdEmpleadoAdmin)
+            VALUES  ('GymASETEC', 'Cartago', 'Central', 'Oriental', '50m oeste y 200m norte de la entrada del ITCR', 100, '01-01-2000', 0,0, 'Lunes a Viernes: 7am-10pm, Sábado: 7am-12md, Domingo: CERRADO', 305320066)
 
 
 -- Insert Tratamiento Spa

@@ -12,6 +12,7 @@ namespace GymTEC_Backend.Dtos
         public Date StartDate { get; set; }
         public int OpenStore { get; set; }
         public int OpenSpa { get; set; }
+        public string Schedule { get; set; }
         public int IdEmployeeAdmin { get; set; }
     }
 }

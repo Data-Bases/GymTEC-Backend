@@ -27,15 +27,6 @@ CREATE TABLE TratamientoSucursal
 	PRIMARY KEY (Id)
 );
 
-CREATE TABLE HorariosSucursal
-(
-	Id INT NOT NULL IDENTITY(1,1),
-	IdHorario INT NOT NULL,
-	NombreSucursal VARCHAR(100) NOT NULL,
-
-	PRIMARY KEY (Id)
-);
-
 CREATE TABLE ProductoSucursal
 (
 	Id INT NOT NULL IDENTITY(1,1),
@@ -77,15 +68,6 @@ CREATE TABLE Producto
 	PRIMARY KEY (CodigoBarras)
 );
 
-CREATE TABLE Horario
-(
-	Id INT NOT NULL IDENTITY(1,1),
-	Dia DATE NOT NULL,
-	HoraApertura TIME(0) NOT NULL, --'15:30'
-	HoraCierre TIME(0) NOT NULL,
-
-	PRIMARY KEY (Id)
-);
 
 CREATE TABLE Puesto
 (
@@ -173,6 +155,7 @@ CREATE TABLE Sucursal
 	FechaApertura DATE NOT NULL,
 	TiendaAbierta INT NOT NULL,
 	SpaAbierto INT NOT NULL,
+	Horario VARCHAR(200) NOT NULL,
 	IdEmpleadoAdmin INT NOT NULL,
 
 	PRIMARY KEY (Nombre)
@@ -260,16 +243,6 @@ REFERENCES Sucursal(Nombre);
 ALTER TABLE Maquina
 ADD CONSTRAINT TipoMaquina FOREIGN KEY (IdEquipo)
 REFERENCES TipoEquipo(Id);
-
--- HorariosSucursal - Horario
-ALTER TABLE HorariosSucursal
-ADD CONSTRAINT TipoHorario FOREIGN KEY (IdHorario)
-REFERENCES Horario(Id);
-
--- HorariosSucursal - Sucursal
-ALTER TABLE HorariosSucursal
-ADD CONSTRAINT HorarioSucursal FOREIGN KEY (NombreSucursal)
-REFERENCES Sucursal(Nombre);
 
 -- ClienteClase - Cliente
 ALTER TABLE ClienteClase

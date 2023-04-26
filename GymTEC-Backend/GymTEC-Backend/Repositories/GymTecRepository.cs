@@ -265,6 +265,7 @@ namespace GymTEC_Backend.Repositories
                     branchDtoResponse.StartDate = (DateTime)reader.GetValue(6);
                     branchDtoResponse.OpenStore = (int)reader["TiendaAbierta"];
                     branchDtoResponse.OpenSpa = (int)reader["SpaAbierto"];
+                    branchDtoResponse.Schedule = reader.GetString(reader.GetOrdinal("Horario"));
                     branchDtoResponse.IdEmployeeAdmin = (int)reader["IdEmpleadoAdmin"];
 
                 };
@@ -314,6 +315,7 @@ namespace GymTEC_Backend.Repositories
                     branchDtoResponse.StartDate = (DateTime)reader.GetValue(6);
                     branchDtoResponse.OpenStore = (int)reader["TiendaAbierta"];
                     branchDtoResponse.OpenSpa = (int)reader["SpaAbierto"];
+                    branchDtoResponse.Schedule = reader.GetString(reader.GetOrdinal("Horario"));
                     branchDtoResponse.IdEmployeeAdmin = (int)reader["IdEmpleadoAdmin"];
 
                     branches.Add(branchDtoResponse);

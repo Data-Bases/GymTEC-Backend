@@ -57,7 +57,7 @@ namespace GymTEC_Backend.Helpers
         }
         public static string GetBranchByName(string name)
         {
-            return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, TiendaAbierta, SpaAbierto, IdEmpleadoAdmin FROM Sucursal WHERE Nombre = '{name}'";
+            return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, TiendaAbierta, SpaAbierto, Horario, IdEmpleadoAdmin FROM Sucursal WHERE Nombre = '{name}'";
         }
         public static string CreateBranch(BranchDto branch)
         {
@@ -67,7 +67,7 @@ namespace GymTEC_Backend.Helpers
 
         public static string GetBranches()
         {
-            return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, IdEmpleadoAdmin FROM Sucursal;";
+            return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, Horario, IdEmpleadoAdmin FROM Sucursal;";
         }
     }
 }
