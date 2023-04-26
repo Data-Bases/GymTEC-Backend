@@ -39,7 +39,7 @@ CREATE TABLE ProductoSucursal
 CREATE TABLE NumerosTelefono
 (
 	Id INT NOT NULL IDENTITY(1,1),
-	NumeroTelefono INT NOT NULL,
+	NumeroTelefono INT NOT NULL UNIQUE,
 	NombreSucursal VARCHAR(100) NOT NULL,
 	PRIMARY KEY (Id)
 );
