@@ -48,7 +48,7 @@ namespace Hospital_TECNológico_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPost("CreateClient", Name = "CreateClient")]
-        public ActionResult<Result> CreateClient([Required] ClientDto client)
+        public ActionResult<Result> CreateClient(ClientDto client)
         {
 
             if (!ModelState.IsValid)
@@ -66,7 +66,7 @@ namespace Hospital_TECNológico_Backend.Controllers
 
             if (result.Equals(Result.Noop))
             {
-                return Forbid();
+                return BadRequest();
             }
 
             return Ok();

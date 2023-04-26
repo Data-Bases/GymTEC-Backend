@@ -14,7 +14,13 @@ namespace GymTEC_Backend.Helpers
 
         public static string CreateClient(ClientDto client, string encodedPassword)
         {
-            var birthday = new SqlDateTime(client.Birthday);
+            var birthday = new SqlDateTime(client.Birthday).Value.ToString("MM-dd-yyyy");
+
+            if (string.IsNullOrEmpty(client.LastName2))
+            {
+                return $@"INSERT INTO Cliente(Cedula, Nombre, Apellido1, Provincia, Canton, Distrito, Email, Contrasena, FechaNacimiento, Peso, IMC) 
+                            VALUES ({client.Id},'{client.Name}', '{client.LastName1}', '{client.Province}', '{client.Canton}', '{client.District}', '{client.Email}', '{encodedPassword}', '{birthday}', {client.Weight}, {client.IMC});";
+            }
             return $@"INSERT INTO Cliente(Cedula, Nombre, Apellido1, Apellido2, Provincia, Canton, Distrito, Email, Contrasena, FechaNacimiento, Peso, IMC) 
                             VALUES ({client.Id},'{client.Name}', '{client.LastName1}', '{client.LastName2}', '{client.Province}', '{client.Canton}', '{client.District}', '{client.Email}', '{encodedPassword}', '{birthday}', {client.Weight}, {client.IMC});";
         }
@@ -61,7 +67,7 @@ namespace GymTEC_Backend.Helpers
         }
         public static string CreateBranch(BranchDto branch)
         {
-            var startDate = new SqlDateTime(branch.StartDate);
+            var startDate = new SqlDateTime(branch.StartDate).Value.ToString("MM-dd-yyyy");
             return $@"INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, IdEmpleadoAdmin) 
                             VALUES ('{branch.Name}','{branch.Province}', '{branch.Canton}', '{branch.District}', '{branch.Directions}', {branch.MaxCapacity}, '{startDate}', {branch.OpenSpa}, {branch.OpenStore}, {branch.IdEmployeeAdmin});";
         }

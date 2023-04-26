@@ -1,3 +1,4 @@
+ALTER TABLE ClaseFecha DROP CONSTRAINT ClaseEnFecha;
 ALTER TABLE Clase DROP CONSTRAINT EmpleadoEncargadoClase;
 ALTER TABLE Empleado DROP CONSTRAINT TipoPlanillaEmpleado;
 ALTER TABLE Empleado DROP CONSTRAINT TrabajaEn;
@@ -38,3 +39,4 @@ DROP TABLE Puesto;
 DROP TABLE Cliente;
 DROP TABLE Sucursal;
 DROP TABLE Empleado;
+DROP TABLE ClaseFecha;
