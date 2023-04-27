@@ -15,7 +15,10 @@ namespace GymTEC_Backend.Repositories.Interfaces
         JobDto GetJobByName(string name);
         BranchDto GetBranchByName(string name);
         Result CreateBranch(BranchDto branch);
-        List<BranchDto> GetBranches();
+        Result CreateBranchWithPhoneNumber(BranchPhoneNumberDto branch);
+        List<BranchPhoneNumberDto> GetBranchPhoneNumbers(string name);
+        List<string> GetBranchesNames();
+        Result UpdateScheduleBranch(string name, string schedule);
         IEnumerable<SpaDto> GetNamesSpaTreatments();
         Result UpdateDescriptionSpaTreatment(string name, string desciption);
         Result DeleteSpaTreatment(string name);
