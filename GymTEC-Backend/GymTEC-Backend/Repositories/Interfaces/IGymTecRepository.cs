@@ -11,6 +11,7 @@ namespace GymTEC_Backend.Repositories.Interfaces
         Result CreateEmployee(EmployeeDto employee);
         Result CreateSpaTreatment(SpaNoIdDto spaDto);
         string GetSpaDescriptionByName(string name);
+        List<string> GetJobsNames();
         Result CreateJob(JobNoIdDto spaDto);
         JobDto GetJobByName(string name);
         BranchDto GetBranchByName(string name);

@@ -107,6 +107,10 @@ namespace GymTEC_Backend.Helpers
         */
 
         // Add a new tuple in Job relationship
+        public static string GetJobsNames()
+        {
+            return $@"SELECT Nombre FROM Puesto";
+        }
         public static string CreateJob(JobNoIdDto jobDto)
         {
             return $@"INSERT INTO Puesto(Nombre, Descripcion) 

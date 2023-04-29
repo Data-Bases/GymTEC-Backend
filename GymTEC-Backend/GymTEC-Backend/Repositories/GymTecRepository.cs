@@ -292,6 +292,29 @@ namespace GymTEC_Backend.Repositories
         /*
         **** Job Repository ****
         */
+        public List<string> GetJobsNames()
+        {
+            List<string> names = new List<string>();
+            string query;
+            try
+            {
+                query = SqlHelper.GetJobsNames();
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    string name = reader.GetString(reader.GetOrdinal("Nombre"));
+
+                    names.Add(name);
+                };
+
+                return names;
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
+            }
+        }
         public Result CreateJob(JobNoIdDto spaDto)
         {
             string query = string.Empty;

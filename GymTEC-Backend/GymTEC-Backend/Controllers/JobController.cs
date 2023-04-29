@@ -22,6 +22,24 @@ namespace Hospital_TECNológico_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetJobsNames", Name = "GetJobsNames")]
+        public ActionResult<List<string>> GetJobsNames()
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var branches = _gymTecRepository.GetJobsNames();
+
+            return Ok(branches);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpGet("GetJobByName/{name}", Name = "GetJobByName")]
         public ActionResult<JobDto> GetJobByName([Required] string name)
