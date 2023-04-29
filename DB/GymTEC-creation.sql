@@ -97,7 +97,7 @@ CREATE TABLE Horario
 CREATE TABLE Puesto
 (
 	Id INT NOT NULL IDENTITY(1,1),
-	Nombre VARCHAR(100) NOT NULL,
+	Nombre VARCHAR(100) NOT NULL UNIQUE,
 	Descripcion VARCHAR(100) NOT NULL UNIQUE,
 
 	PRIMARY KEY (Id)
@@ -106,7 +106,7 @@ CREATE TABLE Puesto
 CREATE TABLE TipoPlanilla
 (
 	Id INT NOT NULL IDENTITY(1,1),
-	Nombre VARCHAR(100) NOT NULL,
+	Nombre VARCHAR(100) NOT NULL UNIQUE,
 	Descripcion VARCHAR(100) NOT NULL UNIQUE,
 
 	PRIMARY KEY (Id)
@@ -115,7 +115,7 @@ CREATE TABLE TipoPlanilla
 CREATE TABLE ServiciosClases
 (
 	Id INT NOT NULL IDENTITY(1,1),
-	Nombre VARCHAR(100) NOT NULL,
+	Nombre VARCHAR(100) NOT NULL UNIQUE,
 	Descripcion VARCHAR(100) NOT NULL UNIQUE,
 
 	PRIMARY KEY (Id)
@@ -133,7 +133,7 @@ CREATE TABLE TratamientoSpa
 CREATE TABLE TipoEquipo
 (
 	Id INT NOT NULL IDENTITY(1,1),
-	Nombre VARCHAR(100) NOT NULL,
+	Nombre VARCHAR(100) NOT NULL UNIQUE,
 	Descripcion VARCHAR(100) NOT NULL UNIQUE,
 
 	PRIMARY KEY (Id)
@@ -220,6 +220,21 @@ DEFAULT 0 FOR HorasLaboradas;
 ALTER TABLE Producto
 ADD CONSTRAINT df_descripcionProducto
 DEFAULT '' FOR Descripcion;
+
+ALTER TABLE ClaseFecha
+ADD UNIQUE(IdClase, Fecha);
+
+ALTER TABLE TratamientoSucursal
+ADD UNIQUE(IdTratamientoSpa, NombreSucursal);
+
+ALTER TABLE ServiciosSucursal
+ADD UNIQUE (IdServicioClase, NombreSucursal);
+
+ALTER TABLE ProductoSucursal
+ADD UNIQUE (CodigoBarrasProducto, NombreSucursal);
+
+ALTER TABLE ClienteClase
+ADD UNIQUE (IdClaseFecha, CedulaCliente);
 
 -- RELACIONES
 
