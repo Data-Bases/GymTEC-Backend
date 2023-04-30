@@ -32,7 +32,7 @@ namespace GymTEC_Backend.Repositories
             using (IDbCommand command = new SqlCommand { CommandText = query, CommandType = CommandType.Text })
             {
                 command.CommandTimeout = Timeout;
-                command.Connection = new SqlConnection(GymTecSqlVale);
+                command.Connection = new SqlConnection(GymTecSqlDiani);
                 command.Connection.Open();
                 return command.ExecuteReader();
             }
@@ -141,6 +141,23 @@ namespace GymTEC_Backend.Repositories
             try
             {
                 query = SqlHelper.CreateEmployee(employee, password);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result DeleteEmployee(int employeeId)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.DeleteEmployee(employeeId);
 
                 var reader = ExecuteQuery(query);
 

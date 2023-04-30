@@ -49,10 +49,48 @@ namespace GymTEC_Backend.Helpers
         // Create a new tuple in Employee Relationship
         public static string CreateEmployee(EmployeeDto employee, string encodedPassword)
         {
-            return $@"INSERT INTO Empleado(Cedula, Nombre, Apellido1, Apellido2, Provincia, Canton, Distrito, Salario, Email, Contrasena, HorasLaboradas, NombreSucursal, IdTipoPlanilla, IdPuesto) 
-                            VALUES ({employee.Id},'{employee.Name}', '{employee.LastName1}', '{employee.LastName2}', '{employee.Province}', '{employee.Canton}', '{employee.District}', '{employee.Salary}', '{employee.Email}', '{encodedPassword}', {employee.WorkedHours}, '{employee.BranchName}', {employee.PayrollId}, {employee.JobId});";
+            string requestHeaders = "INSERT INTO Empleado(Cedula, Nombre, Apellido1, Provincia, Canton, Distrito, Salario, Email, Contrasena";
+            string requestValues = $@"VALUES({ employee.Id},'{employee.Name}', '{employee.LastName1}', '{employee.Province}', '{employee.Canton}', '{employee.District}', '{employee.Salary}', '{employee.Email}', '{encodedPassword}'";
+
+            if (!string.IsNullOrEmpty(employee.LastName2))
+            {
+                requestHeaders = requestHeaders + ", Apellido2";
+                requestValues = requestValues + $@", '{employee.LastName2}'";
+            }
+
+            if (!string.IsNullOrEmpty(employee.BranchName))
+            {
+                requestHeaders = requestHeaders + ", NombreSucursal";
+                requestValues = requestValues + $@", '{employee.BranchName}'";
+            }
+
+            if (!employee.WorkedHours.Equals(null))
+            {
+                requestHeaders = requestHeaders + ", HorasLaboradas";
+                requestValues = requestValues + $@", '{employee.WorkedHours}'";
+            }
+
+            if (!employee.JobId.Equals(null))
+            {
+                requestHeaders = requestHeaders + ", IdPuesto";
+                requestValues = requestValues + $@", '{employee.JobId}'";
+            }
+
+            if (!employee.PayrollId.Equals(null))
+            {
+                requestHeaders = requestHeaders + ", IdTipoPlanilla";
+                requestValues = requestValues + $@", '{employee.PayrollId}'";
+            }
+
+            requestHeaders = requestHeaders + ")";
+            requestValues = requestValues + ");";
+            return requestHeaders + " " + requestValues;
         }
 
+        public static string DeleteEmployee(int employeeId)
+        {
+            return $@"DELETE FROM Empleado WHERE Cedula = {employeeId};";
+        }
 
         /*
         *  ***** Spa Treatments *****
