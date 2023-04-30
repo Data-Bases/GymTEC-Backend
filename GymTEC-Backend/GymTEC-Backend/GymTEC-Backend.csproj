@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\" />
     <PackageReference Include="TweetinviAPI" Version="5.0.4" />
   </ItemGroup>
 

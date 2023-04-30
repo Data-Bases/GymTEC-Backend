@@ -27,12 +27,31 @@ namespace GymTEC_Backend.Models
 
             return insertBranch;
         }
-
-        public IEnumerable<BranchDto> GetBranches()
+        public Result CreateBranchWithPhoneNumber(BranchPhoneNumberDto branch)
         {
-            var branches = _gymTecRepository.GetBranches();
+            var insertBranch = _gymTecRepository.CreateBranchWithPhoneNumber(branch);
+
+            return insertBranch;
+        }
+
+        public Result UpdateScheduleBranch(string name, string schedule)
+        {
+            var updatedBranch = _gymTecRepository.UpdateScheduleBranch(name, schedule);
+
+            return updatedBranch;
+        }
+
+        public List<string> GetBranchesNames()
+        {
+            var branches = _gymTecRepository.GetBranchesNames();
 
             return branches;
+        }
+        public IEnumerable<BranchPhoneNumberDto> GetBranchPhoneNumbers(string name)
+        {
+            var branch = _gymTecRepository.GetBranchPhoneNumbers(name);
+
+            return branch;
         }
     }
 

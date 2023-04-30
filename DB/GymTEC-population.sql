@@ -5,8 +5,8 @@ INSERT INTO Empleado(Cedula, Nombre, Apellido1, Apellido2, Provincia, Canton, Di
 
 -- Insert Branches
 
-INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, IdEmpleadoAdmin)
-            VALUES  ('GymASETEC', 'Cartago', 'Central', 'Oriental', '50m oeste y 200m norte de la entrada del ITCR', 100, '01-01-2000', 0,0, 305320066)
+INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, Horario, IdEmpleadoAdmin)
+            VALUES  ('GymASETEC', 'Cartago', 'Central', 'Oriental', '50m oeste y 200m norte de la entrada del ITCR', 100, '01-01-2000', 0,0, 'Lunes a Viernes: 7am-10pm, Sábado: 7am-12md, Domingo: CERRADO', 305320066)
 
 
 -- Insert Tratamiento Spa
@@ -47,5 +47,18 @@ INSERT INTO TipoEquipo(Nombre, Descripcion)
                     ('Remos', 'Maquina para entrenar el tren superior'),
                     ('Pesas', 'Necesario para cualquier entrenamiento')
 
+-- Insert Numero de Telefono
+INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25521659, 'GymASETEC')
+INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25517294, 'GymASETEC')
+INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (27356981, 'GymLimon')
+INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (27356999, 'GymLimon')
+INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25896431, 'GymSC')
+INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25884632, 'GymSC')
+
+SELECT * FROM NumerosTelefono
 SELECT * FROM Cliente;
 SELECT * FROM Sucursal;
+
+SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, Horario, IdEmpleadoAdmin, NumeroTelefono
+FROM (Sucursal AS S JOIN NumerosTelefono AS NT ON S.Nombre = NT.NombreSucursal)
+WHERE Nombre = 'GymASETEC'

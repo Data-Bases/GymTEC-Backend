@@ -32,7 +32,7 @@ namespace GymTEC_Backend.Repositories
             using (IDbCommand command = new SqlCommand { CommandText = query, CommandType = CommandType.Text })
             {
                 command.CommandTimeout = Timeout;
-                command.Connection = new SqlConnection(GymTecSqlDiani);
+                command.Connection = new SqlConnection(GymTecSqlVale);
                 command.Connection.Open();
                 return command.ExecuteReader();
             }
@@ -321,6 +321,29 @@ namespace GymTEC_Backend.Repositories
         /*
         **** Job Repository ****
         */
+        public List<string> GetJobsNames()
+        {
+            List<string> names = new List<string>();
+            string query;
+            try
+            {
+                query = SqlHelper.GetJobsNames();
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    string name = reader.GetString(reader.GetOrdinal("Nombre"));
+
+                    names.Add(name);
+                };
+
+                return names;
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
+            }
+        }
         public Result CreateJob(JobNoIdDto spaDto)
         {
             string query = string.Empty;
@@ -386,6 +409,7 @@ namespace GymTEC_Backend.Repositories
                     branchDtoResponse.StartDate = (DateTime)reader.GetValue(6);
                     branchDtoResponse.OpenStore = (int)reader["TiendaAbierta"];
                     branchDtoResponse.OpenSpa = (int)reader["SpaAbierto"];
+                    branchDtoResponse.Schedule = reader.GetString(reader.GetOrdinal("Horario"));
                     branchDtoResponse.IdEmployeeAdmin = (int)reader["IdEmpleadoAdmin"];
 
                 };
@@ -413,38 +437,94 @@ namespace GymTEC_Backend.Repositories
                 return Result.Noop;
             }
         }
-
-        public List<BranchDto> GetBranches()
+        public Result CreateBranchWithPhoneNumber(BranchPhoneNumberDto branch)
         {
-            List<BranchDto> branches = new List<BranchDto>();
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreateBranchWithPhoneNumber(branch);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public List<string> GetBranchesNames()
+        {
+            List<string> names = new List<string>();
             string query;
             try
             {
-                query = SqlHelper.GetBranches();
+                query = SqlHelper.GetBranchesNames();
                 var reader = ExecuteQuery(query);
 
                 while (reader.Read())
                 {
-                    BranchDto branchDtoResponse = new BranchDto();
-                    branchDtoResponse.Name = reader.GetString(reader.GetOrdinal("Nombre"));
-                    branchDtoResponse.Province = reader.GetString(reader.GetOrdinal("Provincia"));
-                    branchDtoResponse.Canton = reader.GetString(reader.GetOrdinal("Canton"));
-                    branchDtoResponse.District = reader.GetString(reader.GetOrdinal("Distrito"));
-                    branchDtoResponse.Directions = reader.GetString(reader.GetOrdinal("Senas"));
-                    branchDtoResponse.MaxCapacity = (int)reader["CapacidadMaxima"];
-                    branchDtoResponse.StartDate = (DateTime)reader.GetValue(6);
-                    branchDtoResponse.OpenStore = (int)reader["TiendaAbierta"];
-                    branchDtoResponse.OpenSpa = (int)reader["SpaAbierto"];
-                    branchDtoResponse.IdEmployeeAdmin = (int)reader["IdEmpleadoAdmin"];
+                    string name = reader.GetString(reader.GetOrdinal("Nombre"));
 
-                    branches.Add(branchDtoResponse);
+                    names.Add(name);
+                };
+
+                return names;
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
+            }
+        }
+        public List<BranchPhoneNumberDto> GetBranchPhoneNumbers(string name)
+        {
+            string query;
+            List<BranchPhoneNumberDto> branches = new List<BranchPhoneNumberDto>();
+            try
+            {
+                query = SqlHelper.GetBranchPhoneNumbers(name);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    BranchPhoneNumberDto branch = new BranchPhoneNumberDto();
+                    branch.Name = reader.GetString(reader.GetOrdinal("Nombre"));
+                    branch.Province = reader.GetString(reader.GetOrdinal("Provincia"));
+                    branch.Canton = reader.GetString(reader.GetOrdinal("Canton"));
+                    branch.District = reader.GetString(reader.GetOrdinal("Distrito"));
+                    branch.Directions = reader.GetString(reader.GetOrdinal("Senas"));
+                    branch.MaxCapacity = (int)reader["CapacidadMaxima"];
+                    branch.StartDate = (DateTime)reader.GetValue(6);
+                    branch.OpenStore = (int)reader["TiendaAbierta"];
+                    branch.OpenSpa = (int)reader["SpaAbierto"];
+                    branch.Schedule = reader.GetString(reader.GetOrdinal("Horario"));
+                    branch.IdEmployeeAdmin = (int)reader["IdEmpleadoAdmin"];
+                    branch.PhoneNumber = (int)reader["NumeroTelefono"];
+
+                    branches.Add(branch);
                 };
 
                 return branches;
             }
             catch (Exception ex)
             {
-                return new List<BranchDto>();
+                return new List<BranchPhoneNumberDto>();
+            }
+        }
+        public Result UpdateScheduleBranch(string name, string schedule)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.UpdateScheduleBranch(name, schedule);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
             }
         }
 

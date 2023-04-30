@@ -115,6 +115,10 @@ namespace GymTEC_Backend.Helpers
         */
 
         // Add a new tuple in Job relationship
+        public static string GetJobsNames()
+        {
+            return $@"SELECT Nombre FROM Puesto";
+        }
         public static string CreateJob(JobNoIdDto jobDto)
         {
             return $@"INSERT INTO Puesto(Nombre, Descripcion) 
@@ -134,21 +138,47 @@ namespace GymTEC_Backend.Helpers
         // Get branch information according to its name
         public static string GetBranchByName(string name)
         {
-            return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, TiendaAbierta, SpaAbierto, IdEmpleadoAdmin FROM Sucursal WHERE Nombre = '{name}'";
+            return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, TiendaAbierta, SpaAbierto, Horario, IdEmpleadoAdmin FROM Sucursal WHERE Nombre = '{name}'";
         }
 
         // Creates a new tuple in Branch relationship
         public static string CreateBranch(BranchDto branch)
         {
             var startDate = new SqlDateTime(branch.StartDate).Value.ToString("MM-dd-yyyy");
-            return $@"INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, IdEmpleadoAdmin) 
-                            VALUES ('{branch.Name}','{branch.Province}', '{branch.Canton}', '{branch.District}', '{branch.Directions}', {branch.MaxCapacity}, '{startDate}', {branch.OpenSpa}, {branch.OpenStore}, {branch.IdEmployeeAdmin});";
+            return $@"INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, Horario, IdEmpleadoAdmin) 
+                            VALUES ('{branch.Name}','{branch.Province}', '{branch.Canton}', '{branch.District}', '{branch.Directions}', {branch.MaxCapacity}, '{startDate}', {branch.OpenSpa}, {branch.OpenStore}, '{branch.Schedule}', {branch.IdEmployeeAdmin});";
+        }
+
+        // Creates a new tuple in Branch and in NumerosTelefono
+        public static string CreateBranchWithPhoneNumber(BranchPhoneNumberDto branch)
+        {
+            var startDate = new SqlDateTime(branch.StartDate).Value.ToString("MM-dd-yyyy");
+            return $@"INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, Horario, IdEmpleadoAdmin) 
+                            VALUES ('{branch.Name}','{branch.Province}', '{branch.Canton}', '{branch.District}', '{branch.Directions}', {branch.MaxCapacity}, '{startDate}', {branch.OpenSpa}, {branch.OpenStore}, '{branch.Schedule}', {branch.IdEmployeeAdmin});
+                        INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) 
+                        VALUES ({branch.PhoneNumber}, '{branch.Name}');";
         }
 
         // Get all branches form Branch relationship
-        public static string GetBranches()
+        public static string GetBranchesNames()
         {
-            return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, IdEmpleadoAdmin FROM Sucursal;";
+            return $@"SELECT Nombre FROM Sucursal;";
+        }
+
+        // Get branch information including its phone numbers
+        public static string GetBranchPhoneNumbers(string name)
+        {
+            return $@"SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, Horario, IdEmpleadoAdmin, NumeroTelefono
+                        FROM (Sucursal AS S JOIN NumerosTelefono AS NT ON S.Nombre = NT.NombreSucursal)
+                        WHERE Nombre = '{name}'";
+        }
+
+        // Updating a Branch schedule by its name
+        public static string UpdateScheduleBranch(string name, string schedule)
+        {
+            return $@"UPDATE Sucursal
+                        SET Horario = '{schedule}'
+                        WHERE Nombre = '{name}';";
         }
     }
 }

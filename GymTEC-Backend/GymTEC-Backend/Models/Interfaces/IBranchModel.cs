@@ -7,7 +7,9 @@ namespace GymTEC_Backend.Models.Interfaces
     {
         BranchDto GetBranchByName(string name);
         Result CreateBranch(BranchDto branch);
-        IEnumerable<BranchDto> GetBranches();
-
+        Result CreateBranchWithPhoneNumber(BranchPhoneNumberDto branch);
+        List<string> GetBranchesNames();
+        IEnumerable<BranchPhoneNumberDto> GetBranchPhoneNumbers(string name);
+        Result UpdateScheduleBranch(string name, string schedule);
     }
 }
