@@ -71,6 +71,14 @@ namespace GymTEC_Backend.Helpers
             return $@"DELETE FROM TratamientoSpa WHERE Nombre = '{name}';";
         }
 
+        public static string IsSpaTreatmentRelatedToBranch()
+        {
+            return $@"SELECT TratamientoSpa.Nombre as NombreTratamiento
+                        FROM TratamientoSpa 
+                        Left Join TratamientoSucursal ON TratamientoSpa.Id = TratamientoSucursal.IdTratamientoSpa
+                        Where TratamientoSucursal.NombreSucursal is NULL;";
+        }
+
         public static string AddSpaTreatmentToBranch(int spaTreatmentId, string branchName)
         {
             return $@"INSERT INTO TratamientoSucursal(IdTratamientoSpa, NombreSucursal) 

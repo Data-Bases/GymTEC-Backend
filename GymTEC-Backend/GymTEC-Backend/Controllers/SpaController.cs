@@ -104,7 +104,7 @@ namespace Hospital_TECNológico_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost("DeleteSpaTreatment", Name = "DeleteSpaTreatment")]
-        public ActionResult<Result> DeleteSpaTreatment([Required]string name) // hace falta validar que se pueda eliminar solo si no esta ligado a ninguna sucursal
+        public ActionResult<Result> DeleteSpaTreatment([Required] string name) // hace falta validar que se pueda eliminar solo si no esta ligado a ninguna sucursal
         {
 
             if (!ModelState.IsValid)
@@ -113,6 +113,11 @@ namespace Hospital_TECNológico_Backend.Controllers
             }
 
             var result = _gymTecRepository.DeleteSpaTreatment(name);
+
+            if (result.Equals(Result.NotFound))
+            {
+                return NotFound();
+            }
 
             if (result.Equals(Result.Noop))
             {

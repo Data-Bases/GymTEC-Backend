@@ -177,11 +177,16 @@ namespace GymTEC_Backend.Repositories
             string query = string.Empty;
             try
             {
-                query = SqlHelper.DeleteSpaTreatment(name);
+                if (IsSpaTreatmentNotRelatedToBranch(name))
+                {
+                    query = SqlHelper.DeleteSpaTreatment(name);
 
-                var reader = ExecuteQuery(query);
+                    var reader = ExecuteQuery(query);
 
-                return Result.Created;
+                    return Result.Created;
+                }
+
+                return Result.NotFound; 
             }
             catch (Exception ex)
             {
@@ -286,6 +291,30 @@ namespace GymTEC_Backend.Repositories
             catch (Exception ex)
             {
                 return Result.Noop;
+            }
+        }
+
+        private bool IsSpaTreatmentNotRelatedToBranch(string name)
+        {
+            string query = string.Empty;
+            List<string> branchList  = new List<string>();  
+
+            try
+            {
+                query = SqlHelper.IsSpaTreatmentRelatedToBranch();
+
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    branchList.Add(reader["NombreTratamiento"].ToString());
+                };
+
+                return branchList.Contains(name) ? true : false;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
 
