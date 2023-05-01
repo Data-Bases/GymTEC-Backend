@@ -13,7 +13,9 @@ namespace GymTEC_Backend.Repositories.Interfaces
         string GetSpaDescriptionByName(string name);
         List<string> GetJobsNames();
         Result CreateJob(JobNoIdDto spaDto);
+        Result DeleteJob(string name);
         JobDto GetJobByName(string name);
+        Result UpdateDescriptionJob(string name, string description);
         BranchDto GetBranchByName(string name);
         Result CreateBranch(BranchDto branch);
         Result CreateBranchWithPhoneNumber(BranchPhoneNumberDto branch);

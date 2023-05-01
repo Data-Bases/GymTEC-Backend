@@ -273,12 +273,12 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
-        public Result UpdateDescriptionSpaTreatment(string name, string desciption)
+        public Result UpdateDescriptionSpaTreatment(string name, string description)
         {
             string query = string.Empty;
             try
             {
-                query = SqlHelper.UpdateDescriptionSpaTreatment(name, desciption);
+                query = SqlHelper.UpdateDescriptionSpaTreatment(name, description);
                 var reader = ExecuteQuery(query);
 
                 return Result.Created;
@@ -331,6 +331,22 @@ namespace GymTEC_Backend.Repositories
                 return Result.Noop;
             }
         }
+        public Result DeleteJob(string name)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.DeleteJob(name);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
 
         public JobDto GetJobByName(string name)
         {
@@ -354,6 +370,21 @@ namespace GymTEC_Backend.Repositories
             catch (Exception ex)
             {
                 return new JobDto();
+            }
+        }
+        public Result UpdateDescriptionJob(string name, string description)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.UpdateDescriptionJob(name, description);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
             }
         }
 
