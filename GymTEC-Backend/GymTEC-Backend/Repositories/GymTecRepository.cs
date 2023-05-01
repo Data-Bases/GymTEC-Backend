@@ -805,5 +805,208 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
+
+        /*
+        **** Equipment Repository ****
+        */
+
+        public Result CreateEquipment(EquipmentNoIdDto equipmentNoIdDto)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreateEquipment(equipmentNoIdDto);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public string GetEquipmentDescriptionByName(string name)
+        {
+            string query = string.Empty;
+            var description = string.Empty;
+            try
+            {
+                query = SqlHelper.GetEquipmentDescriptionByName(name);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    description = reader["Descripcion"].ToString();
+                };
+
+
+                return description;
+            }
+            catch (Exception ex)
+            {
+                return description;
+            }
+        }
+
+        public IEnumerable<EquipmentDto> GetEquipmentsName()
+        {
+            string query = string.Empty;
+            List<EquipmentDto> equipmentDtos = new List<EquipmentDto>();
+            try
+            {
+                query = SqlHelper.GetEquipmentNames();
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    equipmentDtos.Add(new EquipmentDto
+                    {
+                        Id = (int)reader["Id"],
+                        Name = reader["Nombre"].ToString(),
+                    });
+                };
+
+
+                return equipmentDtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<EquipmentDto>();
+            }
+        }
+
+
+        /*
+        **** MachineInventory Repository ****
+        */
+
+        public Result CreateMachineInventory(MachineInventoryDto machineInventoryDto)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreateMachineInvetory(machineInventoryDto);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result DeleteMachineInventoryInBranch(int serialNumber, string branchName)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.DeleteMachineInvetoryInBranch(serialNumber, branchName);
+                    
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public IEnumerable<MachineWithNamesDto> GetMachineInventoriesInBranch(string branchName)
+        {
+            string query = string.Empty;
+            List<MachineWithNamesDto> equipmentDtos = new List<MachineWithNamesDto>();
+            try
+            {
+                query = SqlHelper.GetMachineInventoriesInBranch(branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    equipmentDtos.Add(new MachineWithNamesDto
+                    {
+                        SerialNumber = (int)reader["NumeroSerie"],
+                        Brand = reader["Marca"].ToString(),
+                        Price = (int)reader["Costo"],
+                        BranchName = reader["NombreSucursal"].ToString(),
+                        EquipmentId = (int)reader["IdEquipo"],
+                        EquipmentName = reader["NombreEquipo"].ToString(),
+                    });
+                };
+
+
+                return equipmentDtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<MachineWithNamesDto>();
+            }
+        }
+        public IEnumerable<MachineWithNamesDto> GetMachineInventory(string branchName, int equipmentId)
+        {
+            string query = string.Empty;
+            List<MachineWithNamesDto> equipmentDtos = new List<MachineWithNamesDto>();
+            try
+            {
+                query = SqlHelper.GetMachineInventory(branchName, equipmentId);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    equipmentDtos.Add(new MachineWithNamesDto
+                    {
+                        SerialNumber = (int)reader["NumeroSerie"],
+                        Brand = reader["Marca"].ToString(),
+                        Price = (int)reader["Costo"],
+                        BranchName = branchName,
+                        EquipmentId = equipmentId,
+                        EquipmentName = reader["NombreEquipo"].ToString(),
+                    });
+                };
+
+
+                return equipmentDtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<MachineWithNamesDto>();
+            }
+        }
+
+        public IEnumerable<MachineWithNamesDto> GetAllMachineInventoryPerEquipment(int equipmentId)
+        {
+            string query = string.Empty;
+            List<MachineWithNamesDto> equipmentDtos = new List<MachineWithNamesDto>();
+            try
+            {
+                query = SqlHelper.GetAllMachineInventoryPerEquipment(equipmentId);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    equipmentDtos.Add(new MachineWithNamesDto
+                    {
+                        SerialNumber = (int)reader["NumeroSerie"],
+                        Brand = reader["Marca"].ToString(),
+                        Price = (int)reader["Costo"],
+                        BranchName = reader["NombreSucursal"].ToString(),
+                        EquipmentId = equipmentId,
+                        EquipmentName = reader["NombreEquipo"].ToString(),
+                    });
+                };
+
+
+                return equipmentDtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<MachineWithNamesDto>();
+            }
+        }
+
     }
 }

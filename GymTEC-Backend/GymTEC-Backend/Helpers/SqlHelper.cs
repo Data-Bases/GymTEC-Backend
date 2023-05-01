@@ -1,5 +1,6 @@
 ﻿using GymTEC_Backend.Dtos;
 using Nest;
+using Newtonsoft.Json.Linq;
 using System.Data.SqlTypes;
 using System.Diagnostics;
 
@@ -154,6 +155,29 @@ namespace GymTEC_Backend.Helpers
                         SET Descripcion = '{description}'
                         WHERE Nombre = '{name}';";
         }
+
+        /*
+        *  ***** Equipment *****
+        */
+
+        public static string CreateEquipment(EquipmentNoIdDto equipmentDto)
+        {
+            return $@"INSERT INTO TipoEquipo(Nombre, Descripcion) 
+                            VALUES ('{equipmentDto.Name}', '{equipmentDto.Description}');";
+        }
+
+        // Return Spa treatment description according to its name
+        public static string GetEquipmentDescriptionByName(string name)
+        {
+            return $@"SELECT Descripcion FROM TipoEquipo WHERE Nombre = '{name}'";
+        }
+
+        // Get all names and ids from spa treatment relationship
+        public static string GetEquipmentNames()
+        {
+            return $@"SELECT Id, Nombre FROM TipoEquipo;";
+        }
+
 
         /*
         *  ***** Job *****
@@ -315,5 +339,45 @@ namespace GymTEC_Backend.Helpers
                         SET Horario = '{schedule}'
                         WHERE Nombre = '{name}';";
         }
+
+        /*
+        *  ***** Equipment *****
+        */
+
+        // Create a machine tuple into the data base
+        public static string CreateMachineInvetory(MachineInventoryDto machineInventoryDto)
+        {
+            return $@"INSERT INTO Maquina(NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo) 
+                            VALUES ({machineInventoryDto.SerialNumber}, '{machineInventoryDto.Brand}', {machineInventoryDto.Price}, '{machineInventoryDto.BranchName}', {machineInventoryDto.EquipmentId});";
+        }
+
+        // Return Spa treatment description according to its name
+        public static string DeleteMachineInvetoryInBranch(int serialNumber, string branchName)
+        {
+            return $@"DELETE FROM Maquina WHERE NombreSucursal = '{branchName}' AND NumeroSerie = {serialNumber};";
+        }
+
+        // Get all names and ids from spa treatment relationship
+        public static string GetMachineInventoriesInBranch(string branchName)
+        {
+            return $@"SELECT  NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo, Nombre as NombreEquipo
+                    FROM ( Maquina AS M LEFT JOIN TipoEquipo AS TE ON M.IdEquipo = TE.Id)
+                    WHERE NombreSucursal = '{branchName}';";
+        }
+
+        public static string GetMachineInventory(string branchName, int equipmentId)
+        {
+            return $@"SELECT  NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo, Nombre as NombreEquipo
+                    FROM ( Maquina AS M LEFT JOIN TipoEquipo AS TE ON M.IdEquipo = TE.Id)
+                    WHERE NombreSucursal = '{branchName}' AND IdEquipo = {equipmentId};";
+        }
+
+        public static string GetAllMachineInventoryPerEquipment(int equipmentId)
+        {
+            return $@"SELECT  NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo, Nombre as NombreEquipo
+                    FROM ( Maquina AS M LEFT JOIN TipoEquipo AS TE ON M.IdEquipo = TE.Id)
+                    WHERE IdEquipo = {equipmentId};";
+        }
+
     }
 }

@@ -2,6 +2,7 @@ using GymTEC_Backend.Dtos;
 using GymTEC_Backend.Models.Interfaces;
 using GymTEC_Backend.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Nest;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,21 +10,22 @@ namespace GymTEC_Backend.Controllers
 {
     [ApiController]
     [Route("gymtec/[controller]")]
-    public class ClientController : ControllerBase
+    public class EquipmentController : ControllerBase
     {
-        private readonly IClientModel _model;
+        private readonly IGymTecRepository _gymTecRepository;
 
-        public ClientController(ILogger<ClientController> logger, IClientModel clientModel)
+        public EquipmentController(IGymTecRepository gymTecRepository)
         {
-            _model = clientModel;
+            _gymTecRepository = gymTecRepository;
         }
+
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("GetClientById/{id}", Name = "GetClient")]
-        public ActionResult<ClientDto> GetClientById([Required] int id)
+        [HttpGet("GetEquipmentNames", Name = "GetEquipmentNames")]
+        public ActionResult<IEnumerable<EquipmentDto>> GetEquipmentNames()
         {
 
             if (!ModelState.IsValid)
@@ -31,24 +33,25 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var client = _model.GetClientById(id);
+            var equipments = _gymTecRepository.GetEquipmentsName();
 
 
-            if (string.IsNullOrEmpty(client.Name))
+            if (equipments.IsNullOrEmpty())
             {
                 return NotFound();
             }
 
-            return Ok(client);
+            return Ok(equipments);
         }
+
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpPost("CreateClient", Name = "CreateClient")]
-        public ActionResult<Result> CreateClient(ClientDto client)
+        [HttpGet("GetEquipmentDescriptionByName/{name}", Name = "GetEquipmentDescriptionByName")]
+        public ActionResult<string> GetEquipmentDescriptionByName([Required] string name)
         {
 
             if (!ModelState.IsValid)
@@ -56,8 +59,32 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _model.CreateClient(client);
+            var description = _gymTecRepository.GetEquipmentDescriptionByName(name);
 
+
+            if (string.IsNullOrEmpty(description))
+            {
+                return NotFound();
+            }
+
+            return Ok(description);
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("CreateEquipment", Name = "CreateEquipment")]
+        public ActionResult<Result> CreateEquipment(EquipmentNoIdDto equipmentNoIdDto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _gymTecRepository.CreateEquipment(equipmentNoIdDto);
 
             if (result.Equals(Result.Error))
             {
@@ -71,26 +98,6 @@ namespace GymTEC_Backend.Controllers
 
             return Ok();
         }
-
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("ClientLogIn/{id}", Name = "ClientLogIn")]
-        public ActionResult<ClientDto> ClientLogIn([Required] int id, [Required] string password)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var client = _model.ClientLogIn(id, password);
-
-            return Ok(client);
-        }
-
 
     }
 }

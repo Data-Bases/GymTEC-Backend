@@ -1,7 +1,8 @@
-﻿using GymTEC_Backend.Dtos;
+using GymTEC_Backend.Dtos;
 using GymTEC_Backend.Models.Interfaces;
 using GymTEC_Backend.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Nest;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,40 +10,47 @@ namespace GymTEC_Backend.Controllers
 {
     [ApiController]
     [Route("gymtec/[controller]")]
-    public class ClassServicesController : ControllerBase
+    public class MachineInventoryController : ControllerBase
     {
         private readonly IGymTecRepository _gymTecRepository;
 
-        public ClassServicesController(IGymTecRepository gymTecRepository)
+        public MachineInventoryController(IGymTecRepository gymTecRepository)
         {
             _gymTecRepository = gymTecRepository;
         }
 
+
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("GetClassServicesNames", Name = "GetClassServicesNames")]
-        public ActionResult<List<string>> GetClassServicesNames()
+        [HttpGet("GetMachineInventoryInBranch/{branchName}", Name = "GetMachineInventoryInBranch")]
+        public ActionResult<IEnumerable<MachineWithNamesDto>> GetMachineInventoriesInBranch(string branchName)
         {
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            
+            var machineInventories = _gymTecRepository.GetMachineInventoriesInBranch(branchName);
 
-            var classServices = _gymTecRepository.GetClassServicesNames();
 
-            return Ok(classServices);
+            if (machineInventories.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+            
+            return Ok(machineInventories);
         }
 
+
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpGet("GetClassServiceByName/{name}", Name = "GetClassServiceByName")]
-        public ActionResult<ClassServiceDto> GetClassServiceByName([Required] string name)
+        [HttpGet("GetMachineInventory/{branchName}/{equipmentId}", Name = "GetMachineInventory")]
+        public ActionResult<IEnumerable<MachineWithNamesDto>> GetMachineInventory(string branchName, int equipmentId)
         {
 
             if (!ModelState.IsValid)
@@ -50,24 +58,23 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var classServiceDto = _gymTecRepository.GetClassServiceByName(name);
+            var machineInventories = _gymTecRepository.GetMachineInventory(branchName, equipmentId);
 
 
-            if (string.IsNullOrEmpty(classServiceDto.Name))
+            if (machineInventories.IsNullOrEmpty())
             {
                 return NotFound();
             }
 
-            return Ok(classServiceDto);
+            return Ok(machineInventories);
         }
-
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("DeleteClassService", Name = "DeleteClassService")]
-        public ActionResult<Result> DeleteClassService([Required] string name)
+        [HttpGet("GetAllMachineInventoryPerEquipment/{equipmentId}", Name = "GetAllMachineInventoryPerEquipment")]
+        public ActionResult<IEnumerable<MachineWithNamesDto>> GetAllMachineInventoryPerEquipment(int equipmentId)
         {
 
             if (!ModelState.IsValid)
@@ -75,22 +82,23 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.DeleteClassService(name);
+            var machineInventories = _gymTecRepository.GetAllMachineInventoryPerEquipment(equipmentId);
 
-            if (result.Equals(Result.Noop))
+
+            if (machineInventories.IsNullOrEmpty())
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            return Ok();
+            return Ok(machineInventories);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("CreateClassService", Name = "CreateClassService")]
-        public ActionResult<Result> CreateClassService(ClassServiceNoIdDto classServiceDto)
+        [HttpPost("CreateMachineInvetory", Name = "CreateMachineInvetory")]
+        public ActionResult<Result> CreateMachineInvetory(MachineInventoryDto machineInventoryDto)
         {
 
             if (!ModelState.IsValid)
@@ -98,7 +106,7 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.CreateClassService(classServiceDto);
+            var result = _gymTecRepository.CreateMachineInventory(machineInventoryDto);
 
             if (result.Equals(Result.Error))
             {
@@ -117,8 +125,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPut("UpdateDescriptionClassService", Name = "UpdateDescriptionClassService")]
-        public ActionResult<Result> UpdateDescriptionClassService([Required] string name, [Required] string newDescription)
+        [HttpPost("DeleteMachineInventoryInBranch", Name = "DeleteMachineInventoryInBranch")]
+        public ActionResult<Result> DeleteMachineInventoryInBranch([Required] int serialNumber, [Required] string branchName)
         {
 
             if (!ModelState.IsValid)
@@ -126,11 +134,11 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.UpdateDescriptionClassService(name, newDescription);
+            var result = _gymTecRepository.DeleteMachineInventoryInBranch(serialNumber, branchName);
 
             if (result.Equals(Result.Noop))
             {
-                return NotFound();
+                return BadRequest();
             }
 
             return Ok();
