@@ -37,5 +37,8 @@ namespace GymTEC_Backend.Repositories.Interfaces
         IEnumerable<EquipmentDto> GetEquipmentsName();
         Result CreateEquipment(EquipmentNoIdDto equipmentNoIdDto);
         string GetEquipmentDescriptionByName(string name);
+        Result CreateMachineInventory(MachineInventoryDto machineInventoryDto);
+        Result DeleteMachineInventoryInBranch(int serialNumber, string branchName);
+        IEnumerable<MachineInventoryDto> GetMachineInventoriesInBranch(string branchName);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GymTEC_Backend.Dtos;
 using Nest;
+using Newtonsoft.Json.Linq;
 using System.Data.SqlTypes;
 using System.Diagnostics;
 
@@ -301,5 +302,29 @@ namespace GymTEC_Backend.Helpers
                         SET Horario = '{schedule}'
                         WHERE Nombre = '{name}';";
         }
+
+        /*
+        *  ***** Equipment *****
+        */
+
+        // Create a machine tuple into the data base
+        public static string CreateMachineInvetory(MachineInventoryDto machineInventoryDto)
+        {
+            return $@"INSERT INTO Maquina(NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo) 
+                            VALUES ({machineInventoryDto.SerialNumber}, '{machineInventoryDto.Brand}', {machineInventoryDto.Price}, '{machineInventoryDto.BranchName}', {machineInventoryDto.EquipmentId});";
+        }
+
+        // Return Spa treatment description according to its name
+        public static string DeleteMachineInvetoryInBranch(int serialNumber, string branchName)
+        {
+            return $@"DELETE FROM Maquina WHERE NombreSucursal = '{branchName}' AND NumeroSerie = {serialNumber};";
+        }
+
+        // Get all names and ids from spa treatment relationship
+        public static string GetMachineInventoriesInBranch(string branchName)
+        {
+            return $@"SELECT * FROM Maquina WHERE NombreSucursal = '{branchName}';";
+        }
+
     }
 }

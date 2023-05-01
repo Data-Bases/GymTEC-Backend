@@ -776,5 +776,73 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
+
+        /*
+        **** MachineInventory Repository ****
+        */
+
+        public Result CreateMachineInventory(MachineInventoryDto machineInventoryDto)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreateMachineInvetory(machineInventoryDto);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result DeleteMachineInventoryInBranch(int serialNumber, string branchName)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.DeleteMachineInvetoryInBranch(serialNumber, branchName);
+                    
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public IEnumerable<MachineInventoryDto> GetMachineInventoriesInBranch(string branchName)
+        {
+            string query = string.Empty;
+            List<MachineInventoryDto> equipmentDtos = new List<MachineInventoryDto>();
+            try
+            {
+                query = SqlHelper.GetMachineInventoriesInBranch(branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    equipmentDtos.Add(new MachineInventoryDto
+                    {
+                        SerialNumber = (int)reader["NumeroSerie"],
+                        Brand = reader["Marca"].ToString(),
+                        Price = (int)reader["Costo"],
+                        BranchName = reader["NombreSucursal"].ToString(),
+                        EquipmentId = (int)reader["IdEquipo"],
+                    });
+                };
+
+
+                return equipmentDtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<MachineInventoryDto>();
+            }
+        }
     }
 }
