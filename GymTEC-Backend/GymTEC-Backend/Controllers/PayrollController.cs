@@ -10,11 +10,11 @@ namespace GymTEC_Backend.Controllers
 {
     [ApiController]
     [Route("gymtec/[controller]")]
-    public class ClassServicesController : ControllerBase
+    public class PayrollController : ControllerBase
     {
         private readonly IGymTecRepository _gymTecRepository;
 
-        public ClassServicesController(IGymTecRepository gymTecRepository)
+        public PayrollController(IGymTecRepository gymTecRepository)
         {
             _gymTecRepository = gymTecRepository;
         }
@@ -23,8 +23,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("GetClassServicesNames", Name = "GetClassServicesNames")]
-        public ActionResult<List<string>> GetClassServicesNames()
+        [HttpGet("GetPayrollNames", Name = "GetPayrollNames")]
+        public ActionResult<List<string>> GetPayrollNames()
         {
 
             if (!ModelState.IsValid)
@@ -32,9 +32,9 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var classServices = _gymTecRepository.GetClassServicesNames();
+            var payrolls = _gymTecRepository.GetPayrollNames();
 
-            return Ok(classServices);
+            return Ok(payrolls);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -42,8 +42,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpGet("GetClassServiceByName/{name}", Name = "GetClassServiceByName")]
-        public ActionResult<ClassServiceDto> GetClassServiceByName([Required] string name)
+        [HttpGet("GetPayrollByName/{name}", Name = "GetPayrollByName")]
+        public ActionResult<PayrollDto> GetPayrollByName([Required] string name)
         {
 
             if (!ModelState.IsValid)
@@ -51,15 +51,15 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var classServiceDto = _gymTecRepository.GetClassServiceByName(name);
+            var payrollDto = _gymTecRepository.GetPayrollByName(name);
 
 
-            if (string.IsNullOrEmpty(classServiceDto.Name))
+            if (string.IsNullOrEmpty(payrollDto.Name))
             {
                 return NotFound();
             }
 
-            return Ok(classServiceDto);
+            return Ok(payrollDto);
         }
 
 
@@ -67,8 +67,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("DeleteClassService", Name = "DeleteClassService")]
-        public ActionResult<Result> DeleteClassService([Required] string name)
+        [HttpPost("DeletePayroll", Name = "DeletePayroll")]
+        public ActionResult<Result> DeletePayroll([Required] string name)
         {
 
             if (!ModelState.IsValid)
@@ -76,7 +76,7 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.DeleteClassService(name);
+            var result = _gymTecRepository.DeletePayroll(name);
 
             if (result.Equals(Result.Noop))
             {
@@ -90,8 +90,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("CreateClassService", Name = "CreateClassService")]
-        public ActionResult<Result> CreateClassService(ClassServiceNoIdDto classServiceDto)
+        [HttpPost("CreatePayroll", Name = "CreatePayroll")]
+        public ActionResult<Result> CreatePayroll(PayrollNoIdDto payrollNoIdDto)
         {
 
             if (!ModelState.IsValid)
@@ -99,7 +99,7 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.CreateClassService(classServiceDto);
+            var result = _gymTecRepository.CreatePayroll(payrollNoIdDto);
 
             if (result.Equals(Result.Error))
             {
@@ -118,8 +118,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPut("UpdateDescriptionClassService", Name = "UpdateDescriptionClassService")]
-        public ActionResult<Result> UpdateDescriptionClassService([Required] string name, [Required] string newDescription)
+        [HttpPut("UpdateDescriptionPayroll", Name = "UpdateDescriptionPayroll")]
+        public ActionResult<Result> UpdateDescriptionPayroll([Required] string name, [Required] string newDescription)
         {
 
             if (!ModelState.IsValid)
@@ -127,7 +127,7 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.UpdateDescriptionClassService(name, newDescription);
+            var result = _gymTecRepository.UpdateDescriptionPayroll(name, newDescription);
 
             if (result.Equals(Result.Noop))
             {
@@ -139,3 +139,4 @@ namespace GymTEC_Backend.Controllers
 
     }
 }
+

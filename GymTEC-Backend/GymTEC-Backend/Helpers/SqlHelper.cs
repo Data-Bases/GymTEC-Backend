@@ -230,6 +230,43 @@ namespace GymTEC_Backend.Helpers
         }
 
         /*
+        *  ***** Payroll *****
+        */
+
+        // Get a list of the Payroll Names in the DB
+        public static string GetPayrollNames()
+        {
+            return $@"SELECT Nombre FROM TipoPlanilla;";
+        }
+
+        // Add a new tuple in Payroll relationship
+        public static string CreatePayroll(PayrollNoIdDto payrollNoIdDto)
+        {
+            return $@"INSERT INTO TipoPlanilla(Nombre, Descripcion) 
+                            VALUES ('{payrollNoIdDto.Name}', '{payrollNoIdDto.Description}');";
+        }
+
+        //Delete a Payroll
+        public static string DeletePayroll(string name)
+        {
+            return $@"DELETE FROM TipoPlanilla WHERE Nombre = '{name}';";
+        }
+
+        // Return a tuple in Payroll relationship according to its name
+        public static string GetPayrollByName(string name)
+        {
+            return $@"SELECT Id, Nombre, Descripcion FROM TipoPlanilla WHERE Nombre = '{name}'";
+        }
+
+        // Update description of a Payroll description
+        public static string UpdateDescriptionPayroll(string name, string description)
+        {
+            return $@"UPDATE TipoPlanilla
+                        SET Descripcion = '{description}'
+                        WHERE Nombre = '{name}';";
+        }
+
+        /*
         *  ***** Branch *****
         */
 

@@ -32,7 +32,7 @@ namespace GymTEC_Backend.Repositories
             using (IDbCommand command = new SqlCommand { CommandText = query, CommandType = CommandType.Text })
             {
                 command.CommandTimeout = Timeout;
-                command.Connection = new SqlConnection(GymTecSqlDiani);
+                command.Connection = new SqlConnection(GymTecSqlVale);
                 command.Connection.Open();
                 return command.ExecuteReader();
             }
@@ -552,6 +552,107 @@ namespace GymTEC_Backend.Repositories
             try
             {
                 query = SqlHelper.UpdateDescriptionClassService(name, description);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+
+        /*
+        **** Payroll Repository ****
+        */
+        public List<string> GetPayrollNames()
+        {
+            List<string> names = new List<string>();
+            string query;
+            try
+            {
+                query = SqlHelper.GetPayrollNames();
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    string name = reader.GetString(reader.GetOrdinal("Nombre"));
+
+                    names.Add(name);
+                };
+
+                return names;
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
+            }
+        }
+
+        public Result CreatePayroll(PayrollNoIdDto payrollNoIdDto)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreatePayroll(payrollNoIdDto);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+        public Result DeletePayroll(string name)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.DeletePayroll(name);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public PayrollDto GetPayrollByName(string name)
+        {
+            string query = string.Empty;
+            PayrollDto payrollDto = new PayrollDto();
+            try
+            {
+                query = SqlHelper.GetPayrollByName(name);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    payrollDto.Id = (int)reader["Id"];
+                    payrollDto.Name = reader["Nombre"].ToString();
+                    payrollDto.Description = reader["Descripcion"].ToString();
+                };
+
+
+                return payrollDto;
+            }
+            catch (Exception ex)
+            {
+                return new PayrollDto();
+            }
+        }
+        public Result UpdateDescriptionPayroll(string name, string description)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.UpdateDescriptionPayroll(name, description);
                 var reader = ExecuteQuery(query);
 
                 return Result.Created;
