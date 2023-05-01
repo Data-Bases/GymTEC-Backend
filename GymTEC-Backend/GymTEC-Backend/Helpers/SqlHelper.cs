@@ -92,6 +92,13 @@ namespace GymTEC_Backend.Helpers
             return $@"DELETE FROM Empleado WHERE Cedula = {employeeId};";
         }
 
+        public static string GetBranchEmployee(string branchName)
+        {
+            return $@"SELECT Nombre, Cedula 
+                        FROM Empleado
+                        WHERE NombreSucursal = '{branchName}';";
+        }
+
         /*
         *  ***** Spa Treatments *****
         */

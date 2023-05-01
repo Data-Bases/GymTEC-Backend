@@ -169,6 +169,34 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
+        public List<EmployeeNameIdDto> GetBranchEmployee(string branchName)
+        {
+            string query = string.Empty;
+            List<EmployeeNameIdDto> employeeNameIdDtos = new List<EmployeeNameIdDto>();
+            try
+            {
+                query = SqlHelper.GetBranchEmployee(branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    employeeNameIdDtos.Add(new EmployeeNameIdDto
+                    {
+                        EmployeeId = (int)reader["Cedula"],
+                        EmployeeName = reader["Nombre"].ToString(),
+                    });
+
+                };
+
+
+                return employeeNameIdDtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<EmployeeNameIdDto>();
+            }
+        }
+
         /*
         **** Spa Repository ****
         */

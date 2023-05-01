@@ -9,5 +9,6 @@ namespace GymTEC_Backend.Models.Interfaces
         EmployeeWithNamesDto EmployeeLogIn(int id, string password);
         Result CreateEmployee(EmployeeDto client);
         Result DeleteEmployee(int employeeId);
+        List<EmployeeNameIdDto> GetBranchEmployee(string branchName);
     }
 }

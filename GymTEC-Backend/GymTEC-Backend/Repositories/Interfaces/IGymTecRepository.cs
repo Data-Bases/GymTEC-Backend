@@ -26,5 +26,6 @@ namespace GymTEC_Backend.Repositories.Interfaces
         Result AddSpaTreatmentToBranch(int spaTreatmentId, string branchName);
         Result DeleteSpaTreatmentInBranch(int spaTreatmentId, string branchName);
         Result DeleteEmployee(int employeeId);
+        List<EmployeeNameIdDto> GetBranchEmployee(string branchName);
     }
 }
