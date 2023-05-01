@@ -34,5 +34,8 @@ namespace GymTEC_Backend.Repositories.Interfaces
         Result DeleteSpaTreatmentInBranch(int spaTreatmentId, string branchName);
         Result DeleteEmployee(int employeeId);
         List<EmployeeNameIdDto> GetBranchEmployee(string branchName);
+        IEnumerable<EquipmentDto> GetEquipmentsName();
+        Result CreateEquipment(EquipmentNoIdDto equipmentNoIdDto);
+        string GetEquipmentDescriptionByName(string name);
     }
 }

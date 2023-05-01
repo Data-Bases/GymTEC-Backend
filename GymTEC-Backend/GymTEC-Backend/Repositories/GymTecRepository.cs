@@ -704,5 +704,77 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
+
+        /*
+        **** Equipment Repository ****
+        */
+
+        public Result CreateEquipment(EquipmentNoIdDto equipmentNoIdDto)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreateEquipment(equipmentNoIdDto);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public string GetEquipmentDescriptionByName(string name)
+        {
+            string query = string.Empty;
+            var description = string.Empty;
+            try
+            {
+                query = SqlHelper.GetEquipmentDescriptionByName(name);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    description = reader["Descripcion"].ToString();
+                };
+
+
+                return description;
+            }
+            catch (Exception ex)
+            {
+                return description;
+            }
+        }
+
+        public IEnumerable<EquipmentDto> GetEquipmentsName()
+        {
+            string query = string.Empty;
+            List<EquipmentDto> equipmentDtos = new List<EquipmentDto>();
+            try
+            {
+                query = SqlHelper.GetEquipmentNames();
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    equipmentDtos.Add(new EquipmentDto
+                    {
+                        Id = (int)reader["Id"],
+                        Name = reader["Nombre"].ToString(),
+                    });
+                };
+
+
+                return equipmentDtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<EquipmentDto>();
+            }
+        }
+
     }
 }

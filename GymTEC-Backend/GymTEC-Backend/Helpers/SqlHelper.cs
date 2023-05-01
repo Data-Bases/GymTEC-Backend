@@ -156,6 +156,29 @@ namespace GymTEC_Backend.Helpers
         }
 
         /*
+        *  ***** Equipment *****
+        */
+
+        public static string CreateEquipment(EquipmentNoIdDto equipmentDto)
+        {
+            return $@"INSERT INTO TipoEquipo(Nombre, Descripcion) 
+                            VALUES ('{equipmentDto.Name}', '{equipmentDto.Description}');";
+        }
+
+        // Return Spa treatment description according to its name
+        public static string GetEquipmentDescriptionByName(string name)
+        {
+            return $@"SELECT Descripcion FROM TipoEquipo WHERE Nombre = '{name}'";
+        }
+
+        // Get all names and ids from spa treatment relationship
+        public static string GetEquipmentNames()
+        {
+            return $@"SELECT Id, Nombre FROM TipoEquipo;";
+        }
+
+
+        /*
         *  ***** Job *****
         */
 
