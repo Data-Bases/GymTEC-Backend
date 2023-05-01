@@ -10,11 +10,11 @@ namespace GymTEC_Backend.Controllers
 {
     [ApiController]
     [Route("gymtec/[controller]")]
-    public class SpaController : ControllerBase
+    public class MachineInventoryController : ControllerBase
     {
         private readonly IGymTecRepository _gymTecRepository;
 
-        public SpaController(IGymTecRepository gymTecRepository)
+        public MachineInventoryController(IGymTecRepository gymTecRepository)
         {
             _gymTecRepository = gymTecRepository;
         }

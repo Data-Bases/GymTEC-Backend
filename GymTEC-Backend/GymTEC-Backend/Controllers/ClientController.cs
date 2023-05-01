@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nest;
 using System.ComponentModel.DataAnnotations;
 
-namespace Hospital_TECNológico_Backend.Controllers
+namespace GymTEC_Backend.Controllers
 {
     [ApiController]
     [Route("gymtec/[controller]")]
