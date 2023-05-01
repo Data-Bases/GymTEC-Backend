@@ -47,6 +47,12 @@ INSERT INTO TipoEquipo(Nombre, Descripcion)
                     ('Remos', 'Maquina para entrenar el tren superior'),
                     ('Pesas', 'Necesario para cualquier entrenamiento')
 
+
+-- Temporales
+
+INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, TiendaAbierta, SpaAbierto, IdEmpleadoAdmin) 
+VALUES ('GymLimon', 'Limon', 'Limon', 'Distrito', 'XXX8+CGG', 25, '1/1/2010',	1, 1,305320066);
+
 -- Insert Numero de Telefono
 INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25521659, 'GymASETEC')
 INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25517294, 'GymASETEC')
@@ -55,6 +61,7 @@ INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (27356999, '
 INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25896431, 'GymSC')
 INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25884632, 'GymSC')
 
+SELECT * FROM Empleado
 SELECT * FROM NumerosTelefono
 SELECT * FROM Cliente;
 SELECT * FROM Sucursal;
@@ -62,3 +69,14 @@ SELECT * FROM Sucursal;
 SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, Horario, IdEmpleadoAdmin, NumeroTelefono
 FROM (Sucursal AS S JOIN NumerosTelefono AS NT ON S.Nombre = NT.NombreSucursal)
 WHERE Nombre = 'GymASETEC'
+
+INSERT INTO TratamientoSucursal(IdTratamientoSpa, NombreSucursal) VALUES (1, 'GymASETEC');
+INSERT INTO TratamientoSucursal(IdTratamientoSpa, NombreSucursal) VALUES (2, 'GymASETEC');
+INSERT INTO TratamientoSucursal(IdTratamientoSpa, NombreSucursal) VALUES (2, 'GymLimon');
+
+SELECT * FROM TratamientoSucursal
+
+SELECT TratamientoSpa.Nombre as NombreTratamiento
+FROM TratamientoSpa 
+Left Join TratamientoSucursal ON TratamientoSpa.Id = TratamientoSucursal.IdTratamientoSpa
+Where TratamientoSucursal.NombreSucursal is NULL;  
