@@ -49,5 +49,18 @@ namespace GymTEC_Backend.Models
             return insertClient;
         }
 
+        public Result DeleteEmployee(int employeeId)
+        {
+            var deleteEmployee = _gymRepository.DeleteEmployee(employeeId);
+
+            return deleteEmployee;
+        }
+
+        public List<EmployeeNameIdDto> GetBranchEmployee(string branchName)
+        {
+            var employeeList = _gymRepository.GetBranchEmployee(branchName);
+            
+            return employeeList;
+        }
     }
 }

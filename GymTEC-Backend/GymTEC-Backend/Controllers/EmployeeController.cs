@@ -1,6 +1,5 @@
 using GymTEC_Backend.Dtos;
 using GymTEC_Backend.Models.Interfaces;
-using GymTEC_Backend.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
 using System.ComponentModel.DataAnnotations;
@@ -72,6 +71,35 @@ namespace Hospital_TECNológico_Backend.Controllers
             return Ok();
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [HttpPost("DeleteEmployee/{employeeId}", Name = "DeleteEmployee")]
+        public ActionResult<Result> DeleteEmployee([Required] int employeeId)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _model.DeleteEmployee(employeeId);
+
+
+            if (result.Equals(Result.Error))
+            {
+                return NotFound();
+            }
+
+            if (result.Equals(Result.Noop))
+            {
+                return Forbid();
+            }
+
+            return Ok();
+        }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -91,6 +119,22 @@ namespace Hospital_TECNológico_Backend.Controllers
             return Ok(employee);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetBranchEmployee/{branchName}", Name = "GetBranchEmployee")]
+        public ActionResult<List<EmployeeWithNamesDto>> GetBranchEmployee([Required] string branchName)
+        {
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var employeeList = _model.GetBranchEmployee(branchName);
+
+            return Ok(employeeList);
+        }
     }
 }

@@ -103,8 +103,8 @@ namespace Hospital_TECNológico_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("DeleteSpaTreatment", Name = "DeleteSpaTreatment")]
-        public ActionResult<Result> DeleteSpaTreatment([Required] string name) // hace falta validar que se pueda eliminar solo si no esta ligado a ninguna sucursal
+        [HttpPost("DeleteSpaTreatment/{name}", Name = "DeleteSpaTreatment")]
+        public ActionResult<Result> DeleteSpaTreatment([Required] string name)
         {
 
             if (!ModelState.IsValid)
