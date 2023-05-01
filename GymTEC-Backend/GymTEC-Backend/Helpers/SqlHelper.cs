@@ -125,10 +125,24 @@ namespace GymTEC_Backend.Helpers
                             VALUES ('{jobDto.Name}', '{jobDto.Description}');";
         }
 
+        //Delete a Job
+        public static string DeleteJob(string name)
+        {
+            return $@"DELETE FROM Puesto WHERE Nombre = '{name}';";
+        }
+
         // Return a tuple in Job relationship according to its name
         public static string GetJobByName(string name)
         {
             return $@"SELECT Id, Nombre, Descripcion FROM Puesto WHERE Nombre = '{name}'";
+        }
+
+        // Update description of a job description
+        public static string UpdateDescriptionJob(string name, string description)
+        {
+            return $@"UPDATE Puesto
+                        SET Descripcion = '{description}'
+                        WHERE Nombre = '{name}';";
         }
 
         /*
