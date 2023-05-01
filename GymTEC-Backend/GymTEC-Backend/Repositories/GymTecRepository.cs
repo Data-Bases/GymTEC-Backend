@@ -418,6 +418,106 @@ namespace GymTEC_Backend.Repositories
         }
 
         /*
+        **** ClassServices Repository ****
+        */
+        public List<string> GetClassServicesNames()
+        {
+            List<string> names = new List<string>();
+            string query;
+            try
+            {
+                query = SqlHelper.GetClassServicesNames();
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    string name = reader.GetString(reader.GetOrdinal("Nombre"));
+
+                    names.Add(name);
+                };
+
+                return names;
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
+            }
+        }
+
+        public Result CreateClassService(ClassServiceNoIdDto classServiceDto)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreateClassService(classServiceDto);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+        public Result DeleteClassService(string name)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.DeleteClassService(name);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public ClassServiceDto GetClassServiceByName(string name)
+        {
+            string query = string.Empty;
+            ClassServiceDto classServiceDto = new ClassServiceDto();
+            try
+            {
+                query = SqlHelper.GetClassServiceByName(name);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    classServiceDto.Id = (int)reader["Id"];
+                    classServiceDto.Name = reader["Nombre"].ToString();
+                    classServiceDto.Description = reader["Descripcion"].ToString();
+                };
+
+
+                return classServiceDto;
+            }
+            catch (Exception ex)
+            {
+                return new ClassServiceDto();
+            }
+        }
+        public Result UpdateDescriptionClassService(string name, string description)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.UpdateDescriptionClassService(name, description);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        /*
          **** Branch Repository ****
         */
         public BranchDto GetBranchByName(string name)

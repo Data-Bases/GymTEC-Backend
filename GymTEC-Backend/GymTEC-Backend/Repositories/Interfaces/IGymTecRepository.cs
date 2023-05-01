@@ -16,6 +16,11 @@ namespace GymTEC_Backend.Repositories.Interfaces
         Result DeleteJob(string name);
         JobDto GetJobByName(string name);
         Result UpdateDescriptionJob(string name, string description);
+        List<string> GetClassServicesNames();
+        Result CreateClassService(ClassServiceNoIdDto classServiceDto);
+        Result DeleteClassService(string name);
+        ClassServiceDto GetClassServiceByName(string name);
+        Result UpdateDescriptionClassService(string name, string description);
         BranchDto GetBranchByName(string name);
         Result CreateBranch(BranchDto branch);
         Result CreateBranchWithPhoneNumber(BranchPhoneNumberDto branch);

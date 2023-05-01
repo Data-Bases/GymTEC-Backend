@@ -114,11 +114,13 @@ namespace GymTEC_Backend.Helpers
         *  ***** Job *****
         */
 
-        // Add a new tuple in Job relationship
+        // Get a list of the Job Names in the DB
         public static string GetJobsNames()
         {
             return $@"SELECT Nombre FROM Puesto";
         }
+
+        // Add a new tuple in Job relationship
         public static string CreateJob(JobNoIdDto jobDto)
         {
             return $@"INSERT INTO Puesto(Nombre, Descripcion) 
@@ -141,6 +143,43 @@ namespace GymTEC_Backend.Helpers
         public static string UpdateDescriptionJob(string name, string description)
         {
             return $@"UPDATE Puesto
+                        SET Descripcion = '{description}'
+                        WHERE Nombre = '{name}';";
+        }
+
+        /*
+        *  ***** ClassServices *****
+        */
+
+        // Get a list of the Class Service Names in the DB
+        public static string GetClassServicesNames()
+        {
+            return $@"SELECT Nombre FROM ServiciosClases";
+        }
+
+        // Add a new tuple in Class Service relationship
+        public static string CreateClassService(ClassServiceNoIdDto classServiceDto)
+        {
+            return $@"INSERT INTO ServiciosClases(Nombre, Descripcion) 
+                            VALUES ('{classServiceDto.Name}', '{classServiceDto.Description}');";
+        }
+
+        //Delete a Class Service
+        public static string DeleteClassService(string name)
+        {
+            return $@"DELETE FROM ServiciosClases WHERE Nombre = '{name}';";
+        }
+
+        // Return a tuple in Class Service relationship according to its name
+        public static string GetClassServiceByName(string name)
+        {
+            return $@"SELECT Id, Nombre, Descripcion FROM ServiciosClases WHERE Nombre = '{name}'";
+        }
+
+        // Update description of a Class Service description
+        public static string UpdateDescriptionClassService(string name, string description)
+        {
+            return $@"UPDATE ServiciosClases
                         SET Descripcion = '{description}'
                         WHERE Nombre = '{name}';";
         }
