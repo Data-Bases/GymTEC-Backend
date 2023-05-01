@@ -1,7 +1,6 @@
 ﻿using GymTEC_Backend.Dtos;
 using GymTEC_Backend.Models.Interfaces;
 using GymTEC_Backend.Repositories.Interfaces;
-using Hospital_TECNológico_Backend.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
 using System.ComponentModel.DataAnnotations;
