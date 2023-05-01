@@ -44,6 +44,55 @@ namespace GymTEC_Backend.Controllers
             return Ok(machineInventories);
         }
 
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetMachineInventory/{branchName}/{equipmentId}", Name = "GetMachineInventory")]
+        public ActionResult<IEnumerable<MachineWithNamesDto>> GetMachineInventory(string branchName, int equipmentId)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var machineInventories = _gymTecRepository.GetMachineInventory(branchName, equipmentId);
+
+
+            if (machineInventories.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
+            return Ok(machineInventories);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetAllMachineInventoryPerEquipment/{equipmentId}", Name = "GetAllMachineInventoryPerEquipment")]
+        public ActionResult<IEnumerable<MachineWithNamesDto>> GetAllMachineInventoryPerEquipment(int equipmentId)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var machineInventories = _gymTecRepository.GetAllMachineInventoryPerEquipment(equipmentId);
+
+
+            if (machineInventories.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
+            return Ok(machineInventories);
+        }
+
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

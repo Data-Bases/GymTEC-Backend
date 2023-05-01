@@ -845,5 +845,67 @@ namespace GymTEC_Backend.Repositories
                 return new List<MachineWithNamesDto>();
             }
         }
+        public IEnumerable<MachineWithNamesDto> GetMachineInventory(string branchName, int equipmentId)
+        {
+            string query = string.Empty;
+            List<MachineWithNamesDto> equipmentDtos = new List<MachineWithNamesDto>();
+            try
+            {
+                query = SqlHelper.GetMachineInventory(branchName, equipmentId);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    equipmentDtos.Add(new MachineWithNamesDto
+                    {
+                        SerialNumber = (int)reader["NumeroSerie"],
+                        Brand = reader["Marca"].ToString(),
+                        Price = (int)reader["Costo"],
+                        BranchName = branchName,
+                        EquipmentId = equipmentId,
+                        EquipmentName = reader["NombreEquipo"].ToString(),
+                    });
+                };
+
+
+                return equipmentDtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<MachineWithNamesDto>();
+            }
+        }
+
+        public IEnumerable<MachineWithNamesDto> GetAllMachineInventoryPerEquipment(int equipmentId)
+        {
+            string query = string.Empty;
+            List<MachineWithNamesDto> equipmentDtos = new List<MachineWithNamesDto>();
+            try
+            {
+                query = SqlHelper.GetAllMachineInventoryPerEquipment(equipmentId);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    equipmentDtos.Add(new MachineWithNamesDto
+                    {
+                        SerialNumber = (int)reader["NumeroSerie"],
+                        Brand = reader["Marca"].ToString(),
+                        Price = (int)reader["Costo"],
+                        BranchName = reader["NombreSucursal"].ToString(),
+                        EquipmentId = equipmentId,
+                        EquipmentName = reader["NombreEquipo"].ToString(),
+                    });
+                };
+
+
+                return equipmentDtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<MachineWithNamesDto>();
+            }
+        }
+
     }
 }

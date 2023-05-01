@@ -328,5 +328,19 @@ namespace GymTEC_Backend.Helpers
                     WHERE NombreSucursal = '{branchName}';";
         }
 
+        public static string GetMachineInventory(string branchName, int equipmentId)
+        {
+            return $@"SELECT  NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo, Nombre as NombreEquipo
+                    FROM ( Maquina AS M LEFT JOIN TipoEquipo AS TE ON M.IdEquipo = TE.Id)
+                    WHERE NombreSucursal = '{branchName}' AND IdEquipo = {equipmentId};";
+        }
+
+        public static string GetAllMachineInventoryPerEquipment(int equipmentId)
+        {
+            return $@"SELECT  NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo, Nombre as NombreEquipo
+                    FROM ( Maquina AS M LEFT JOIN TipoEquipo AS TE ON M.IdEquipo = TE.Id)
+                    WHERE IdEquipo = {equipmentId};";
+        }
+
     }
 }
