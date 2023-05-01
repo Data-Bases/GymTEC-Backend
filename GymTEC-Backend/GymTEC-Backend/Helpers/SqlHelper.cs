@@ -323,7 +323,9 @@ namespace GymTEC_Backend.Helpers
         // Get all names and ids from spa treatment relationship
         public static string GetMachineInventoriesInBranch(string branchName)
         {
-            return $@"SELECT * FROM Maquina WHERE NombreSucursal = '{branchName}';";
+            return $@"SELECT  NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo, Nombre as NombreEquipo
+                    FROM ( Maquina AS M LEFT JOIN TipoEquipo AS TE ON M.IdEquipo = TE.Id)
+                    WHERE NombreSucursal = '{branchName}';";
         }
 
     }

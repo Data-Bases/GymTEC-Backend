@@ -39,6 +39,6 @@ namespace GymTEC_Backend.Repositories.Interfaces
         string GetEquipmentDescriptionByName(string name);
         Result CreateMachineInventory(MachineInventoryDto machineInventoryDto);
         Result DeleteMachineInventoryInBranch(int serialNumber, string branchName);
-        IEnumerable<MachineInventoryDto> GetMachineInventoriesInBranch(string branchName);
+        IEnumerable<MachineWithNamesDto> GetMachineInventoriesInBranch(string branchName);
     }
 }

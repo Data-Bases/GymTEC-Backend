@@ -815,10 +815,10 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
-        public IEnumerable<MachineInventoryDto> GetMachineInventoriesInBranch(string branchName)
+        public IEnumerable<MachineWithNamesDto> GetMachineInventoriesInBranch(string branchName)
         {
             string query = string.Empty;
-            List<MachineInventoryDto> equipmentDtos = new List<MachineInventoryDto>();
+            List<MachineWithNamesDto> equipmentDtos = new List<MachineWithNamesDto>();
             try
             {
                 query = SqlHelper.GetMachineInventoriesInBranch(branchName);
@@ -826,13 +826,14 @@ namespace GymTEC_Backend.Repositories
 
                 while (reader.Read())
                 {
-                    equipmentDtos.Add(new MachineInventoryDto
+                    equipmentDtos.Add(new MachineWithNamesDto
                     {
                         SerialNumber = (int)reader["NumeroSerie"],
                         Brand = reader["Marca"].ToString(),
                         Price = (int)reader["Costo"],
                         BranchName = reader["NombreSucursal"].ToString(),
                         EquipmentId = (int)reader["IdEquipo"],
+                        EquipmentName = reader["NombreEquipo"].ToString(),
                     });
                 };
 
@@ -841,7 +842,7 @@ namespace GymTEC_Backend.Repositories
             }
             catch (Exception ex)
             {
-                return new List<MachineInventoryDto>();
+                return new List<MachineWithNamesDto>();
             }
         }
     }

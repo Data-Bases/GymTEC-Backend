@@ -25,7 +25,7 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("GetMachineInventoryInBranch/{branchName}", Name = "GetMachineInventoryInBranch")]
-        public ActionResult<IEnumerable<MachineInventoryDto>> GetMachineInventoriesInBranch(string branchName)
+        public ActionResult<IEnumerable<MachineWithNamesDto>> GetMachineInventoriesInBranch(string branchName)
         {
 
             if (!ModelState.IsValid)
