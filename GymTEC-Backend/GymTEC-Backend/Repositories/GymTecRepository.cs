@@ -564,6 +564,73 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
+        public Result AddServiceToBranch(int serviceId, string branchName)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.AddServiceToBranch(serviceId, branchName);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public List<ServiceIdNameDto> GetServicesInBranch(string branchName)
+        {
+            List<ServiceIdNameDto> services = new List<ServiceIdNameDto>();
+            string query;
+            try
+            {
+                query = SqlHelper.GetServicesInBranch(branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    services.Add(new ServiceIdNameDto
+                    {
+                        Id = (int)reader["IdServicio"],
+                        Name = reader["Nombre"].ToString(),
+                    });
+                };
+
+                return services;
+            }
+            catch (Exception ex)
+            {
+                return new List<ServiceIdNameDto>();
+            }
+        }
+
+        public List<ServiceIdNameDto> GetServicesNotInBranch(string branchName)
+        {
+            List<ServiceIdNameDto> services = new List<ServiceIdNameDto>();
+            string query;
+            try
+            {
+                query = SqlHelper.GetServicesNotInBranch(branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    services.Add(new ServiceIdNameDto
+                    {
+                        Id = (int)reader["Id"],
+                        Name = reader["Nombre"].ToString(),
+                    });
+                };
+
+                return services;
+            }
+            catch (Exception ex)
+            {
+                return new List<ServiceIdNameDto>();
+            }
+        }
 
         /*
         **** Payroll Repository ****

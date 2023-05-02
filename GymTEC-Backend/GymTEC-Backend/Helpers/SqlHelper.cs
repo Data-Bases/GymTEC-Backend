@@ -253,6 +253,25 @@ namespace GymTEC_Backend.Helpers
                         WHERE Nombre = '{name}';";
         }
 
+        public static string AddServiceToBranch(int serviceId, string branchName)
+        {
+            return $@"INSERT INTO ServiciosSucursal(IdServicio, NombreSucursal) VALUES ({serviceId}, '{branchName}');";
+        }
+
+        public static string GetServicesInBranch(string branchName)
+        {
+            return $@"SELECT IdServicio, Nombre
+                        FROM (ServiciosSucursal AS S JOIN Servicios AS SE ON S.IdServicio = SE.Id)
+                        WHERE S.NombreSucursal = '{branchName}';";
+        }
+
+        public static string GetServicesNotInBranch(string branchName)
+        {
+            return $@"SELECT Id, Nombre FROM Servicios WHERE NOT EXISTS (SELECT *
+                    FROM ServiciosSucursal 
+                    WHERE ServiciosSucursal.IdServicio = Servicios.Id AND ServiciosSucursal.NombreSucursal = '{branchName}'  );";
+        }
+
         /*
         *  ***** Payroll *****
         */

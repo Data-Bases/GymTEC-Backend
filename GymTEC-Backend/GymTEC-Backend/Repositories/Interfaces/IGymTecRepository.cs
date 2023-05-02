@@ -31,6 +31,10 @@ namespace GymTEC_Backend.Repositories.Interfaces
         Result DeleteService(string name);
         ServiceDto GetClassServiceByName(string name);
         Result UpdateDescriptionService(string name, string description);
+        Result AddServiceToBranch(int serviceId, string branchName);
+        List<ServiceIdNameDto> GetServicesInBranch(string branchName);
+        List<ServiceIdNameDto> GetServicesNotInBranch(string branchName);
+
 
         BranchDto GetBranchByName(string name);
         Result CreateBranch(BranchDto branch);
