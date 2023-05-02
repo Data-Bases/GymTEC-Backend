@@ -2,6 +2,7 @@
 using GymTEC_Backend.Models.Interfaces;
 using GymTEC_Backend.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Nest;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,7 +24,7 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("GetPayrollNames", Name = "GetPayrollNames")]
-        public ActionResult<List<string>> GetPayrollNames()
+        public ActionResult<IEnumerable<PayrollDto>> GetPayrollNames()
         {
 
             if (!ModelState.IsValid)
@@ -33,6 +34,12 @@ namespace GymTEC_Backend.Controllers
 
             var payrolls = _gymTecRepository.GetPayrollNames();
 
+
+            if (payrolls.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
             return Ok(payrolls);
         }
 
@@ -41,8 +48,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpGet("GetPayrollByName/{name}", Name = "GetPayrollByName")]
-        public ActionResult<PayrollDto> GetPayrollByName([Required] string name)
+        [HttpGet("GetPayrollDescriptionByName/{name}", Name = "GetPayrollDescriptionByName")]
+        public ActionResult<string> GetPayrollByName([Required] string name)
         {
 
             if (!ModelState.IsValid)
@@ -50,15 +57,15 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var payrollDto = _gymTecRepository.GetPayrollByName(name);
+            var description = _gymTecRepository.GetPayrollByName(name);
 
 
-            if (string.IsNullOrEmpty(payrollDto.Name))
+            if (string.IsNullOrEmpty(description))
             {
                 return NotFound();
             }
 
-            return Ok(payrollDto);
+            return Ok(description);
         }
 
 

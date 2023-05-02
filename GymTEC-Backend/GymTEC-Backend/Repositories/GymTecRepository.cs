@@ -32,7 +32,7 @@ namespace GymTEC_Backend.Repositories
             using (IDbCommand command = new SqlCommand { CommandText = query, CommandType = CommandType.Text })
             {
                 command.CommandTimeout = Timeout;
-                command.Connection = new SqlConnection(GymTecSqlDiani);
+                command.Connection = new SqlConnection(GymTecSqlVale);
                 command.Connection.Open();
                 return command.ExecuteReader();
             }
@@ -366,10 +366,10 @@ namespace GymTEC_Backend.Repositories
         /*
         **** Job Repository ****
         */
-        public List<string> GetJobsNames()
+        public IEnumerable<JobDto> GetJobsNames()
         {
-            List<string> names = new List<string>();
-            string query;
+            string query = string.Empty;
+            List<JobDto> jobDtos = new List<JobDto>();
             try
             {
                 query = SqlHelper.GetJobsNames();
@@ -377,16 +377,19 @@ namespace GymTEC_Backend.Repositories
 
                 while (reader.Read())
                 {
-                    string name = reader.GetString(reader.GetOrdinal("Nombre"));
-
-                    names.Add(name);
+                    jobDtos.Add(new JobDto
+                    {
+                        Id = (int)reader["Id"],
+                        Name = reader["Nombre"].ToString(),
+                    });
                 };
 
-                return names;
+
+                return jobDtos;
             }
             catch (Exception ex)
             {
-                return new List<string>();
+                return new List<JobDto>();
             }
         }
         public Result CreateJob(JobNoIdDto spaDto)
@@ -422,10 +425,10 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
-        public JobDto GetJobByName(string name)
+        public string GetJobByName(string name)
         {
             string query = string.Empty;
-            JobDto jobDto = new JobDto();
+            var description = string.Empty;
             try
             {
                 query = SqlHelper.GetJobByName(name);
@@ -433,17 +436,15 @@ namespace GymTEC_Backend.Repositories
 
                 while (reader.Read())
                 {
-                    jobDto.Id = (int)reader["Id"];
-                    jobDto.Name = reader["Nombre"].ToString();
-                    jobDto.Description = reader["Descripcion"].ToString();
+                    description = reader["Descripcion"].ToString();
                 };
 
 
-                return jobDto;
+                return description;
             }
             catch (Exception ex)
             {
-                return new JobDto();
+                return description;
             }
         }
         public Result UpdateDescriptionJob(string name, string description)
@@ -635,27 +636,30 @@ namespace GymTEC_Backend.Repositories
         /*
         **** Payroll Repository ****
         */
-        public List<string> GetPayrollNames()
+        public IEnumerable<PayrollDto> GetPayrollNames()
         {
-            List<string> names = new List<string>();
-            string query;
+            string query = string.Empty;
+            List<PayrollDto> payrollDtos = new List<PayrollDto>();
             try
             {
-                query = SqlHelper.GetPayrollNames();
+                query = SqlHelper.GetJobsNames();
                 var reader = ExecuteQuery(query);
 
                 while (reader.Read())
                 {
-                    string name = reader.GetString(reader.GetOrdinal("Nombre"));
-
-                    names.Add(name);
+                    payrollDtos.Add(new PayrollDto
+                    {
+                        Id = (int)reader["Id"],
+                        Name = reader["Nombre"].ToString(),
+                    });
                 };
 
-                return names;
+
+                return payrollDtos;
             }
             catch (Exception ex)
             {
-                return new List<string>();
+                return new List<PayrollDto>();
             }
         }
 
@@ -692,10 +696,10 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
-        public PayrollDto GetPayrollByName(string name)
+        public string GetPayrollByName(string name)
         {
             string query = string.Empty;
-            PayrollDto payrollDto = new PayrollDto();
+            string description = string.Empty;
             try
             {
                 query = SqlHelper.GetPayrollByName(name);
@@ -703,17 +707,15 @@ namespace GymTEC_Backend.Repositories
 
                 while (reader.Read())
                 {
-                    payrollDto.Id = (int)reader["Id"];
-                    payrollDto.Name = reader["Nombre"].ToString();
-                    payrollDto.Description = reader["Descripcion"].ToString();
+                    description = reader["Descripcion"].ToString();
                 };
 
 
-                return payrollDto;
+                return description;
             }
             catch (Exception ex)
             {
-                return new PayrollDto();
+                return description;
             }
         }
         public Result UpdateDescriptionPayroll(string name, string description)

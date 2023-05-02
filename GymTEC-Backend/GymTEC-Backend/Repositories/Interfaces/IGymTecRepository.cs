@@ -20,10 +20,10 @@ namespace GymTEC_Backend.Repositories.Interfaces
         Result AddSpaTreatmentToBranch(int spaTreatmentId, string branchName);
         Result DeleteSpaTreatmentInBranch(int spaTreatmentId, string branchName);
 
-        List<string> GetJobsNames();
+        IEnumerable<JobDto> GetJobsNames();
         Result CreateJob(JobNoIdDto spaDto);
         Result DeleteJob(string name);
-        JobDto GetJobByName(string name);
+        string GetJobByName(string name);
         Result UpdateDescriptionJob(string name, string description);
 
         List<ServiceIdNameDto> GetServicesNamesIds();
@@ -43,10 +43,10 @@ namespace GymTEC_Backend.Repositories.Interfaces
         List<string> GetBranchesNames();
         Result UpdateScheduleBranch(string name, string schedule);
 
-        List<string> GetPayrollNames();
+        IEnumerable<PayrollDto> GetPayrollNames();
         Result CreatePayroll(PayrollNoIdDto payrollNoIdDto);
         Result DeletePayroll(string name);
-        PayrollDto GetPayrollByName(string name);
+        string GetPayrollByName(string name);
         Result UpdateDescriptionPayroll(string name, string description);
 
         IEnumerable<EquipmentDto> GetEquipmentsName();

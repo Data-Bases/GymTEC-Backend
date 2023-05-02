@@ -2,6 +2,7 @@ using GymTEC_Backend.Dtos;
 using GymTEC_Backend.Models.Interfaces;
 using GymTEC_Backend.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Nest;
 using System.ComponentModel.DataAnnotations;
 
@@ -24,7 +25,7 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("GetJobsNames", Name = "GetJobsNames")]
-        public ActionResult<List<string>> GetJobsNames()
+        public ActionResult<IEnumerable<JobDto>> GetJobsNames()
         {
 
             if (!ModelState.IsValid)
@@ -32,9 +33,15 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var branches = _gymTecRepository.GetJobsNames();
+            var jobs = _gymTecRepository.GetJobsNames();
 
-            return Ok(branches);
+
+            if (jobs.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
+            return Ok(jobs);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -42,8 +49,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpGet("GetJobByName/{name}", Name = "GetJobByName")]
-        public ActionResult<JobDto> GetJobByName([Required] string name)
+        [HttpGet("GetJobDescriptionByName/{name}", Name = "GetJobDescriptionByName")]
+        public ActionResult<string> GetJobByName([Required] string name)
         {
 
             if (!ModelState.IsValid)
@@ -51,15 +58,15 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var jobDto = _gymTecRepository.GetJobByName(name);
+            var description = _gymTecRepository.GetJobByName(name);
 
 
-            if (string.IsNullOrEmpty(jobDto.Name))
+            if (string.IsNullOrEmpty(description))
             {
                 return NotFound();
             }
 
-            return Ok(jobDto);
+            return Ok(description);
         }
 
 

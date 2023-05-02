@@ -186,7 +186,7 @@ namespace GymTEC_Backend.Helpers
         // Get a list of the Job Names in the DB
         public static string GetJobsNames()
         {
-            return $@"SELECT Nombre FROM Puesto";
+            return $@"SELECT Id, Nombre FROM Puesto";
         }
 
         // Add a new tuple in Job relationship
@@ -205,7 +205,7 @@ namespace GymTEC_Backend.Helpers
         // Return a tuple in Job relationship according to its name
         public static string GetJobByName(string name)
         {
-            return $@"SELECT Id, Nombre, Descripcion FROM Puesto WHERE Nombre = '{name}'";
+            return $@"SELECT Descripcion FROM Puesto WHERE Nombre = '{name}'";
         }
 
         // Update description of a job description
@@ -279,7 +279,7 @@ namespace GymTEC_Backend.Helpers
         // Get a list of the Payroll Names in the DB
         public static string GetPayrollNames()
         {
-            return $@"SELECT Nombre FROM TipoPlanilla;";
+            return $@"SELECT ID, Nombre FROM TipoPlanilla;";
         }
 
         // Add a new tuple in Payroll relationship
@@ -298,7 +298,7 @@ namespace GymTEC_Backend.Helpers
         // Return a tuple in Payroll relationship according to its name
         public static string GetPayrollByName(string name)
         {
-            return $@"SELECT Id, Nombre, Descripcion FROM TipoPlanilla WHERE Nombre = '{name}'";
+            return $@"SELECT Descripcion FROM TipoPlanilla WHERE Nombre = '{name}'";
         }
 
         // Update description of a Payroll description
