@@ -100,6 +100,35 @@ namespace GymTEC_Backend.Helpers
                         WHERE NombreSucursal = '{branchName}';";
         }
 
+        public static string AssignBranchToEmployee(int employeeId, string branchName)
+        {
+            return $@"UPDATE Empleado
+                        SET NombreSucursal = '{branchName}'
+                        WHERE Cedula = {employeeId};";
+        }
+
+        public static string AssignJobToEmployee(int employeeId, int jobId)
+        {
+            return $@"UPDATE Empleado
+                        SET IdPuesto = {jobId}
+                        WHERE Cedula = {employeeId};";
+        }
+
+        public static string AssignWorkedHoursToEmployee(int employeeId, int workedHours)
+        {
+            return $@"UPDATE Empleado
+                        SET HorasLaboradas = {workedHours}
+                        WHERE Cedula = {employeeId};";
+        }
+
+
+        public static string AssignPayrollToEmployee(int employeeId, int payrollId)
+        {
+            return $@"UPDATE Empleado
+                        SET IdTipoPlanilla = {payrollId}
+                        WHERE Cedula = {employeeId};";
+        }
+
         /*
         *  ***** Spa Treatments *****
         */
@@ -154,6 +183,20 @@ namespace GymTEC_Backend.Helpers
             return $@"UPDATE TratamientoSpa
                         SET Descripcion = '{description}'
                         WHERE Nombre = '{name}';";
+        }
+
+        public static string GetSpaTreatmentInBranch(string branchName)
+        {
+            return $@"SELECT IdTratamientoSpa, Nombre
+                        FROM (TratamientoSucursal AS TS JOIN TratamientoSpa AS T ON TS.IdTratamientoSpa = T.Id)
+                        WHERE TS.NombreSucursal ='{branchName}';";
+        }
+
+        public static string GetSpaTreatmentNotInBranch(string branchName)
+        {
+            return $@"SELECT Id, Nombre FROM TratamientoSpa WHERE NOT EXISTS (SELECT *
+                    FROM TratamientoSucursal 
+                    WHERE TratamientoSucursal.IdTratamientoSpa = TratamientoSpa.Id AND TratamientoSucursal.NombreSucursal = '{branchName}');";
         }
 
         /*

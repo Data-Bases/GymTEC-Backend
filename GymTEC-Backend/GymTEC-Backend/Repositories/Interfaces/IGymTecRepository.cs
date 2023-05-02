@@ -11,6 +11,10 @@ namespace GymTEC_Backend.Repositories.Interfaces
         Result CreateEmployee(EmployeeDto employee);
         Result DeleteEmployee(int employeeId);
         List<EmployeeNameIdDto> GetBranchEmployee(string branchName);
+        Result AssignBranchToEmployee(int employeeId, string branchName);
+        Result AssignJobToEmployee(int employeeId, int jobId);
+        Result AssignWorkedHoursToEmployee(int employeeId, int workedHours);
+        Result AssignPayrollToEmployee(int employeeId, int payrollId);
 
         Result CreateSpaTreatment(SpaNoIdDto spaDto);
         string GetSpaDescriptionByName(string name);
@@ -19,6 +23,8 @@ namespace GymTEC_Backend.Repositories.Interfaces
         Result DeleteSpaTreatment(string name);
         Result AddSpaTreatmentToBranch(int spaTreatmentId, string branchName);
         Result DeleteSpaTreatmentInBranch(int spaTreatmentId, string branchName);
+        List<SpaDto> GetSpaTreatmentsInBranch(string branchName);
+        List<SpaDto> GetSpaTreatmentsNotInBranch(string branchName);
 
         IEnumerable<JobDto> GetJobsNames();
         Result CreateJob(JobNoIdDto spaDto);

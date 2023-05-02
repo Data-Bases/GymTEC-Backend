@@ -10,5 +10,9 @@ namespace GymTEC_Backend.Models.Interfaces
         Result CreateEmployee(EmployeeDto client);
         Result DeleteEmployee(int employeeId);
         List<EmployeeNameIdDto> GetBranchEmployee(string branchName);
+        Result AssignBranchToEmployee(int employeeId, string branchName);
+        Result AssignJobToEmployee(int employeeId, int jobId);
+        Result AssignWorkedHoursToEmployee(int employeeId, int workedHours);
+        Result AssignPayrollToEmployee(int employeeId, int payrollId);
     }
 }

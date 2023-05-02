@@ -197,6 +197,70 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
+        public Result AssignPayrollToEmployee(int employeeId, int payrollId)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.AssignPayrollToEmployee(employeeId, payrollId);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result AssignWorkedHoursToEmployee(int employeeId, int workedHours)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.AssignWorkedHoursToEmployee(employeeId, workedHours);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result AssignBranchToEmployee(int employeeId, string branchName)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.AssignBranchToEmployee(employeeId, branchName);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result AssignJobToEmployee(int employeeId, int jobId)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.AssignJobToEmployee(employeeId, jobId);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
         /*
         **** Spa Repository ****
         */
@@ -360,6 +424,58 @@ namespace GymTEC_Backend.Repositories
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        public List<SpaDto> GetSpaTreatmentsInBranch(string branchName)
+        {
+            List<SpaDto> services = new List<SpaDto>();
+            string query;
+            try
+            {
+                query = SqlHelper.GetSpaTreatmentInBranch(branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    services.Add(new SpaDto
+                    {
+                        Id = (int)reader["IdTratamientoSpa"],
+                        Name = reader["Nombre"].ToString(),
+                    });
+                };
+
+                return services;
+            }
+            catch (Exception ex)
+            {
+                return new List<SpaDto>();
+            }
+        }
+
+        public List<SpaDto> GetSpaTreatmentsNotInBranch(string branchName)
+        {
+            List<SpaDto> services = new List<SpaDto>();
+            string query;
+            try
+            {
+                query = SqlHelper.GetSpaTreatmentNotInBranch(branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    services.Add(new SpaDto
+                    {
+                        Id = (int)reader["Id"],
+                        Name = reader["Nombre"].ToString(),
+                    });
+                };
+
+                return services;
+            }
+            catch (Exception ex)
+            {
+                return new List<SpaDto>();
             }
         }
 
