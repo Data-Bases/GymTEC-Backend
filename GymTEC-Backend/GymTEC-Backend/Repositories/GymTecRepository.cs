@@ -17,7 +17,7 @@ namespace GymTEC_Backend.Repositories
     public class GymTecRepository : IGymTecRepository
     {
         private const int Timeout = 1600;
-        private const string GymTecSqlDiani = "Server=LAPTOP-SKUFJ66D\\SQLEXPRESS; Database=GymTEC_v2; Trusted_Connection=True; Encrypt=False;";
+        private const string GymTecSqlDiani = "Server=LAPTOP-SKUFJ66D\\SQLEXPRESS; Database=GymTEC; Trusted_Connection=True; Encrypt=False;";
         private const string GymTecSqlVale = "Server=ValesskasEnvy\\SQLEXPRESS; Database=GymTEC; Trusted_Connection=True; Encrypt=False;";
         private readonly SqlOptions _sqlOptions;
 
@@ -32,7 +32,7 @@ namespace GymTEC_Backend.Repositories
             using (IDbCommand command = new SqlCommand { CommandText = query, CommandType = CommandType.Text })
             {
                 command.CommandTimeout = Timeout;
-                command.Connection = new SqlConnection(GymTecSqlVale);
+                command.Connection = new SqlConnection(GymTecSqlDiani);
                 command.Connection.Open();
                 return command.ExecuteReader();
             }
@@ -463,38 +463,40 @@ namespace GymTEC_Backend.Repositories
         }
 
         /*
-        **** ClassServices Repository ****
+        **** Services Repository ****
         */
-        public List<string> GetClassServicesNames()
+        public List<ServiceIdNameDto> GetServicesNamesIds()
         {
-            List<string> names = new List<string>();
+            List<ServiceIdNameDto> services = new List<ServiceIdNameDto>();
             string query;
             try
             {
-                query = SqlHelper.GetClassServicesNames();
+                query = SqlHelper.GetServicesNames();
                 var reader = ExecuteQuery(query);
 
                 while (reader.Read())
                 {
-                    string name = reader.GetString(reader.GetOrdinal("Nombre"));
-
-                    names.Add(name);
+                    services.Add(new ServiceIdNameDto
+                    {
+                        Id = (int)reader["Id"],
+                        Name = reader["Nombre"].ToString(),
+                    });
                 };
 
-                return names;
+                return services;
             }
             catch (Exception ex)
             {
-                return new List<string>();
+                return new List<ServiceIdNameDto>();
             }
         }
 
-        public Result CreateClassService(ClassServiceNoIdDto classServiceDto)
+        public Result CreateService(ServiceNoIdDto classServiceDto)
         {
             string query = string.Empty;
             try
             {
-                query = SqlHelper.CreateClassService(classServiceDto);
+                query = SqlHelper.CreateService(classServiceDto);
 
                 var reader = ExecuteQuery(query);
 
@@ -505,12 +507,12 @@ namespace GymTEC_Backend.Repositories
                 return Result.Noop;
             }
         }
-        public Result DeleteClassService(string name)
+        public Result DeleteService(string name)
         {
             string query = string.Empty;
             try
             {
-                query = SqlHelper.DeleteClassService(name);
+                query = SqlHelper.DeleteService(name);
 
                 var reader = ExecuteQuery(query);
 
@@ -522,13 +524,13 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
-        public ClassServiceDto GetClassServiceByName(string name)
+        public ServiceDto GetClassServiceByName(string name)
         {
             string query = string.Empty;
-            ClassServiceDto classServiceDto = new ClassServiceDto();
+            ServiceDto classServiceDto = new ServiceDto();
             try
             {
-                query = SqlHelper.GetClassServiceByName(name);
+                query = SqlHelper.GetServiceByName(name);
                 var reader = ExecuteQuery(query);
 
                 while (reader.Read())
@@ -543,15 +545,15 @@ namespace GymTEC_Backend.Repositories
             }
             catch (Exception ex)
             {
-                return new ClassServiceDto();
+                return new ServiceDto();
             }
         }
-        public Result UpdateDescriptionClassService(string name, string description)
+        public Result UpdateDescriptionService(string name, string description)
         {
             string query = string.Empty;
             try
             {
-                query = SqlHelper.UpdateDescriptionClassService(name, description);
+                query = SqlHelper.UpdateDescriptionService(name, description);
                 var reader = ExecuteQuery(query);
 
                 return Result.Created;
@@ -684,8 +686,8 @@ namespace GymTEC_Backend.Repositories
                     branchDtoResponse.Directions = reader.GetString(reader.GetOrdinal("Senas"));
                     branchDtoResponse.MaxCapacity = (int)reader["CapacidadMaxima"];
                     branchDtoResponse.StartDate = (DateTime)reader.GetValue(6);
-                    branchDtoResponse.OpenStore = (int)reader["TiendaAbierta"];
-                    branchDtoResponse.OpenSpa = (int)reader["SpaAbierto"];
+                    branchDtoResponse.OpenStore = reader["TiendaAbierta"].Equals(1)? true: false;
+                    branchDtoResponse.OpenSpa = reader["SpaAbierto"].Equals(1) ? true : false;
                     branchDtoResponse.Schedule = reader.GetString(reader.GetOrdinal("Horario"));
                     branchDtoResponse.IdEmployeeAdmin = (int)reader["IdEmpleadoAdmin"];
 
@@ -1007,6 +1009,28 @@ namespace GymTEC_Backend.Repositories
                 return new List<MachineWithNamesDto>();
             }
         }
+
+        /*
+        **** Class Repository ****
+        public Result CreateClase(ClassNoIdDto classDto)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreateClase(classDto);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        */
+
 
     }
 }

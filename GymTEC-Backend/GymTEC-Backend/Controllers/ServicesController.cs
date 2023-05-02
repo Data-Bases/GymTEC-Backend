@@ -9,11 +9,11 @@ namespace GymTEC_Backend.Controllers
 {
     [ApiController]
     [Route("gymtec/[controller]")]
-    public class ClassServicesController : ControllerBase
+    public class ServicesController : ControllerBase
     {
         private readonly IGymTecRepository _gymTecRepository;
 
-        public ClassServicesController(IGymTecRepository gymTecRepository)
+        public ServicesController(IGymTecRepository gymTecRepository)
         {
             _gymTecRepository = gymTecRepository;
         }
@@ -22,8 +22,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("GetClassServicesNames", Name = "GetClassServicesNames")]
-        public ActionResult<List<string>> GetClassServicesNames()
+        [HttpGet("GetServicesNames", Name = "GetServicesNames")]
+        public ActionResult<List<ServiceIdNameDto>> GetServicesNamesIds()
         {
 
             if (!ModelState.IsValid)
@@ -31,7 +31,12 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var classServices = _gymTecRepository.GetClassServicesNames();
+            var classServices = _gymTecRepository.GetServicesNamesIds();
+
+            if (string.IsNullOrEmpty(classServices[0].Name))
+            {
+                return NotFound();
+            }
 
             return Ok(classServices);
         }
@@ -41,8 +46,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpGet("GetClassServiceByName/{name}", Name = "GetClassServiceByName")]
-        public ActionResult<ClassServiceDto> GetClassServiceByName([Required] string name)
+        [HttpGet("GetServiceByName/{name}", Name = "GetServiceByName")]
+        public ActionResult<ServiceDto> GetServiceByName([Required] string name)
         {
 
             if (!ModelState.IsValid)
@@ -66,8 +71,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("DeleteClassService", Name = "DeleteClassService")]
-        public ActionResult<Result> DeleteClassService([Required] string name)
+        [HttpPost("DeleteService", Name = "DeleteService")]
+        public ActionResult<Result> DeleteService([Required] string name)
         {
 
             if (!ModelState.IsValid)
@@ -75,7 +80,7 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.DeleteClassService(name);
+            var result = _gymTecRepository.DeleteService(name);
 
             if (result.Equals(Result.Noop))
             {
@@ -89,8 +94,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("CreateClassService", Name = "CreateClassService")]
-        public ActionResult<Result> CreateClassService(ClassServiceNoIdDto classServiceDto)
+        [HttpPost("CreateService", Name = "CreateService")]
+        public ActionResult<Result> CreateService(ServiceNoIdDto classServiceDto)
         {
 
             if (!ModelState.IsValid)
@@ -98,7 +103,7 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.CreateClassService(classServiceDto);
+            var result = _gymTecRepository.CreateService(classServiceDto);
 
             if (result.Equals(Result.Error))
             {
@@ -117,8 +122,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPut("UpdateDescriptionClassService", Name = "UpdateDescriptionClassService")]
-        public ActionResult<Result> UpdateDescriptionClassService([Required] string name, [Required] string newDescription)
+        [HttpPut("UpdateDescriptionService", Name = "UpdateDescriptionService")]
+        public ActionResult<Result> UpdateDescriptionService([Required] string name, [Required] string newDescription)
         {
 
             if (!ModelState.IsValid)
@@ -126,7 +131,7 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.UpdateDescriptionClassService(name, newDescription);
+            var result = _gymTecRepository.UpdateDescriptionService(name, newDescription);
 
             if (result.Equals(Result.Noop))
             {

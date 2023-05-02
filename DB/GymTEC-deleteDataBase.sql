@@ -1,4 +1,3 @@
-ALTER TABLE ClaseFecha DROP CONSTRAINT ClaseEnFecha;
 ALTER TABLE Clase DROP CONSTRAINT EmpleadoEncargadoClase;
 ALTER TABLE Empleado DROP CONSTRAINT TipoPlanillaEmpleado;
 ALTER TABLE Empleado DROP CONSTRAINT TrabajaEn;
@@ -22,7 +21,7 @@ ALTER TABLE Producto DROP CONSTRAINT df_descripcionProducto;
 DROP TABLE ClienteClase;
 DROP TABLE TipoEquipo;
 DROP TABLE TratamientoSpa;
-DROP TABLE ServiciosClases;
+DROP TABLE Servicios;
 DROP TABLE Producto;
 DROP TABLE Clase;
 DROP TABLE Maquina;
@@ -35,4 +34,3 @@ DROP TABLE Puesto;
 DROP TABLE Cliente;
 DROP TABLE Sucursal;
 DROP TABLE Empleado;
-DROP TABLE ClaseFecha;

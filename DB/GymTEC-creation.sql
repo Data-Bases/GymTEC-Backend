@@ -12,7 +12,7 @@ CREATE TABLE Maquina
 CREATE TABLE ServiciosSucursal
 (
 	Id INT NOT NULL IDENTITY(1,1),
-	IdServicioClase INT NOT NULL,
+	IdServicio INT NOT NULL,
 	NombreSucursal VARCHAR(100) NOT NULL,
 
 	PRIMARY KEY (Id)
@@ -47,21 +47,14 @@ CREATE TABLE NumerosTelefono
 CREATE TABLE Clase
 (
 	Id INT NOT NULL IDENTITY(1,1),
-	NombreClase VARCHAR(100) NOT NULL,
+	IdServicio INT NOT NULL,
 	HoraInicio TIME(0) NOT NULL,
 	HoraFinalizacion TIME(0) NOT NULL,
+	Fecha DATE NOT NULL,
 	Capacidad INT NOT NULL,
 	EsGrupal BIT NOT NULL,
 	CedulaEmpleado INT,
 
-	PRIMARY KEY (Id)
-);
-
-CREATE TABLE ClaseFecha
-(
-	Id INT NOT NULL IDENTITY(1,1),
-	IdClase INT NOT NULL,
-	Fecha DATE NOT NULL,
 	PRIMARY KEY (Id)
 );
 
@@ -94,7 +87,7 @@ CREATE TABLE TipoPlanilla
 	PRIMARY KEY (Id)
 );
 
-CREATE TABLE ServiciosClases
+CREATE TABLE Servicios
 (
 	Id INT NOT NULL IDENTITY(1,1),
 	Nombre VARCHAR(100) NOT NULL UNIQUE,
@@ -124,7 +117,7 @@ CREATE TABLE TipoEquipo
 CREATE TABLE ClienteClase
 (
 	Id INT NOT NULL IDENTITY(1,1),
-	IdClaseFecha INT NOT NULL,
+	IdClase INT NOT NULL,
 	CedulaCliente INT NOT NULL,
 
 	PRIMARY KEY (Id)
@@ -204,27 +197,23 @@ ALTER TABLE Producto
 ADD CONSTRAINT df_descripcionProducto
 DEFAULT '' FOR Descripcion;
 
-ALTER TABLE ClaseFecha
-ADD UNIQUE(IdClase, Fecha);
-
 ALTER TABLE TratamientoSucursal
 ADD UNIQUE(IdTratamientoSpa, NombreSucursal);
 
 ALTER TABLE ServiciosSucursal
-ADD UNIQUE (IdServicioClase, NombreSucursal);
+ADD UNIQUE (IdServicio, NombreSucursal);
 
 ALTER TABLE ProductoSucursal
 ADD UNIQUE (CodigoBarrasProducto, NombreSucursal);
 
 ALTER TABLE ClienteClase
-ADD UNIQUE (IdClaseFecha, CedulaCliente);
+ADD UNIQUE (IdClase, CedulaCliente);
+
+ALTER TABLE Clase
+ADD UNIQUE (IdServicio, CedulaEmpleado, Fecha, HoraInicio, HoraFinalizacion);
 
 -- RELACIONES
 
--- Clase-fecha
-ALTER TABLE ClaseFecha
-ADD CONSTRAINT ClaseEnFecha FOREIGN KEY (IdClase)
-REFERENCES Clase(Id);
 
 -- Clase-Empleado
 ALTER TABLE Clase
@@ -251,15 +240,20 @@ ALTER TABLE NumerosTelefono
 ADD CONSTRAINT NumeroTelefonoSucursal FOREIGN KEY (NombreSucursal)
 REFERENCES Sucursal(Nombre);
 
--- ServiciosSucursal - ServiciosClases
+-- ServiciosSucursal - Servicios
 ALTER TABLE ServiciosSucursal
-ADD CONSTRAINT TipoClaseImpartida FOREIGN KEY (IdServicioClase)
-REFERENCES ServiciosClases(Id);
+ADD CONSTRAINT TipoClaseImpartida FOREIGN KEY (IdServicio)
+REFERENCES Servicios(Id);
 
 -- ServiciosSucursal - Sucursal
 ALTER TABLE ServiciosSucursal
 ADD CONSTRAINT SucursalClaseImpartida FOREIGN KEY (NombreSucursal)
 REFERENCES Sucursal(Nombre);
+
+-- Servicios - Clase
+ALTER TABLE Clase
+ADD CONSTRAINT ClaseImparteServicio FOREIGN KEY (IdServicio)
+REFERENCES Servicios(Id);
 
 -- Maquina - Sucursal
 ALTER TABLE Maquina
@@ -276,10 +270,10 @@ ALTER TABLE ClienteClase
 ADD CONSTRAINT ClienteRecibeClase FOREIGN KEY (CedulaCliente)
 REFERENCES Cliente(Cedula);
 
--- ClienteClase - ClaseFecha
+-- ClienteClase - Clase
 ALTER TABLE ClienteClase
-ADD CONSTRAINT TipoDeClase FOREIGN KEY (IdClaseFecha)
-REFERENCES ClaseFecha(Id);
+ADD CONSTRAINT TipoDeClase FOREIGN KEY (IdClase)
+REFERENCES Clase(Id);
 
 -- Sucursal - Empleado
 ALTER TABLE Sucursal

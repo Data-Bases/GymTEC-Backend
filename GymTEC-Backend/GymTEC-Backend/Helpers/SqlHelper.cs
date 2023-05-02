@@ -221,34 +221,34 @@ namespace GymTEC_Backend.Helpers
         */
 
         // Get a list of the Class Service Names in the DB
-        public static string GetClassServicesNames()
+        public static string GetServicesNames()
         {
-            return $@"SELECT Nombre FROM ServiciosClases";
+            return $@"SELECT Id, Nombre FROM Servicios";
         }
 
         // Add a new tuple in Class Service relationship
-        public static string CreateClassService(ClassServiceNoIdDto classServiceDto)
+        public static string CreateService(ServiceNoIdDto classServiceDto)
         {
-            return $@"INSERT INTO ServiciosClases(Nombre, Descripcion) 
+            return $@"INSERT INTO Servicios(Nombre, Descripcion) 
                             VALUES ('{classServiceDto.Name}', '{classServiceDto.Description}');";
         }
 
         //Delete a Class Service
-        public static string DeleteClassService(string name)
+        public static string DeleteService(string name)
         {
-            return $@"DELETE FROM ServiciosClases WHERE Nombre = '{name}';";
+            return $@"DELETE FROM Servicios WHERE Nombre = '{name}';";
         }
 
         // Return a tuple in Class Service relationship according to its name
-        public static string GetClassServiceByName(string name)
+        public static string GetServiceByName(string name)
         {
-            return $@"SELECT Id, Nombre, Descripcion FROM ServiciosClases WHERE Nombre = '{name}'";
+            return $@"SELECT Id, Nombre, Descripcion FROM Servicios WHERE Nombre = '{name}'";
         }
 
         // Update description of a Class Service description
-        public static string UpdateDescriptionClassService(string name, string description)
+        public static string UpdateDescriptionService(string name, string description)
         {
-            return $@"UPDATE ServiciosClases
+            return $@"UPDATE Servicios
                         SET Descripcion = '{description}'
                         WHERE Nombre = '{name}';";
         }
@@ -303,9 +303,11 @@ namespace GymTEC_Backend.Helpers
         // Creates a new tuple in Branch relationship
         public static string CreateBranch(BranchDto branch)
         {
+            var openSpa = branch.OpenSpa.Equals(true)? 1: 0;
+            var openStore = branch.OpenStore.Equals(true) ? 1 : 0;
             var startDate = new SqlDateTime(branch.StartDate).Value.ToString("MM-dd-yyyy");
             return $@"INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, Horario, IdEmpleadoAdmin) 
-                            VALUES ('{branch.Name}','{branch.Province}', '{branch.Canton}', '{branch.District}', '{branch.Directions}', {branch.MaxCapacity}, '{startDate}', {branch.OpenSpa}, {branch.OpenStore}, '{branch.Schedule}', {branch.IdEmployeeAdmin});";
+                            VALUES ('{branch.Name}','{branch.Province}', '{branch.Canton}', '{branch.District}', '{branch.Directions}', {branch.MaxCapacity}, '{startDate}', {openSpa}, {openStore}, '{branch.Schedule}', {branch.IdEmployeeAdmin});";
         }
 
         // Creates a new tuple in Branch and in NumerosTelefono
@@ -378,6 +380,15 @@ namespace GymTEC_Backend.Helpers
                     FROM ( Maquina AS M LEFT JOIN TipoEquipo AS TE ON M.IdEquipo = TE.Id)
                     WHERE IdEquipo = {equipmentId};";
         }
+
+        /*
+        *  ***** Class *****
+        public static string CreateClass(ClassNoIdDto classDto)
+        {
+            return $@"INSERT INTO Maquina(NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo) 
+                            VALUES ({machineInventoryDto.SerialNumber}, '{machineInventoryDto.Brand}', {machineInventoryDto.Price}, '{machineInventoryDto.BranchName}', {machineInventoryDto.EquipmentId});";
+        }
+        */
 
     }
 }

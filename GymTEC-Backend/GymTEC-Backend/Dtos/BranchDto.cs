@@ -10,8 +10,8 @@ namespace GymTEC_Backend.Dtos
         public string Directions { get; set; }
         public int MaxCapacity { get; set; }
         public DateTime StartDate { get; set; }
-        public int OpenStore { get; set; }
-        public int OpenSpa { get; set; }
+        public bool OpenStore { get; set; }
+        public bool OpenSpa { get; set; }
         public string Schedule { get; set; }
         public int IdEmployeeAdmin { get; set; }
     }

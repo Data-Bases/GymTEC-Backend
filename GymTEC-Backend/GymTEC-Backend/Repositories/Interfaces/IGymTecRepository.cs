@@ -26,11 +26,11 @@ namespace GymTEC_Backend.Repositories.Interfaces
         JobDto GetJobByName(string name);
         Result UpdateDescriptionJob(string name, string description);
 
-        List<string> GetClassServicesNames();
-        Result CreateClassService(ClassServiceNoIdDto classServiceDto);
-        Result DeleteClassService(string name);
-        ClassServiceDto GetClassServiceByName(string name);
-        Result UpdateDescriptionClassService(string name, string description);
+        List<ServiceIdNameDto> GetServicesNamesIds();
+        Result CreateService(ServiceNoIdDto classServiceDto);
+        Result DeleteService(string name);
+        ServiceDto GetClassServiceByName(string name);
+        Result UpdateDescriptionService(string name, string description);
 
         BranchDto GetBranchByName(string name);
         Result CreateBranch(BranchDto branch);
