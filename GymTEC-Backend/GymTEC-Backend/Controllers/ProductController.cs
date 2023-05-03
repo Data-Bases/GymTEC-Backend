@@ -45,7 +45,7 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost("CreateProduct", Name = "CreateProduct")]
-        public ActionResult<Result> CreateProduct(ProductDto productDto)
+        public ActionResult<Result> CreateProduct([FromBody]ProductDto productDto)
         {
 
             if (!ModelState.IsValid)
@@ -72,8 +72,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("DeleteProduct", Name = "DeleteProduct")]
-        public ActionResult<Result> DeleteProduct([Required] int barcode)
+        [HttpPost("DeleteProductInBranch", Name = "DeleteProductInBranch")]
+        public ActionResult<Result> DeleteProductInBranch([Required] int barcode, string branchName)
         {
 
             if (!ModelState.IsValid)
@@ -81,7 +81,7 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.DeleteProduct(barcode);
+            var result = _gymTecRepository.DeleteProductInBranch(barcode, branchName);
 
             if (result.Equals(Result.Noop))
             {
@@ -211,6 +211,52 @@ namespace GymTEC_Backend.Controllers
             }
 
             return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetProductsInBranch/{branchName}", Name = "GetProductsInBranch")]
+        public ActionResult<List<ServiceIdNameDto>> GetProductsInBranch(string branchName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var classServices = _gymTecRepository.GetProductsInBranch(branchName);
+
+            if (classServices.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
+            return Ok(classServices);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetProductsNotInBranch/{branchName}", Name = "GetProductsNotInBranch")]
+        public ActionResult<List<ServiceIdNameDto>> GetProductsNotInBranch(string branchName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var classServices = _gymTecRepository.GetProductsNotInBranch(branchName);
+
+            if (string.IsNullOrEmpty(classServices[0].Name))
+            {
+                return NotFound();
+            }
+
+            return Ok(classServices);
         }
     }
 }

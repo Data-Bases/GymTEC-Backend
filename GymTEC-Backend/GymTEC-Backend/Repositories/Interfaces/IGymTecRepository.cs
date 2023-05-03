@@ -67,11 +67,13 @@ namespace GymTEC_Backend.Repositories.Interfaces
 
         IEnumerable<ProductNoDescriptionDto> GetProducts();
         Result CreateProduct(ProductDto productDto);
-        Result DeleteProduct(int barcode);
+        Result DeleteProductInBranch(int barcode, string branchName);
         ProductNoBarcodeDto GetProductByBarcode(int barcode);
         Result UpdateDescriptionProduct(int barcode, string description);
         Result UpdateCostProduct(int barcode, int cost);
         Result UpdateNameProduct(int barcode, string name);
         Result AddProductToBranch(int productBarcode, string branchName);
+        List<ProductDto> GetProductsInBranch(string branchName);
+        List<ProductDto> GetProductsNotInBranch(string branchName);
     }
 }

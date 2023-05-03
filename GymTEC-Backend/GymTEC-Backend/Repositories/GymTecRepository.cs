@@ -32,7 +32,7 @@ namespace GymTEC_Backend.Repositories
             using (IDbCommand command = new SqlCommand { CommandText = query, CommandType = CommandType.Text })
             {
                 command.CommandTimeout = Timeout;
-                command.Connection = new SqlConnection(GymTecSqlVale);
+                command.Connection = new SqlConnection(GymTecSqlDiani);
                 command.Connection.Open();
                 return command.ExecuteReader();
             }
@@ -1241,12 +1241,12 @@ namespace GymTEC_Backend.Repositories
                 return Result.Noop;
             }
         }
-        public Result DeleteProduct(int barcode)
+        public Result DeleteProductInBranch(int barcode, string branchName)
         {
             string query = string.Empty;
             try
             {
-                query = SqlHelper.DeleteProduct(barcode);
+                query = SqlHelper.DeleteProduct(barcode, branchName);
 
                 var reader = ExecuteQuery(query);
 
@@ -1344,6 +1344,62 @@ namespace GymTEC_Backend.Repositories
             catch (Exception ex)
             {
                 return Result.Noop;
+            }
+        }
+
+        public List<ProductDto> GetProductsInBranch(string branchName)
+        {
+            List<ProductDto> services = new List<ProductDto>();
+            string query;
+            try
+            {
+                query = SqlHelper.GetProductsInBranch(branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    services.Add(new ProductDto
+                    {
+                        Barcode = (int)reader["CodigoBarrasProducto"],
+                        Name = reader["Nombre"].ToString(),
+                        Cost = (int)reader["Costo"],
+                        Description = reader["Descripcion"].ToString(),
+                    });
+                };
+
+                return services;
+            }
+            catch (Exception ex)
+            {
+                return new List<ProductDto>();
+            }
+        }
+
+        public List<ProductDto> GetProductsNotInBranch(string branchName)
+        {
+            List<ProductDto> services = new List<ProductDto>();
+            string query;
+            try
+            {
+                query = SqlHelper.GetProductsNotInBranch(branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    services.Add(new ProductDto
+                    {
+                        Barcode = (int)reader["CodigoBarras"],
+                        Name = reader["Nombre"].ToString(),
+                        Cost = (int)reader["Costo"],
+                        Description = reader["Descripcion"].ToString(),
+                    });
+                };
+
+                return services;
+            }
+            catch (Exception ex)
+            {
+                return new List<ProductDto>();
             }
         }
 

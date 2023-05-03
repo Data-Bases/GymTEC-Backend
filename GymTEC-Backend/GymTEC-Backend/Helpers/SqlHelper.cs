@@ -462,9 +462,9 @@ namespace GymTEC_Backend.Helpers
         }
 
         //Delete a Product
-        public static string DeleteProduct(int barcode)
+        public static string DeleteProduct(int barcode, string branchName)
         {
-            return $@"DELETE FROM Producto WHERE CodigoBarras = {barcode};";
+            return $@"DELETE FROM ProductoSucursal WHERE CodigoBarrasProducto = {barcode} AND NombreSucursal = '{branchName}';";
         }
 
         // Return a tuple in Product relationship according to its barcode
@@ -501,6 +501,21 @@ namespace GymTEC_Backend.Helpers
         {
             return $@"INSERT INTO ProductoSucursal(CodigoBarrasProducto, NombreSucursal)
                              VALUES ({productBarcode}, '{branchName}');";
+        }
+
+        public static string GetProductsInBranch(string branchName)
+        {
+            return $@"SELECT CodigoBarrasProducto, Nombre, Costo, Descripcion
+                        FROM (ProductoSucursal AS TS JOIN Producto AS T ON TS.CodigoBarrasProducto = T.CodigoBarras)
+                        WHERE TS.NombreSucursal ='{branchName}';";
+        }
+
+        public static string GetProductsNotInBranch(string branchName)
+        {
+            return $@"SELECT CodigoBarras, Nombre, Costo, Descripcion 
+					FROM Producto WHERE NOT EXISTS (SELECT *
+                    FROM ProductoSucursal 
+                    WHERE ProductoSucursal.CodigoBarrasProducto = Producto.CodigoBarras AND ProductoSucursal.NombreSucursal = '{branchName}');";
         }
 
         /*
