@@ -1,4 +1,5 @@
-﻿using GymTEC_Backend.Dtos;
+﻿using Autofac.Core;
+using GymTEC_Backend.Dtos;
 using GymTEC_Backend.FuntionalExtensions;
 using GymTEC_Backend.Helpers;
 using GymTEC_Backend.Repositories.Interfaces;
@@ -9,6 +10,7 @@ using Nest;
 using System.Data;
 using System.Data.SqlTypes;
 using System.Text;
+using System.Web.WebPages;
 using Tweetinvi.Security;
 
 
@@ -1557,6 +1559,220 @@ namespace GymTEC_Backend.Repositories
             catch (Exception ex)
             {
                 return new List<ClassDto>();
+            }
+        }
+
+        public Result ClientReserveClass(int clientId, int classId)
+        {
+            string query = string.Empty;
+            try
+            {
+                if (IsThereSpaceInClass(classId))
+                {
+                    query = SqlHelper.ClientReserveClass(clientId, classId);
+
+                    var reader = ExecuteQuery(query);
+
+                    return Result.Created;
+                }
+
+                return Result.NotFound;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result ClientDeleteReservation(int clientId, int classId)
+        {
+            string query = string.Empty;
+            try
+            {
+
+                query = SqlHelper.ClientDeleteReservation(clientId, classId);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        private bool IsThereSpaceInClass(int classId)
+        {
+            string query = string.Empty;
+            int capacity = 0;
+            try
+            {
+                query = SqlHelper.IsThereSpaceInClass(classId);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    capacity = (int)reader["Capacidad"];
+                };
+
+                if (capacity > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public IEnumerable<ClientReservationsDto> GetClientReservations(int clientId)
+        {
+            string query = string.Empty;
+            List<ClientReservationsDto> classes = new List<ClientReservationsDto>();
+            try
+            {
+                query = SqlHelper.GetClientReservations(clientId);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    classes.Add(
+                        new ClientReservationsDto
+                        {
+                            IdClass = (int)reader["IdClase"],
+                            IdService = (int)reader["IdServicio"],
+                            Date = (DateTime)reader["Fecha"],
+                            StartTime = reader["HoraInicioFormat"].ToString(),
+                            EndTime = reader["HoraFinalizacionFormat"].ToString(),
+                            Capacity = (int)reader["Capacidad"],
+                            IsGrupal = reader["EsGrupal"].Equals(1) ? true : false,
+                            EmployeeId = Convert.IsDBNull(reader["CedulaEmpleado"]) ? 0 : (int)reader["CedulaEmpleado"],
+                        }
+
+                    );
+                };
+
+
+                return classes;
+            }
+            catch (Exception ex)
+            {
+                return new List<ClientReservationsDto>();
+            }
+        }
+
+        public IEnumerable<ClientReservationsDto> GetNotReservedClasesByClient(int clientId)
+        {
+            string query = string.Empty;
+            List<ClientReservationsDto> classes = new List<ClientReservationsDto>();
+            try
+            {
+                query = SqlHelper.GetNotReservedClasesByClient(clientId);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    classes.Add(
+                        new ClientReservationsDto
+                        {
+                            IdClass = (int)reader["Id"],
+                            IdService = (int)reader["IdServicio"],
+                            Date = (DateTime)reader["Fecha"],
+                            StartTime = reader["HoraInicioFormat"].ToString(),
+                            EndTime = reader["HoraFinalizacionFormat"].ToString(),
+                            Capacity = (int)reader["Capacidad"],
+                            IsGrupal = reader["EsGrupal"].Equals(1) ? true : false,
+                            EmployeeId = Convert.IsDBNull(reader["CedulaEmpleado"]) ? 0 : (int)reader["CedulaEmpleado"],
+
+                        }
+
+                    );
+                };
+
+
+                return classes;
+            }
+            catch (Exception ex)
+            {
+                return new List<ClientReservationsDto>();
+            }
+        }
+
+        public IEnumerable<ClientReservationsDto> GetClientClasesWithinPeriodByBranch(DateTime startDate, DateTime endDate, string branchName, int clientId)
+        {
+            string query = string.Empty;
+            List<ClientReservationsDto> classes = new List<ClientReservationsDto>();
+            try
+            {
+                query = SqlHelper.GetClientClasesWithinPeriodByBranch(startDate, endDate, branchName, clientId);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    classes.Add(
+                        new ClientReservationsDto
+                        {
+                            IdClass = (int)reader["Id"],
+                            IdService = (int)reader["IdServicio"],
+                            Date = (DateTime)reader["Fecha"],
+                            StartTime = reader["HoraInicioFormat"].ToString(),
+                            EndTime = reader["HoraFinalizacionFormat"].ToString(),
+                            Capacity = (int)reader["Capacidad"],
+                            IsGrupal = reader["EsGrupal"].Equals(1) ? true : false,
+                            EmployeeId = Convert.IsDBNull(reader["CedulaEmpleado"]) ? 0 : (int)reader["CedulaEmpleado"],
+
+                        }
+
+                    );
+                };
+
+
+                return classes;
+            }
+            catch (Exception ex)
+            {
+                return new List<ClientReservationsDto>();
+            }
+        }
+
+        public IEnumerable<ClientReservationsDto> GetClassesForClientByServiceId(DateTime startDate, DateTime endDate, string branchName, int serviceId, int clientId)
+        {
+            string query = string.Empty;
+            List<ClientReservationsDto> classes = new List<ClientReservationsDto>();
+            try
+            {
+                query = SqlHelper.GetClassesForClientByServiceId(startDate, endDate, branchName, serviceId, clientId);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    classes.Add(
+                        new ClientReservationsDto
+                        {
+                            IdClass = (int)reader["Id"],
+                            IdService = (int)reader["IdServicio"],
+                            Date = (DateTime)reader["Fecha"],
+                            StartTime = reader["HoraInicioFormat"].ToString(),
+                            EndTime = reader["HoraFinalizacionFormat"].ToString(),
+                            Capacity = (int)reader["Capacidad"],
+                            IsGrupal = reader["EsGrupal"].Equals(1) ? true : false,
+                            EmployeeId = Convert.IsDBNull(reader["CedulaEmpleado"]) ? 0 : (int)reader["CedulaEmpleado"],
+
+                        }
+
+                    );
+                };
+
+
+                return classes;
+            }
+            catch (Exception ex)
+            {
+                return new List<ClientReservationsDto>();
             }
         }
     }

@@ -564,5 +564,65 @@ namespace GymTEC_Backend.Helpers
                             FROM   Clase;";
         }
 
+        public static string IsThereSpaceInClass(int classId)
+        {
+            return $@"Select Capacidad from Clase Where Id = {classId};";
+        }
+
+        public static string ClientReserveClass(int clientId, int classId)
+        {
+            return $@"Update Clase
+                        Set Capacidad = Capacidad - 1
+                        Where Id = {classId};
+
+                    Insert into ClienteClase(IdClase, CedulaCliente) Values({classId},{clientId});";
+        }
+
+        public static string ClientDeleteReservation(int clientId, int classId)
+        {
+            return $@"Update Clase
+                        Set Capacidad = Capacidad + 1
+                        Where Id = {classId};
+
+                    Delete from ClienteClase Where IdClase = {classId} and CedulaCliente = {clientId};";
+        }
+
+        public static string GetClientReservations(int clientId)
+        {
+            return $@"SELECT IdServicio, IdClase, FORMAT(CAST(HoraInicio AS DATETIME), 'hh:mm tt') HoraInicioFormat, FORMAT(CAST(HoraFinalizacion AS DATETIME), 'hh:mm tt') HoraFinalizacionFormat, Fecha, Capacidad, EsGrupal, CedulaEmpleado
+                        FROM ClienteClase AS CC
+						JOIN (Clase as CL JOIN Servicios as S ON Cl.IdServicio = S.Id) ON CC.IdClase = Cl.Id
+						JOIN Cliente AS Cli ON CC.CedulaCliente = Cli.Cedula
+                        WHERE CC.CedulaCliente = {clientId};";
+        }
+
+        public static string GetNotReservedClasesByClient(int clientId)
+        {
+            return $@"SELECT IdServicio, Id, FORMAT(CAST(HoraInicio AS DATETIME), 'hh:mm tt') HoraInicioFormat, FORMAT(CAST(HoraFinalizacion AS DATETIME), 'hh:mm tt') HoraFinalizacionFormat, Fecha, Capacidad, EsGrupal, CedulaEmpleado 
+					FROM Clase WHERE NOT EXISTS (SELECT *
+                    FROM ClienteClase 
+                    WHERE ClienteClase.IdClase = Clase.Id AND ClienteClase.CedulaCliente = {clientId}) ";
+        }
+
+        public static string GetClientClasesWithinPeriodByBranch(DateTime startDate, DateTime endDate, string branchName, int clientId)
+        {
+            var startDateFormat = new SqlDateTime(startDate).Value.ToString("MM-dd-yyyy");
+            var endDateFormat = new SqlDateTime(endDate).Value.ToString("MM-dd-yyyy");
+            return $@"SELECT IdServicio, Id, FORMAT(CAST(HoraInicio AS DATETIME), 'hh:mm tt') HoraInicioFormat, FORMAT(CAST(HoraFinalizacion AS DATETIME), 'hh:mm tt') HoraFinalizacionFormat, Fecha, Capacidad, EsGrupal, CedulaEmpleado 
+					FROM Clase WHERE NOT EXISTS (SELECT *
+                    FROM ClienteClase 
+                    WHERE ClienteClase.IdClase = Clase.Id AND ClienteClase.CedulaCliente = {clientId}) and Fecha >= '{startDateFormat}' and Fecha <= '{endDateFormat}' and NombreSucursal = '{branchName}';";
+        }
+
+        public static string GetClassesForClientByServiceId(DateTime startDate, DateTime endDate, string branchName, int serviceId, int clientId)
+        {
+            var startDateFormat = new SqlDateTime(startDate).Value.ToString("MM-dd-yyyy");
+            var endDateFormat = new SqlDateTime(endDate).Value.ToString("MM-dd-yyyy");
+            return $@"SELECT IdServicio, Id, FORMAT(CAST(HoraInicio AS DATETIME), 'hh:mm tt') HoraInicioFormat, FORMAT(CAST(HoraFinalizacion AS DATETIME), 'hh:mm tt') HoraFinalizacionFormat, Fecha, Capacidad, EsGrupal, CedulaEmpleado 
+					FROM Clase WHERE NOT EXISTS (SELECT *
+                    FROM ClienteClase 
+                    WHERE ClienteClase.IdClase = Clase.Id AND ClienteClase.CedulaCliente = {clientId}) and Fecha >= '{startDateFormat}' and Fecha <= '{endDateFormat}' and NombreSucursal = '{branchName}'  and IdServicio = {serviceId};";
+        }
+
     }
 }

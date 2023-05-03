@@ -81,5 +81,12 @@ namespace GymTEC_Backend.Repositories.Interfaces
         IEnumerable<ClassDto> GetClasses();
         IEnumerable<ClassDto> GetClassesWithinPeriodInBranch(DateTime startDate, DateTime endDate, string branchName);
         IEnumerable<ClassDto> GetClassesByServicesId(DateTime startDate, DateTime endDate, string branchName, int serviceId);
+        Result ClientReserveClass(int clientId, int classId);
+        Result ClientDeleteReservation(int clientId, int classId);
+        IEnumerable<ClientReservationsDto> GetClientReservations(int clientId);
+        IEnumerable<ClientReservationsDto> GetNotReservedClasesByClient(int clientId);
+        IEnumerable<ClientReservationsDto> GetClientClasesWithinPeriodByBranch(DateTime startDate, DateTime endDate, string branchName, int clientId);
+        IEnumerable<ClientReservationsDto> GetClassesForClientByServiceId(DateTime startDate, DateTime endDate, string branchName, int serviceId, int clientId);
+
     }
 }
