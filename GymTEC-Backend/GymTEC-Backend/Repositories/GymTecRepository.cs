@@ -1775,5 +1775,24 @@ namespace GymTEC_Backend.Repositories
                 return new List<ClientReservationsDto>();
             }
         }
+
+        public Result CopyClassCalendar(DateTime startDate, DateTime endDate, string branchName)
+        {
+            string query = string.Empty;
+            try
+            {
+
+                query = SqlHelper.CopyClassCalendar(startDate, endDate, branchName);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
     }
 }

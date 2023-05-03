@@ -106,6 +106,34 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("CopyClassCalendar", Name = "CopyClassCalendar")]
+        public ActionResult<Result> CopyClassCalendar(DateTime startDate, DateTime endDate, string branchName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _gymTecRepository.CopyClassCalendar(startDate, endDate, branchName);
+
+            if (result.Equals(Result.Error))
+            {
+                return NotFound();
+            }
+
+            if (result.Equals(Result.Noop))
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("GetClasses", Name = "GetClasses")]
         public ActionResult<IEnumerable<ClassDto>> GetClasses()
         {

@@ -87,6 +87,7 @@ namespace GymTEC_Backend.Repositories.Interfaces
         IEnumerable<ClientReservationsDto> GetNotReservedClasesByClient(int clientId);
         IEnumerable<ClientReservationsDto> GetClientClasesWithinPeriodByBranch(DateTime startDate, DateTime endDate, string branchName, int clientId);
         IEnumerable<ClientReservationsDto> GetClassesForClientByServiceId(DateTime startDate, DateTime endDate, string branchName, int serviceId, int clientId);
+        Result CopyClassCalendar(DateTime startDate, DateTime endDate, string branchName);
 
     }
 }

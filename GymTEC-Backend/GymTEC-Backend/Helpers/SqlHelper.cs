@@ -624,5 +624,15 @@ namespace GymTEC_Backend.Helpers
                     WHERE ClienteClase.IdClase = Clase.Id AND ClienteClase.CedulaCliente = {clientId}) and Fecha >= '{startDateFormat}' and Fecha <= '{endDateFormat}' and NombreSucursal = '{branchName}'  and IdServicio = {serviceId};";
         }
 
+        public static string CopyClassCalendar(DateTime startDate, DateTime endDate, string branchName)
+        {
+            var startDateFormat = new SqlDateTime(startDate).Value.ToString("MM-dd-yyyy");
+            var endDateFormat = new SqlDateTime(endDate).Value.ToString("MM-dd-yyyy");
+            return $@"INSERT INTO Clase(IdServicio, HoraInicio, HoraFinalizacion, Fecha, Capacidad, EsGrupal, CedulaEmpleado, NombreSucursal)
+                                SELECT IdServicio, HoraInicio, HoraFinalizacion, DATEADD(WEEK, 1, Fecha), Capacidad, EsGrupal, CedulaEmpleado, NombreSucursal 
+                                FROM Clase
+                                WHERE Fecha BETWEEN '{startDateFormat}' AND '{endDateFormat}' and NombreSucursal = '{branchName}'";
+        }
+
     }
 }
