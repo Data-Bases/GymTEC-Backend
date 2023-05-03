@@ -40,6 +40,7 @@ namespace GymTEC_Backend.Repositories.Interfaces
         Result AddServiceToBranch(int serviceId, string branchName);
         List<ServiceIdNameDto> GetServicesInBranch(string branchName);
         List<ServiceIdNameDto> GetServicesNotInBranch(string branchName);
+        ServiceDto GetServiceById(int id);
 
 
         BranchDto GetBranchByName(string name);
@@ -75,5 +76,10 @@ namespace GymTEC_Backend.Repositories.Interfaces
         Result AddProductToBranch(int productBarcode, string branchName);
         List<ProductDto> GetProductsInBranch(string branchName);
         List<ProductDto> GetProductsNotInBranch(string branchName);
+
+        Result CreateClass(ClassNoIdDto classDto);
+        IEnumerable<ClassDto> GetClasses();
+        IEnumerable<ClassDto> GetClassesWithinPeriodInBranch(DateTime startDate, DateTime endDate, string branchName);
+        IEnumerable<ClassDto> GetClassesByServicesId(DateTime startDate, DateTime endDate, string branchName, int serviceId);
     }
 }

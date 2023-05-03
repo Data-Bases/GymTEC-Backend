@@ -288,6 +288,12 @@ namespace GymTEC_Backend.Helpers
             return $@"SELECT Id, Nombre, Descripcion FROM Servicios WHERE Nombre = '{name}'";
         }
 
+        public static string GetServiceById(int id)
+        {
+            return $@"SELECT Id, Nombre, Descripcion FROM Servicios WHERE Id = {id}";
+        }
+
+
         // Update description of a Class Service description
         public static string UpdateDescriptionService(string name, string description)
         {
@@ -520,12 +526,43 @@ namespace GymTEC_Backend.Helpers
 
         /*
         *  ***** Class *****
+        */
         public static string CreateClass(ClassNoIdDto classDto)
         {
-            return $@"INSERT INTO Maquina(NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo) 
-                            VALUES ({machineInventoryDto.SerialNumber}, '{machineInventoryDto.Brand}', {machineInventoryDto.Price}, '{machineInventoryDto.BranchName}', {machineInventoryDto.EquipmentId});";
+            var isGrupal = classDto.IsGrupal.Equals(true) ? 1 : 0;
+            classDto.Capacity = classDto.IsGrupal.Equals(true) ? 1 : classDto.Capacity;
+            var date = new SqlDateTime(classDto.Date).Value.ToString("MM-dd-yyyy");
+            if (classDto.EmployeeId == 0)
+            {
+                return $@"INSERT INTO Clase(IdServicio, HoraInicio, HoraFinalizacion, Fecha, Capacidad, EsGrupal, NombreSucursal)
+                            VALUES  ({classDto.IdServices}, '{classDto.StartTime}', '{classDto.EndTime}', '{date}', {classDto.Capacity}, {isGrupal}, '{classDto.BranchName}');";
+            }
+
+            return $@"INSERT INTO Clase(IdServicio, HoraInicio, HoraFinalizacion, Fecha, Capacidad, EsGrupal, CedulaEmpleado, NombreSucursal)
+                            VALUES  ({classDto.IdServices}, '{classDto.StartTime}', '{classDto.EndTime}', '{date}', {classDto.Capacity}, {isGrupal}, {classDto.EmployeeId}, '{classDto.BranchName}');";
         }
-        */
+
+        public static string GetClassesWithinPeriodInBranch(DateTime startDate, DateTime endDate, string branchName)
+        {
+            var startDateFormat = new SqlDateTime(startDate).Value.ToString("MM-dd-yyyy");
+            var endDateFormat = new SqlDateTime(endDate).Value.ToString("MM-dd-yyyy");
+            return $@"Select IdServicio, Id, NombreSucursal,FORMAT(CAST(HoraInicio AS DATETIME), 'hh:mm tt') HoraInicioFormat, FORMAT(CAST(HoraFinalizacion AS DATETIME), 'hh:mm tt') HoraFinalizacionFormat, Fecha, Capacidad, EsGrupal, CedulaEmpleado, NombreSucursal 
+                            From Clase Where Fecha >= '{startDateFormat}' and Fecha <= '{endDateFormat}' and NombreSucursal = '{branchName}';";
+        }
+
+        public static string GetClassesByServiceId(DateTime startDate, DateTime endDate, string branchName, int serviceId)
+        {
+            var startDateFormat = new SqlDateTime(startDate).Value.ToString("MM-dd-yyyy");
+            var endDateFormat = new SqlDateTime(endDate).Value.ToString("MM-dd-yyyy");
+            return $@"Select IdServicio, Id, NombreSucursal,FORMAT(CAST(HoraInicio AS DATETIME), 'hh:mm tt') HoraInicioFormat, FORMAT(CAST(HoraFinalizacion AS DATETIME), 'hh:mm tt') HoraFinalizacionFormat, Fecha, Capacidad, EsGrupal, CedulaEmpleado, NombreSucursal 
+                            From Clase Where Fecha >= '{startDateFormat}' and Fecha <= '{endDateFormat}' and NombreSucursal = '{branchName}'  and IdServicio = {serviceId};";
+        }
+
+        public static string GetClasses()
+        {
+            return $@"SELECT  IdServicio, Id, NombreSucursal,FORMAT(CAST(HoraInicio AS DATETIME), 'hh:mm tt') HoraInicioFormat, FORMAT(CAST(HoraFinalizacion AS DATETIME), 'hh:mm tt') HoraFinalizacionFormat, Fecha, Capacidad, EsGrupal, CedulaEmpleado, NombreSucursal
+                            FROM   Clase;";
+        }
 
     }
 }

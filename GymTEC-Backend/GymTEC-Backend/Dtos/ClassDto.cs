@@ -1,11 +1,11 @@
-﻿using Nest;
-
+﻿
 namespace GymTEC_Backend.Dtos
 {
-    public class ClassNoIdDto
+    public class ClassDto
     {
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public int Id { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
         public DateTime Date { get; set; }
         public int Capacity { get; set; }
         public bool IsGrupal { get; set; }

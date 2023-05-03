@@ -1,10 +1,12 @@
 ALTER TABLE Clase DROP CONSTRAINT EmpleadoEncargadoClase;
+ALTER TABLE Clase DROP CONSTRAINT ClaseEnSucursal;
 ALTER TABLE Empleado DROP CONSTRAINT TipoPlanillaEmpleado;
 ALTER TABLE Empleado DROP CONSTRAINT TrabajaEn;
 ALTER TABLE Empleado DROP CONSTRAINT PuestoEmpleado;
 ALTER TABLE NumerosTelefono DROP CONSTRAINT NumeroTelefonoSucursal;
 ALTER TABLE ServiciosSucursal DROP CONSTRAINT TipoClaseImpartida;
 ALTER TABLE ServiciosSucursal DROP CONSTRAINT SucursalClaseImpartida;
+ALTER TABLE Clase DROP CONSTRAINT ClaseImparteServicio;
 ALTER TABLE Maquina DROP CONSTRAINT UbicacionSucursalMaquina;
 ALTER TABLE Maquina DROP CONSTRAINT TipoMaquina;
 ALTER TABLE ClienteClase DROP CONSTRAINT ClienteRecibeClase;

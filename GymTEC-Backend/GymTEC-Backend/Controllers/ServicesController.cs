@@ -67,6 +67,31 @@ namespace GymTEC_Backend.Controllers
             return Ok(classServiceDto);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [HttpGet("GetServiceById/{name}", Name = "GetServiceById")]
+        public ActionResult<ServiceDto> GetServiceById([Required] int id)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var classServiceDto = _gymTecRepository.GetServiceById(id);
+
+
+            if (string.IsNullOrEmpty(classServiceDto.Name))
+            {
+                return NotFound();
+            }
+
+            return Ok(classServiceDto);
+        }
+
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]

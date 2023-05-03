@@ -1,3 +1,6 @@
+-- MM/dd/yyyy insert date format
+-- dd/MM/yyyy output date format
+
 -- Insert SuperAdmin
 INSERT INTO Empleado(Cedula, Nombre, Apellido1, Apellido2, Provincia, Canton, Distrito, Salario, Email, Contrasena)
             VALUES  (305320066,'Valesska', 'Blanco', 'Montoya', 'Cartago', 'Central', 'Aguacaliente', 2500000, 'valesskablanco@estudiantec.cr', 'pepe');
@@ -34,7 +37,7 @@ INSERT INTO TipoPlanilla(Nombre, Descripcion)
 -- Insert Empleados
 
 -- Insert Servicios 
-INSERT INTO ServiciosClases(Nombre, Descripcion)
+INSERT INTO Servicios(Nombre, Descripcion)
             VALUES  ('Indoor Cycling', 'Clase de bicicleta estacionaria'),
                     ('Pilates', 'Clase de pilates relajante'),
                     ('Yoga', 'Clase de yoga para la flexibilidad'),
@@ -51,12 +54,9 @@ INSERT INTO TipoEquipo(Nombre, Descripcion)
 
 -- Insert Productos 
 INSERT INTO Producto(CodigoBarras, Nombre, Costo, Descripcion)
-	VALUES (653421, 'AP SPORT REGIMEN WHEY BLEND PROTEIN', 35950, 'Una sola cucharada contiene un total de 25 gramos de proteína, lo que le permite aumentar instantáneamente su ingesta de proteínas con un mínimo de calorías.'),
-	       (351265, 'AP PRIME BITES PROTEIN BROWNIES', 2500, 'Dependiendo del sabor, el brownie tiene de 20 a 25 gramos de carbohidratos y alrededor de 200 calorías. También obtienes de 16 a 17 gramos de proteína de suero 100 %.'),
-               (564897, 'SPORT REGIMEN PRE WORKOUT', 29950, 'Un producto avanzado para producir una sesión de entrenamiento más productiva. Obtiene bombas más grandes, rendimiento optimizado, más resistencia y mayor concentración.'),
-               (456875, 'AMINO DECANATE', 25885, 'Amino Decanate contiene 5 g de Glutamina, que hacen que tus músculos se recuperen y se reconstruyan de forma rápida y efectiva.'),
-               (784569, 'AP CREATINA - 60 SERVIDAS', 24900, 'Este suplemento de grado farmacéutico contiene monohidrato de creatina, que se sabe que ayuda al desarrollo y la recuperación muscular.');
-
+	VALUES (564897, 'SPORT REGIMEN PRE WORKOUT', 29950, 'Un producto avanzado para producir una sesión de entrenamiento más productiva.'),
+               (456875, 'AMINO DECANATE', 25885, 'Hace que tus músculos se recuperen y se reconstruyan de forma rápida y efectiva.'),
+               (784569, 'AP CREATINA - 60 SERVIDAS', 24900, 'Este suplemento de grado farmacéutico contiene monohidrato de creatina');
 
 -- Temporales
 

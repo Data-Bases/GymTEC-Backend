@@ -665,6 +665,31 @@ namespace GymTEC_Backend.Repositories
                 return new ServiceDto();
             }
         }
+        public ServiceDto GetServiceById(int id)
+        {
+            string query = string.Empty;
+            ServiceDto classServiceDto = new ServiceDto();
+            try
+            {
+                query = SqlHelper.GetServiceById(id);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    classServiceDto.Id = (int)reader["Id"];
+                    classServiceDto.Name = reader["Nombre"].ToString();
+                    classServiceDto.Description = reader["Descripcion"].ToString();
+                };
+
+
+                return classServiceDto;
+            }
+            catch (Exception ex)
+            {
+                return new ServiceDto();
+            }
+        }
+
         public Result UpdateDescriptionService(string name, string description)
         {
             string query = string.Empty;
@@ -1405,12 +1430,14 @@ namespace GymTEC_Backend.Repositories
 
         /*
         **** Class Repository ****
-        public Result CreateClase(ClassNoIdDto classDto)
+
+        */
+        public Result CreateClass(ClassNoIdDto classDto)
         {
             string query = string.Empty;
             try
             {
-                query = SqlHelper.CreateClase(classDto);
+                query = SqlHelper.CreateClass(classDto);
 
                 var reader = ExecuteQuery(query);
 
@@ -1422,8 +1449,115 @@ namespace GymTEC_Backend.Repositories
             }
         }
 
-        */
+        public IEnumerable<ClassDto> GetClasses()
+        {
+            string query = string.Empty;
+            List<ClassDto> classes = new List<ClassDto>();
+            try
+            {
+                query = SqlHelper.GetClasses();
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    classes.Add(
+                        new ClassDto
+                        {
+                            Id = (int)reader["Id"],
+                            IdServices = (int)reader["IdServicio"],
+                            StartTime = reader["HoraInicioFormat"].ToString(),
+                            EndTime = reader["HoraFinalizacionFormat"].ToString(),
+                            Date = (DateTime)reader["Fecha"],
+                            Capacity = (int)reader["Capacidad"],
+                            IsGrupal = reader["EsGrupal"].Equals(1) ? true : false,
+                            EmployeeId = Convert.IsDBNull(reader["CedulaEmpleado"]) ? 0 : (int)reader["CedulaEmpleado"],
+                            BranchName = reader["NombreSucursal"].ToString()
+                        }
+
+                    );
+                };
 
 
+                return classes;
+            }
+            catch (Exception ex)
+            {
+                return new List<ClassDto>();
+            }
+        }
+
+        public IEnumerable<ClassDto> GetClassesWithinPeriodInBranch(DateTime startDate, DateTime endDate, string branchName)
+        {
+            string query = string.Empty;
+            List<ClassDto> classes = new List<ClassDto>();
+            try
+            {
+                query = SqlHelper.GetClassesWithinPeriodInBranch(startDate, endDate, branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    classes.Add(
+                        new ClassDto
+                        {
+                            Id = (int)reader["Id"],
+                            IdServices = (int)reader["IdServicio"],
+                            StartTime = reader["HoraInicioFormat"].ToString(),
+                            EndTime = reader["HoraFinalizacionFormat"].ToString(),
+                            Date = (DateTime)reader["Fecha"],
+                            Capacity = (int)reader["Capacidad"],
+                            IsGrupal = reader["EsGrupal"].Equals(1) ? true : false,
+                            EmployeeId = Convert.IsDBNull(reader["CedulaEmpleado"]) ? 0 : (int)reader["CedulaEmpleado"],
+                            BranchName = reader["NombreSucursal"].ToString()
+                        }
+
+                    );
+                };
+
+
+                return classes;
+            }
+            catch (Exception ex)
+            {
+                return new List<ClassDto>();
+            }
+        }
+
+        public IEnumerable<ClassDto> GetClassesByServicesId(DateTime startDate, DateTime endDate, string branchName, int serviceId)
+        {
+            string query = string.Empty;
+            List<ClassDto> classes = new List<ClassDto>();
+            try
+            {
+                query = SqlHelper.GetClassesByServiceId(startDate, endDate, branchName, serviceId);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    classes.Add(
+                        new ClassDto
+                        {
+                            Id = (int)reader["Id"],
+                            IdServices = (int)reader["IdServicio"],
+                            StartTime = reader["HoraInicioFormat"].ToString(),
+                            EndTime = reader["HoraFinalizacionFormat"].ToString(),
+                            Date = (DateTime)reader["Fecha"],
+                            Capacity = (int)reader["Capacidad"],
+                            IsGrupal = reader["EsGrupal"].Equals(1) ? true : false,
+                            EmployeeId = Convert.IsDBNull(reader["CedulaEmpleado"]) ? 0 : (int)reader["CedulaEmpleado"],
+                            BranchName = reader["NombreSucursal"].ToString()
+                        }
+
+                    );
+                };
+
+
+                return classes;
+            }
+            catch (Exception ex)
+            {
+                return new List<ClassDto>();
+            }
+        }
     }
 }

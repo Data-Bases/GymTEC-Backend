@@ -52,8 +52,9 @@ CREATE TABLE Clase
 	HoraFinalizacion TIME(0) NOT NULL,
 	Fecha DATE NOT NULL,
 	Capacidad INT NOT NULL,
-	EsGrupal BIT NOT NULL,
+	EsGrupal INT NOT NULL,
 	CedulaEmpleado INT,
+	NombreSucursal VARCHAR(100) NOT NULL,
 
 	PRIMARY KEY (Id)
 );
@@ -210,7 +211,7 @@ ALTER TABLE ClienteClase
 ADD UNIQUE (IdClase, CedulaCliente);
 
 ALTER TABLE Clase
-ADD UNIQUE (IdServicio, CedulaEmpleado, Fecha, HoraInicio, HoraFinalizacion);
+ADD UNIQUE (IdServicio, CedulaEmpleado, Fecha, HoraInicio, HoraFinalizacion, NombreSucursal);
 
 -- RELACIONES
 
@@ -219,6 +220,11 @@ ADD UNIQUE (IdServicio, CedulaEmpleado, Fecha, HoraInicio, HoraFinalizacion);
 ALTER TABLE Clase
 ADD CONSTRAINT EmpleadoEncargadoClase FOREIGN KEY (CedulaEmpleado)
 REFERENCES Empleado(Cedula);
+
+-- Clase-Sucursal
+ALTER TABLE Clase
+ADD CONSTRAINT ClaseEnSucursal FOREIGN KEY (NombreSucursal)
+REFERENCES Sucursal(Nombre);
 
 -- Empleado - Sucursal
 ALTER TABLE Empleado
