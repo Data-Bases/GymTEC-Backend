@@ -56,6 +56,34 @@ namespace GymTEC_Backend.Models
             return deleteEmployee;
         }
 
+        public Result AssignPayrollToEmployee(int employeeId, int payrollId)
+        {
+            var employee = _gymRepository.AssignPayrollToEmployee(employeeId, payrollId);
+
+            return employee;
+        }
+        public Result AssignWorkedHoursToEmployee(int employeeId, int workedHours)
+        {
+            var employee = _gymRepository.AssignWorkedHoursToEmployee(employeeId, workedHours);
+
+            return employee;
+        }
+
+        public Result AssignJobToEmployee(int employeeId, int jobId)
+        {
+            var employee = _gymRepository.AssignJobToEmployee(employeeId, jobId);
+
+            return employee;
+        }
+
+        public Result AssignBranchToEmployee(int employeeId, string branchName)
+        {
+            var employee = _gymRepository.AssignBranchToEmployee(employeeId, branchName);
+
+            return employee;
+        }
+
+
         public List<EmployeeNameIdDto> GetBranchEmployee(string branchName)
         {
             var employeeList = _gymRepository.GetBranchEmployee(branchName);

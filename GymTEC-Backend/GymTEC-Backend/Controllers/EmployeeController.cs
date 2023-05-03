@@ -136,5 +136,98 @@ namespace GymTEC_Backend.Controllers
 
             return Ok(employeeList);
         }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("AssignPayrollToEmployee/{employeeId}/{payrollId}", Name = "AssignPayrollToEmployee")]
+        public ActionResult<Result> AssignPayrollToEmployee(int employeeId, int payrollId)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _model.AssignPayrollToEmployee(employeeId, payrollId);
+
+            if (result.Equals(Result.Noop))
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("AssignJobToEmployee/{employeeId}/{jobId}", Name = "AssignJobToEmployee")]
+        public ActionResult<Result> AssignJobToEmployee(int employeeId, int jobId)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _model.AssignJobToEmployee(employeeId, jobId);
+
+            if (result.Equals(Result.Noop))
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("AssignBranchToEmployee/{employeeId}/{branchName}", Name = "AssignBranchToEmployee")]
+        public ActionResult<Result> AssignBranchToEmployee(int employeeId, string branchName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _model.AssignBranchToEmployee(employeeId, branchName);
+
+            if (result.Equals(Result.Noop))
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("AssignWorkedHoursToEmployee/{employeeId}/{workedHours}", Name = "AssignWorkedHoursToEmployee")]
+        public ActionResult<Result> AssignWorkedHoursToEmployee(int employeeId, int workedHours)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _model.AssignWorkedHoursToEmployee(employeeId, workedHours);
+
+            if (result.Equals(Result.Noop))
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
     }
 }

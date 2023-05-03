@@ -196,5 +196,51 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetSpaTreatmentsInBranch/{branchName}", Name = "GetSpaTreatmentsInBranch")]
+        public ActionResult<List<ServiceIdNameDto>> GetSpaTreatmentsInBranch(string branchName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var classServices = _gymTecRepository.GetSpaTreatmentsInBranch(branchName);
+
+            if (classServices.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
+            return Ok(classServices);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetSpaTreatmentsNotInBranch/{branchName}", Name = "GetSpaTreatmentsNotInBranch")]
+        public ActionResult<List<ServiceIdNameDto>> GetSpaTreatmentsNotInBranch(string branchName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var classServices = _gymTecRepository.GetSpaTreatmentsNotInBranch(branchName);
+
+            if (string.IsNullOrEmpty(classServices[0].Name))
+            {
+                return NotFound();
+            }
+
+            return Ok(classServices);
+        }
+
     }
 }
