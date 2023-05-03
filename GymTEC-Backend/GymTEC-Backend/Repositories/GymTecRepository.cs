@@ -1080,6 +1080,158 @@ namespace GymTEC_Backend.Repositories
         }
 
         /*
+        **** Product Repository ****
+        */
+        public IEnumerable<ProductNoDescriptionDto> GetProducts()
+        {
+            string query = string.Empty;
+            List<ProductNoDescriptionDto> products = new List<ProductNoDescriptionDto>();
+            try
+            {
+                query = SqlHelper.GetProducts();
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    products.Add(new ProductNoDescriptionDto
+                    {
+                        Name = reader["Nombre"].ToString(),
+                        Barcode = (int)reader["CodigoBarras"],
+                    });
+                };
+
+
+                return products;
+            }
+            catch (Exception ex)
+            {
+                return new List<ProductNoDescriptionDto>();
+            }
+        }
+
+        public Result CreateProduct(ProductDto productDto)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.CreateProduct(productDto);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+        public Result DeleteProduct(int barcode)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.DeleteProduct(barcode);
+
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public ProductNoBarcodeDto GetProductByBarcode(int barcode)
+        {
+            string query = string.Empty;
+            ProductNoBarcodeDto productDto = new ProductNoBarcodeDto();
+            try
+            {
+                query = SqlHelper.GetProductByBarcode(barcode);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    productDto.Name = reader["Nombre"].ToString();
+                    productDto.Description = reader["Descripcion"].ToString();
+                    productDto.Cost = (int)reader["Costo"];
+                };
+
+
+                return productDto;
+            }
+            catch (Exception ex)
+            {
+                return new ProductNoBarcodeDto();
+            }
+        }
+
+        public Result UpdateDescriptionProduct(int barcode, string description)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.UpdateDescriptionProduct(barcode, description);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result UpdateCostProduct(int barcode, int cost)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.UpdateCostProduct(barcode, cost);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result UpdateNameProduct(int barcode, string name)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.UpdateNameProduct(barcode, name);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        public Result AddProductToBranch(int productBarcode, string branchName)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.AddProductToBranch(productBarcode, branchName);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
+            }
+        }
+
+        /*
         **** Class Repository ****
         public Result CreateClase(ClassNoIdDto classDto)
         {

@@ -401,6 +401,66 @@ namespace GymTEC_Backend.Helpers
         }
 
         /*
+        *  ***** Product *****
+        */
+
+        // Get names and barcoder for every product in the data base
+
+        public static string GetProducts()
+        {
+            return "SELECT Nombre, CodigoBarras FROM Producto;";
+        }
+
+        // Add a new tuple in Product relationship
+        public static string CreateProduct(ProductDto productDto)
+        {
+            return $@"INSERT INTO Producto(CodigoBarras, Nombre, Costo, Descripcion) 
+                            VALUES ({productDto.Barcode}, '{productDto.Name}', {productDto.Cost}, '{productDto.Description}');";
+        }
+
+        //Delete a Product
+        public static string DeleteProduct(int barcode)
+        {
+            return $@"DELETE FROM Producto WHERE CodigoBarras = {barcode};";
+        }
+
+        // Return a tuple in Product relationship according to its barcode
+        public static string GetProductByBarcode(int barcode)
+        {
+            return $@"SELECT Nombre, Descripcion, Costo FROM Producto WHERE CodigoBarras = {barcode};";
+        }
+
+        // Update description of a Product description
+        public static string UpdateDescriptionProduct(int barcode, string description)
+        {
+            return $@"UPDATE Producto
+                        SET Descripcion = '{description}'
+                        WHERE CodigoBarras = {barcode};";
+        }
+
+        // Update cost of a Product description
+        public static string UpdateCostProduct(int barcode, int cost)
+        {
+            return $@"UPDATE Producto
+                        SET Costo = {cost}
+                        WHERE CodigoBarras = {barcode};";
+        }
+
+        // Update name of a Product description
+        public static string UpdateNameProduct(int barcode, string name)
+        {
+            return $@"UPDATE Producto
+                        SET Nombre = '{name}'
+                        WHERE CodigoBarras = {barcode};";
+        }
+
+        public static string AddProductToBranch(int productBarcode, string branchName)
+        {
+            return $@"INSERT INTO ProductoSucursal(CodigoBarrasProducto, NombreSucursal)
+                             VALUES ({productBarcode}, '{branchName}');";
+        }
+
+        /*
         *  ***** Class *****
         public static string CreateClass(ClassNoIdDto classDto)
         {

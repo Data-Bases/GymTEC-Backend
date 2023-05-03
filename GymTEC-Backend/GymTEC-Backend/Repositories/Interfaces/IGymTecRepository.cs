@@ -58,5 +58,14 @@ namespace GymTEC_Backend.Repositories.Interfaces
         IEnumerable<MachineWithNamesDto> GetMachineInventoriesInBranch(string branchName);
         public IEnumerable<MachineWithNamesDto> GetMachineInventory(string branchName, int equipmentId);
         IEnumerable<MachineWithNamesDto> GetAllMachineInventoryPerEquipment(int equipmentId);
+
+        IEnumerable<ProductNoDescriptionDto> GetProducts();
+        Result CreateProduct(ProductDto productDto);
+        Result DeleteProduct(int barcode);
+        ProductNoBarcodeDto GetProductByBarcode(int barcode);
+        Result UpdateDescriptionProduct(int barcode, string description);
+        Result UpdateCostProduct(int barcode, int cost);
+        Result UpdateNameProduct(int barcode, string name);
+        Result AddProductToBranch(int productBarcode, string branchName);
     }
 }
