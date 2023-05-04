@@ -15,6 +15,7 @@ namespace GymTEC_Backend.Repositories.Interfaces
         Result AssignJobToEmployee(int employeeId, int jobId);
         Result AssignWorkedHoursToEmployee(int employeeId, int workedHours);
         Result AssignPayrollToEmployee(int employeeId, int payrollId);
+        List<EmployeeWithNamesDto> GetEmployeesSalaryByBranch(string branchName);
 
         Result CreateSpaTreatment(SpaNoIdDto spaDto);
         string GetSpaDescriptionByName(string name);
