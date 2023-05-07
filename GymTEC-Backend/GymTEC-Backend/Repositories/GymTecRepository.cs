@@ -34,7 +34,7 @@ namespace GymTEC_Backend.Repositories
             using (IDbCommand command = new SqlCommand { CommandText = query, CommandType = CommandType.Text })
             {
                 command.CommandTimeout = Timeout;
-                command.Connection = new SqlConnection(GymTecSqlDiani);
+                command.Connection = new SqlConnection(GymTecSqlVale);
                 command.Connection.Open();
                 return command.ExecuteReader();
             }
@@ -260,6 +260,46 @@ namespace GymTEC_Backend.Repositories
             catch (Exception ex)
             {
                 return Result.Noop;
+            }
+        }
+
+        public List<EmployeeWithNamesDto> GetEmployeesSalaryByBranch(string branchName)
+        {
+            string query = string.Empty;
+            List<EmployeeWithNamesDto> branchEmployees = new List<EmployeeWithNamesDto>();
+            try
+            {
+                query = SqlHelper.GetEmployeeByBranch(branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    EmployeeWithNamesDto branchEmplloyee = new EmployeeWithNamesDto();
+
+                    branchEmplloyee.Id = (int)reader["Cedula"];
+                    branchEmplloyee.Name = reader.GetString(1);
+                    branchEmplloyee.LastName1 = reader.GetString(2);
+                    branchEmplloyee.LastName2 = reader.GetString(3);
+                    branchEmplloyee.Province = reader.GetString(4);
+                    branchEmplloyee.Canton = reader.GetString(5);
+                    branchEmplloyee.District = reader.GetString(6);
+                    branchEmplloyee.Salary = (int)reader["Salario"];
+                    branchEmplloyee.Email = reader.GetString(8);
+                    branchEmplloyee.Password = reader.GetString(9);
+                    branchEmplloyee.WorkedHours = (int)reader["HorasLaboradas"];
+                    branchEmplloyee.BranchName = (string?)(Convert.IsDBNull(reader["NombreSucursal"]) ? null : reader["NombreSucursal"]);
+                    branchEmplloyee.PayrollName = Convert.IsDBNull(reader["NombrePlanilla"]) ? null : reader["NombrePlanilla"].ToString();
+                    branchEmplloyee.JobName = Convert.IsDBNull(reader["Puesto"]) ? null : reader["Puesto"].ToString();
+
+                    branchEmployees.Add(branchEmplloyee);
+                };
+
+
+                return branchEmployees;
+            }
+            catch (Exception ex)
+            {
+                return new List<EmployeeWithNamesDto>();
             }
         }
 

@@ -90,5 +90,42 @@ namespace GymTEC_Backend.Models
             
             return employeeList;
         }
+
+        public List<EmployeesPayrollDto> GetEmployeesSalaryByBranch(string branchName)
+        {
+            var employeeList = _gymRepository.GetEmployeesSalaryByBranch(branchName);
+
+            List<EmployeesPayrollDto> employeesPayrollDtos = new List<EmployeesPayrollDto>();
+
+            foreach (var employee in employeeList)
+            {   
+                EmployeesPayrollDto employeePayroll = new EmployeesPayrollDto();
+
+                employeePayroll.BranchName = employee.BranchName;
+                employeePayroll.EmployeeId = employee.Id;
+                employeePayroll.FullName = employee.Name + " " + employee.LastName1 + " " + employee.LastName2;
+                employeePayroll.WorkedHours_GivenClasses = (int)employee.WorkedHours;
+
+                switch(employee.PayrollName)
+                {
+                    case "Mensual":
+                        employeePayroll.SalaryToPay = (int)(employee.Salary);
+                        break;
+                    case "Pago por clase":
+                        employeePayroll.SalaryToPay = (int)(employee.Salary * employee.WorkedHours);
+                        break;
+                    case "Pago por horas":
+                        employeePayroll.SalaryToPay = (int)(employee.Salary * employee.WorkedHours);
+                        break;
+                    default:
+                        employeePayroll.SalaryToPay = (int)(employee.Salary);
+                        break;
+                }
+
+                employeesPayrollDtos.Add(employeePayroll);
+            }
+
+            return employeesPayrollDtos;
+        }
     }
 }

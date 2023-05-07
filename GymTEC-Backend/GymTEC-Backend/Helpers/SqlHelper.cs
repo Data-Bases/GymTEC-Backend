@@ -47,6 +47,16 @@ namespace GymTEC_Backend.Helpers
                         WHERE Empleado.Cedula = {id};";
         }
 
+        // Get Employee information according to its branch
+        public static string GetEmployeeByBranch(string branchName)
+        {
+            return $@"SELECT Empleado.Cedula, Empleado.Nombre, Empleado.Apellido1, Empleado.Apellido2, Empleado.Provincia, Empleado.Canton, Empleado.Distrito, Empleado.Salario, Empleado.Email, Empleado.Contrasena, Empleado.HorasLaboradas, Empleado.NombreSucursal,TipoPlanilla.Nombre as NombrePlanilla, Puesto.Nombre as Puesto
+                        FROM Empleado 
+                        LEFT JOIN TipoPlanilla ON Empleado.IdTipoPlanilla = TipoPlanilla.Id
+                        LEFT JOIN Puesto ON Empleado.IdPuesto = Puesto.Id
+                        WHERE Empleado.NombreSucursal = '{branchName}';";
+        }
+
         // Create a new tuple in Employee Relationship
         public static string CreateEmployee(EmployeeDto employee, string encodedPassword)
         {
