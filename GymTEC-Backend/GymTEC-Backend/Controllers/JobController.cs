@@ -74,7 +74,7 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("DeleteJob", Name = "DeleteJob")]
+        [HttpDelete("DeleteJob", Name = "DeleteJob")]
         public ActionResult<Result> DeleteJob([Required] string name)
         { 
 

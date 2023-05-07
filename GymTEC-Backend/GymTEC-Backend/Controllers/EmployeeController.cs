@@ -21,30 +21,6 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("GetEmployeeById/{id}", Name = "GetEmployeeById")]
-        public ActionResult<EmployeeWithNamesDto> GetEmployeeById([Required] int id)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var employee = _model.GetEmployeeById(id);
-
-
-            if (string.IsNullOrEmpty(employee.Name))
-            {
-                return NotFound();
-            }
-
-            return Ok(employee);
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPost("CreateEmployee", Name = "CreateEmployee")]
         public ActionResult<Result> CreateEmployee([Required] EmployeeDto employeeDto)
@@ -76,7 +52,7 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [HttpPost("DeleteEmployee/{employeeId}", Name = "DeleteEmployee")]
+        [HttpDelete("DeleteEmployee/{employeeId}", Name = "DeleteEmployee")]
         public ActionResult<Result> DeleteEmployee([Required] int employeeId)
         {
 
@@ -99,6 +75,24 @@ namespace GymTEC_Backend.Controllers
             }
 
             return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetEmployeesSalaryByBranch/{branchName}", Name = "GetEmployeesSalaryByBranch")]
+        public ActionResult<List<EmployeesPayrollDto>> GetEmployeesSalaryByBranch([Required] string branchName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var employeeList = _model.GetEmployeesSalaryByBranch(branchName);
+
+            return Ok(employeeList);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -137,6 +131,29 @@ namespace GymTEC_Backend.Controllers
             return Ok(employeeList);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetEmployeeById/{id}", Name = "GetEmployeeById")]
+        public ActionResult<EmployeeWithNamesDto> GetEmployeeById([Required] int id)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var employee = _model.GetEmployeeById(id);
+
+
+            if (string.IsNullOrEmpty(employee.Name))
+            {
+                return NotFound();
+            }
+
+            return Ok(employee);
+        }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -230,22 +247,5 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("GetEmployeesSalaryByBranch/{branchName}", Name = "GetEmployeesSalaryByBranch")]
-        public ActionResult<List<EmployeesPayrollDto>> GetEmployeesSalaryByBranch([Required] string branchName)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var employeeList = _model.GetEmployeesSalaryByBranch(branchName);
-
-            return Ok(employeeList);
-        }
     }
 }

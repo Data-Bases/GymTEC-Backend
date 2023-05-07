@@ -78,8 +78,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("ClientDeleteReservation", Name = "ClientDeleteReservation")]
-        public ActionResult<Result> ClientDeleteReservation(int clientId, int classId)
+        [HttpPost("CopyClassCalendar", Name = "CopyClassCalendar")]
+        public ActionResult<Result> CopyClassCalendar(DateTime startDate, DateTime endDate, string branchName)
         {
 
             if (!ModelState.IsValid)
@@ -87,7 +87,7 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.ClientDeleteReservation(clientId, classId);
+            var result = _gymTecRepository.CopyClassCalendar(startDate, endDate, branchName);
 
             if (result.Equals(Result.Error))
             {
@@ -106,8 +106,8 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("CopyClassCalendar", Name = "CopyClassCalendar")]
-        public ActionResult<Result> CopyClassCalendar(DateTime startDate, DateTime endDate, string branchName)
+        [HttpDelete("ClientDeleteReservation", Name = "ClientDeleteReservation")]
+        public ActionResult<Result> ClientDeleteReservation(int clientId, int classId)
         {
 
             if (!ModelState.IsValid)
@@ -115,7 +115,7 @@ namespace GymTEC_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _gymTecRepository.CopyClassCalendar(startDate, endDate, branchName);
+            var result = _gymTecRepository.ClientDeleteReservation(clientId, classId);
 
             if (result.Equals(Result.Error))
             {

@@ -46,6 +46,42 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetBranchesNames", Name = "GetBranchesNames")]
+        public ActionResult<List<string>> GetBranchesNames()
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var branches = _model.GetBranchesNames();
+
+            return Ok(branches);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetBranchPhoneNumbers/{name}", Name = "GetBranchPhoneNumbers")]
+        public ActionResult<IEnumerable<BranchPhoneNumberDto>> GetBranchPhoneNumbers([Required] string name)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var branches = _model.GetBranchPhoneNumbers(name);
+
+            return Ok(branches);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpPost("CreateBranch", Name = "CreateBranch")]
         public ActionResult<Result> CreateBranch([Required] BranchDto branch)
@@ -99,42 +135,6 @@ namespace GymTEC_Backend.Controllers
             }
 
             return Ok();
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("GetBranchesNames", Name = "GetBranchesNames")]
-        public ActionResult<List<string>> GetBranchesNames()
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var branches = _model.GetBranchesNames();
-
-            return Ok(branches);
-        }
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("GetBranchPhoneNumbers/{name}", Name = "GetBranchPhoneNumbers")]
-        public ActionResult<IEnumerable<BranchPhoneNumberDto>> GetBranchPhoneNumbers([Required] string name)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var branches = _model.GetBranchPhoneNumbers(name);
-
-            return Ok(branches);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]

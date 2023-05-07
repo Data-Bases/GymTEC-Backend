@@ -68,30 +68,6 @@ namespace GymTEC_Backend.Controllers
             return Ok(description);
         }
 
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPost("DeletePayroll", Name = "DeletePayroll")]
-        public ActionResult<Result> DeletePayroll([Required] string name)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = _gymTecRepository.DeletePayroll(name);
-
-            if (result.Equals(Result.Noop))
-            {
-                return BadRequest();
-            }
-
-            return Ok();
-        }
-
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -119,6 +95,30 @@ namespace GymTEC_Backend.Controllers
 
             return Ok();
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpDelete("DeletePayroll", Name = "DeletePayroll")]
+        public ActionResult<Result> DeletePayroll([Required] string name)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _gymTecRepository.DeletePayroll(name);
+
+            if (result.Equals(Result.Noop))
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
