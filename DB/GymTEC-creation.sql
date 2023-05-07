@@ -3,7 +3,7 @@ CREATE TABLE Maquina
 	NumeroSerie INT NOT NULL,
 	Marca VARCHAR(100) NOT NULL,
 	Costo INT NOT NULL,
-	NombreSucursal VARCHAR(100) NOT NULL,
+	NombreSucursal VARCHAR(100),
 	IdEquipo INT,
 
 	PRIMARY KEY (NumeroSerie)

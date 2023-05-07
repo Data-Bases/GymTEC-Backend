@@ -421,28 +421,39 @@ namespace GymTEC_Backend.Helpers
         }
 
         /*
-        *  ***** Equipment *****
+        *  ***** Machine inventory *****
         */
 
         // Create a machine tuple into the data base
         public static string CreateMachineInvetory(MachineInventoryDto machineInventoryDto)
         {
+            if (string.IsNullOrEmpty(machineInventoryDto.BranchName))
+            {
+                return $@"INSERT INTO Maquina(NumeroSerie, Marca, Costo, IdEquipo) 
+                            VALUES ({machineInventoryDto.SerialNumber}, '{machineInventoryDto.Brand}', {machineInventoryDto.Price}, {machineInventoryDto.EquipmentId});";
+            }
             return $@"INSERT INTO Maquina(NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo) 
                             VALUES ({machineInventoryDto.SerialNumber}, '{machineInventoryDto.Brand}', {machineInventoryDto.Price}, '{machineInventoryDto.BranchName}', {machineInventoryDto.EquipmentId});";
         }
 
-        // Return Spa treatment description according to its name
+        // Delete machine inventory in brnach
         public static string DeleteMachineInvetoryInBranch(int serialNumber, string branchName)
         {
             return $@"DELETE FROM Maquina WHERE NombreSucursal = '{branchName}' AND NumeroSerie = {serialNumber};";
         }
 
-        // Get all names and ids from spa treatment relationship
         public static string GetMachineInventoriesInBranch(string branchName)
         {
             return $@"SELECT  NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo, Nombre as NombreEquipo
                     FROM ( Maquina AS M LEFT JOIN TipoEquipo AS TE ON M.IdEquipo = TE.Id)
                     WHERE NombreSucursal = '{branchName}';";
+        }
+
+        public static string GetMachineInventoriesNotInBranch(string branchName)
+        {
+            return $@"SELECT  NumeroSerie, Marca, Costo, NombreSucursal, IdEquipo, Nombre as NombreEquipo
+                    FROM ( Maquina AS M LEFT JOIN TipoEquipo AS TE ON M.IdEquipo = TE.Id)
+                    WHERE NombreSucursal != '{branchName}' or NombreSucursal is null;";
         }
 
         public static string GetMachineInventory(string branchName, int equipmentId)
@@ -458,6 +469,14 @@ namespace GymTEC_Backend.Helpers
                     FROM ( Maquina AS M LEFT JOIN TipoEquipo AS TE ON M.IdEquipo = TE.Id)
                     WHERE IdEquipo = {equipmentId};";
         }
+
+        public static string SetMachineInvetoryInBranch(int serialNumber, string branchName)
+        {
+            return $@"UPDATE Maquina
+                        SET NombreSucursal = '{branchName}'
+                        WHERE NumeroSerie = '{serialNumber}';";
+        }
+
 
         /*
         *  ***** Product *****

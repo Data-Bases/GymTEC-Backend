@@ -34,7 +34,7 @@ namespace GymTEC_Backend.Repositories
             using (IDbCommand command = new SqlCommand { CommandText = query, CommandType = CommandType.Text })
             {
                 command.CommandTimeout = Timeout;
-                command.Connection = new SqlConnection(GymTecSqlVale);
+                command.Connection = new SqlConnection(GymTecSqlDiani);
                 command.Connection.Open();
                 return command.ExecuteReader();
             }
@@ -337,7 +337,7 @@ namespace GymTEC_Backend.Repositories
                     return Result.Created;
                 }
 
-                return Result.NotFound; 
+                return Result.NotFound;
             }
             catch (Exception ex)
             {
@@ -448,7 +448,7 @@ namespace GymTEC_Backend.Repositories
         private bool IsSpaTreatmentNotRelatedToBranch(string name)
         {
             string query = string.Empty;
-            List<string> branchList  = new List<string>();  
+            List<string> branchList = new List<string>();
 
             try
             {
@@ -938,7 +938,7 @@ namespace GymTEC_Backend.Repositories
                     branchDtoResponse.Directions = reader.GetString(reader.GetOrdinal("Senas"));
                     branchDtoResponse.MaxCapacity = (int)reader["CapacidadMaxima"];
                     branchDtoResponse.StartDate = (DateTime)reader.GetValue(6);
-                    branchDtoResponse.OpenStore = reader["TiendaAbierta"].Equals(1)? true: false;
+                    branchDtoResponse.OpenStore = reader["TiendaAbierta"].Equals(1) ? true : false;
                     branchDtoResponse.OpenSpa = reader["SpaAbierto"].Equals(1) ? true : false;
                     branchDtoResponse.Schedule = reader.GetString(reader.GetOrdinal("Horario"));
                     branchDtoResponse.IdEmployeeAdmin = (int)reader["IdEmpleadoAdmin"];
@@ -1159,7 +1159,7 @@ namespace GymTEC_Backend.Repositories
             try
             {
                 query = SqlHelper.DeleteMachineInvetoryInBranch(serialNumber, branchName);
-                    
+
                 var reader = ExecuteQuery(query);
 
                 return Result.Created;
@@ -1186,7 +1186,7 @@ namespace GymTEC_Backend.Repositories
                         SerialNumber = (int)reader["NumeroSerie"],
                         Brand = reader["Marca"].ToString(),
                         Price = (int)reader["Costo"],
-                        BranchName = reader["NombreSucursal"].ToString(),
+                        BranchName = (string?)(Convert.IsDBNull(reader["NombreSucursal"]) ? null : reader["NombreSucursal"]),
                         EquipmentId = (int)reader["IdEquipo"],
                         EquipmentName = reader["NombreEquipo"].ToString(),
                     });
@@ -1200,6 +1200,38 @@ namespace GymTEC_Backend.Repositories
                 return new List<MachineWithNamesDto>();
             }
         }
+
+        public IEnumerable<MachineWithNamesDto> GetMachineInventoriesNotInBranch(string branchName)
+        {
+            string query = string.Empty;
+            List<MachineWithNamesDto> equipmentDtos = new List<MachineWithNamesDto>();
+            try
+            {
+                query = SqlHelper.GetMachineInventoriesNotInBranch(branchName);
+                var reader = ExecuteQuery(query);
+
+                while (reader.Read())
+                {
+                    equipmentDtos.Add(new MachineWithNamesDto
+                    {
+                        SerialNumber = (int)reader["NumeroSerie"],
+                        Brand = reader["Marca"].ToString(),
+                        Price = (int)reader["Costo"],
+                        BranchName = (string?)(Convert.IsDBNull(reader["NombreSucursal"]) ? null : reader["NombreSucursal"]),
+                        EquipmentId = (int)reader["IdEquipo"],
+                        EquipmentName = reader["NombreEquipo"].ToString(),
+                    });
+                };
+
+
+                return equipmentDtos;
+            }
+            catch (Exception ex)
+            {
+                return new List<MachineWithNamesDto>();
+            }
+        }
+
         public IEnumerable<MachineWithNamesDto> GetMachineInventory(string branchName, int equipmentId)
         {
             string query = string.Empty;
@@ -1247,7 +1279,7 @@ namespace GymTEC_Backend.Repositories
                         SerialNumber = (int)reader["NumeroSerie"],
                         Brand = reader["Marca"].ToString(),
                         Price = (int)reader["Costo"],
-                        BranchName = reader["NombreSucursal"].ToString(),
+                        BranchName = (string?)(Convert.IsDBNull(reader["NombreSucursal"]) ? null : reader["NombreSucursal"]),
                         EquipmentId = equipmentId,
                         EquipmentName = reader["NombreEquipo"].ToString(),
                     });
@@ -1259,6 +1291,22 @@ namespace GymTEC_Backend.Repositories
             catch (Exception ex)
             {
                 return new List<MachineWithNamesDto>();
+            }
+        }
+
+        public Result SetMachineInvetoryInBranch(int serialNumber, string branchName)
+        {
+            string query = string.Empty;
+            try
+            {
+                query = SqlHelper.SetMachineInvetoryInBranch(serialNumber, branchName);
+                var reader = ExecuteQuery(query);
+
+                return Result.Created;
+            }
+            catch (Exception ex)
+            {
+                return Result.Noop;
             }
         }
 

@@ -44,6 +44,29 @@ namespace GymTEC_Backend.Controllers
             return Ok(machineInventories);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("GetMachineInventoriesNotInBranch/{branchName}", Name = "GetMachineInventoriesNotInBranch")]
+        public ActionResult<IEnumerable<MachineWithNamesDto>> GetMachineInventoriesNotInBranch(string branchName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var machineInventories = _gymTecRepository.GetMachineInventoriesNotInBranch(branchName);
+
+
+            if (machineInventories.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
+            return Ok(machineInventories);
+        }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -93,6 +116,7 @@ namespace GymTEC_Backend.Controllers
             return Ok(machineInventories);
         }
 
+
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -139,6 +163,30 @@ namespace GymTEC_Backend.Controllers
             if (result.Equals(Result.Noop))
             {
                 return BadRequest();
+            }
+
+            return Ok();
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("SetMachineInvetoryInBranch", Name = "SetMachineInvetoryInBranch")]
+        public ActionResult<Result> SetMachineInvetoryInBranch([Required] int serialNumber, [Required] string branchName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _gymTecRepository.SetMachineInvetoryInBranch(serialNumber, branchName);
+
+            if (result.Equals(Result.Noop))
+            {
+                return NotFound();
             }
 
             return Ok();
