@@ -7,6 +7,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GymTEC_Backend.Controllers
 {
+    [ApiController]
+    [Route("gymtec/[controller]")]
     public class ProductController : ControllerBase
     {
         private readonly IGymTecRepository _gymTecRepository;

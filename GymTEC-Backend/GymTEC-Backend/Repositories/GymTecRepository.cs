@@ -184,8 +184,8 @@ namespace GymTEC_Backend.Repositories
                 {
                     employeeNameIdDtos.Add(new EmployeeNameIdDto
                     {
-                        EmployeeId = (int)reader["Cedula"],
-                        EmployeeName = reader["Nombre"].ToString(),
+                        Id = (int)reader["Cedula"],
+                        Name = reader["Nombre"].ToString(),
                     });
 
                 };

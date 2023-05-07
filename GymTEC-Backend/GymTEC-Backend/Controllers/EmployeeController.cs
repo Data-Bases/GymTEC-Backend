@@ -124,7 +124,7 @@ namespace GymTEC_Backend.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("GetBranchEmployee/{branchName}", Name = "GetBranchEmployee")]
-        public ActionResult<List<EmployeeWithNamesDto>> GetBranchEmployee([Required] string branchName)
+        public ActionResult<List<EmployeeNameIdDto>> GetBranchEmployee([Required] string branchName)
         {
 
             if (!ModelState.IsValid)
