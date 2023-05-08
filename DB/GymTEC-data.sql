@@ -22,3 +22,9 @@ VALUES
 INSERT INTO TratamientoSucursal(IdTratamientoSpa, NombreSucursal) VALUES (1, 'GymASETEC');
 INSERT INTO TratamientoSucursal(IdTratamientoSpa, NombreSucursal) VALUES (2, 'GymASETEC');
 INSERT INTO TratamientoSucursal(IdTratamientoSpa, NombreSucursal) VALUES (2, 'GymLimon');
+
+-- Agregar datos en servicios sucursal
+INSERT INTO ServiciosSucursal(IdServicio, NombreSucursal) VALUES (1, 'GymASETEC'), (2, 'GymASETEC'), (2, 'GymLimon');
+
+-- Agregar datos en producto sucursal
+INSERT INTO ProductoSucursal(CodigoBarrasProducto, NombreSucursal) VALUES (564897, 'GymASETEC'), (456875, 'GymASETEC'), (784569, 'GymAlajuela');
