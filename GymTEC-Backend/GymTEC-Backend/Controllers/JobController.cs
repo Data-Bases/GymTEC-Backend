@@ -20,6 +20,9 @@ namespace GymTEC_Backend.Controllers
             _gymTecRepository = gymTecRepository;
         }
 
+        /*
+         * Descripton: Get a list of all jobs information except description
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -44,6 +47,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(jobs);
         }
 
+        /*
+         * Descripton: Get job information by name
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -69,7 +75,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(description);
         }
 
-
+        /*
+         * Descripton: Delete a job by id
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -93,6 +101,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Create job
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -121,6 +132,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Update job description or assign it
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

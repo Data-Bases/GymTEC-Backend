@@ -18,6 +18,9 @@ namespace GymTEC_Backend.Controllers
             _gymTecRepository = gymTecRepository;
         }
 
+        /*
+         * Descripton: Create class
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -46,6 +49,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Creates clients reservation to a class
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -74,6 +80,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Copy class in a certain period to another 
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -102,6 +111,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Deletes client reservation
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -130,6 +142,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Get all classes created
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -153,6 +168,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(result);
         }
 
+        /*
+         * Descripton: Get classes with a period of time
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -176,6 +194,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(result);
         }
 
+        /*
+         * Descripton: Get classes according to its service id
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -199,6 +220,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(result);
         }
 
+        /*
+         * Descripton: Get reservations of a certain client
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -221,6 +245,10 @@ namespace GymTEC_Backend.Controllers
 
             return Ok(result);
         }
+
+        /*
+         * Descripton: Get classes that certain client is not registered
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -244,6 +272,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(result);
         }
 
+        /*
+         * Descripton: Get classes with a period of time of a certain branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -267,6 +298,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(result);
         }
 
+        /*
+         * Descripton: Get client's classes within a certain period of time and a service id in a certain branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -290,4 +324,4 @@ namespace GymTEC_Backend.Controllers
             return Ok(result);
         }
     }
-}
+} 

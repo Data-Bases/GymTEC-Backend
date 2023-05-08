@@ -19,7 +19,9 @@ namespace GymTEC_Backend.Controllers
             _gymTecRepository = gymTecRepository;
         }
 
-
+        /*
+         * Descripton: Get a list of all equipment information except description
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -44,7 +46,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(equipments);
         }
 
-
+        /*
+         * Descripton: Get description of equipment by name
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -70,7 +74,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(description);
         }
 
-
+        /*
+         * Descripton: Create equipment
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

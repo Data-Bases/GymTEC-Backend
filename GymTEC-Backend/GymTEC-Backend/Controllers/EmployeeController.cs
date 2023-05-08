@@ -17,6 +17,9 @@ namespace GymTEC_Backend.Controllers
             _model = employeeModel;
         }
 
+        /*
+         * Descripton: Creates an employee with the information from the web service
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -47,6 +50,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Deletes an employee with a certain id
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -77,6 +83,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Create a report of the each employee payroll per Branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -95,6 +104,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(employeeList);
         }
 
+        /*
+         * Descripton: Check employee credentials 
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -113,6 +125,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(employee);
         }
 
+        /*
+         * Descripton: Get a list of employees by branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -131,6 +146,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(employeeList);
         }
 
+        /*
+         * Descripton: Get an employee according to its id
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -155,6 +173,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(employee);
         }
 
+        /*
+         * Descripton: Assign a cartain payroll to employee
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -178,6 +199,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Assign a rol to employee
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -201,6 +225,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Assign branch to employee 
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -224,6 +251,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Assign worked hours to employee 
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -18,7 +18,10 @@ namespace GymTEC_Backend.Controllers
             _logger = logger;
             _model = branchModel;
         }
-        
+
+        /*
+         * Descripton: Get information of a certain branch by its name
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -42,6 +45,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(branchDto);
         }
 
+        /*
+         * Descripton: Get a list of all branches names
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -60,6 +66,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(branches);
         }
 
+        /*
+         * Descripton: Get a list of branches phone numbers
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -78,6 +87,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(branches);
         }
 
+        /*
+         * Descripton: Create branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -107,6 +119,10 @@ namespace GymTEC_Backend.Controllers
 
             return Ok();
         }
+
+        /*
+         * Descripton: Create btanch with phone number since it could be a null attribute
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -137,6 +153,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Update branches schedule 
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

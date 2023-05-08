@@ -19,7 +19,9 @@ namespace GymTEC_Backend.Controllers
             _gymTecRepository = gymTecRepository;
         }
 
-        
+        /*
+         * Descripton: Get a list of all spa treatments in branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -43,8 +45,10 @@ namespace GymTEC_Backend.Controllers
 
             return Ok(spaTreatments);
         }
-        
 
+        /*
+         * Descripton: Get spa description by spa treatment name
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -70,8 +74,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(description);
         }
 
-
-
+        /*
+         * Descripton: Get a list of all spa treatments assign to branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -95,6 +100,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(classServices);
         }
 
+        /*
+         * Descripton: Get a list of spa treatments not assign to branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -118,7 +126,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(classServices);
         }
 
-
+        /*
+         * Descripton: Creates an spa treatment 
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -147,6 +157,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Assgin spa treatment to branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -170,6 +183,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Delete spa treatment related to branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -193,6 +209,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Delete spa treatment that it is not related to any branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -221,6 +240,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Assign description to spa treatment, or change current description 
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

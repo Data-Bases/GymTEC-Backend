@@ -19,6 +19,9 @@ namespace GymTEC_Backend.Controllers
             _gymTecRepository = gymTecRepository;
         }
 
+        /*
+         * Descripton: Get payroll information except its description
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -43,6 +46,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(payrolls);
         }
 
+        /*
+         * Descripton: Get payroll information by name
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,6 +74,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(description);
         }
 
+        /*
+         * Descripton: Create payroll
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -96,6 +105,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Delete payroll with a certain name
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -119,7 +131,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
-
+        /*
+         * Descripton: Update description of a certain payroll or assign it
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

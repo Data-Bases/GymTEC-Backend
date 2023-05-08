@@ -19,7 +19,9 @@ namespace GymTEC_Backend.Controllers
             _gymTecRepository = gymTecRepository;
         }
 
-
+        /*
+         * Descripton: Get machine inventory in a certain branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -44,6 +46,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(machineInventories);
         }
 
+        /*
+         * Descripton: Get machine inventory that is not asign  by branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,6 +73,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(machineInventories);
         }
 
+        /*
+         * Descripton: Get machine inventory with a certain branch and equipment id
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -92,6 +100,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(machineInventories);
         }
 
+        /*
+         * Descripton: Get a list of all invetory assign to a certain equipment id
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -116,7 +127,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(machineInventories);
         }
 
-
+        /*
+         * Descripton: Create machine inventory
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -145,6 +158,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
+        /*
+         * Descripton: Delete inventory in branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -168,7 +184,9 @@ namespace GymTEC_Backend.Controllers
             return Ok();
         }
 
-
+        /*
+         * Descripton: Assign machine inventory to branch
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

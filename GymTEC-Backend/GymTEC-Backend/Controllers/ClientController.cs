@@ -18,6 +18,9 @@ namespace GymTEC_Backend.Controllers
             _model = clientModel;
         }
 
+        /*
+         * Descripton: Get information of a certain client by its id
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -42,6 +45,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(client);
         }
 
+        /*
+         * Descripton:Check client's credentials 
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -60,6 +66,9 @@ namespace GymTEC_Backend.Controllers
             return Ok(client);
         }
 
+        /*
+         * Descripton: Create client 
+         */
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
