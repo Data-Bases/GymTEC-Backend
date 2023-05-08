@@ -32,7 +32,7 @@ namespace GymTEC_Backend.Models
                 return new ClientDto();
             }
 
-            var expectedEncodedPassword = PassowordHelper.EncodePassword(password);
+            var expectedEncodedPassword = PassowordHelper.EncodePasswordMD5(password);
 
             if (!expectedEncodedPassword.Equals(client.Password))
             {

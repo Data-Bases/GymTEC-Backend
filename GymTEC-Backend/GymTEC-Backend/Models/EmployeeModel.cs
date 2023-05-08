@@ -31,7 +31,7 @@ namespace GymTEC_Backend.Models
                 return new EmployeeWithNamesDto();
             }
 
-            var expectedEncodedPassword = PassowordHelper.EncodePassword(password);
+            var expectedEncodedPassword = PassowordHelper.EncodePasswordMD5(password);
 
             if (!expectedEncodedPassword.Equals(employee.Password))
             {

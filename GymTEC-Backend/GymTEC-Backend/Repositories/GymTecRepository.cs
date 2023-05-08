@@ -81,7 +81,7 @@ namespace GymTEC_Backend.Repositories
         public Result CreateClient(ClientDto client)
         {
             string query = string.Empty;
-            var password = PassowordHelper.EncodePassword(client.Password);
+            var password = PassowordHelper.EncodePasswordMD5(client.Password);
             try
             {
                 query = SqlHelper.CreateClient(client, password);
@@ -139,7 +139,7 @@ namespace GymTEC_Backend.Repositories
         public Result CreateEmployee(EmployeeDto employee)
         {
             string query = string.Empty;
-            var password = PassowordHelper.EncodePassword(employee.Password);
+            var password = PassowordHelper.EncodePasswordMD5(employee.Password);
             try
             {
                 query = SqlHelper.CreateEmployee(employee, password);
