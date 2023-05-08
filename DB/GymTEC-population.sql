@@ -5,6 +5,9 @@
 INSERT INTO Empleado(Cedula, Nombre, Apellido1, Apellido2, Provincia, Canton, Distrito, Salario, Email, Contrasena)
             VALUES  (305320066,'Valesska', 'Blanco', 'Montoya', 'Cartago', 'Central', 'Aguacaliente', 2500000, 'valesskablanco@estudiantec.cr', 'pepe');
 
+Update Empleado
+Set Contrasena = CONVERT(VARCHAR(32), HashBytes('MD5', 'pepe'), 2)
+Where Cedula = 305320066;
 
 -- Insert Branches
 
@@ -58,11 +61,6 @@ INSERT INTO Producto(CodigoBarras, Nombre, Costo, Descripcion)
                (456875, 'AMINO DECANATE', 25885, 'Hace que tus músculos se recuperen y se reconstruyan de forma rápida y efectiva.'),
                (784569, 'AP CREATINA - 60 SERVIDAS', 24900, 'Este suplemento de grado farmacéutico contiene monohidrato de creatina');
 
--- Temporales
-
-INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, TiendaAbierta, SpaAbierto, IdEmpleadoAdmin) 
-VALUES ('GymLimon', 'Limon', 'Limon', 'Distrito', 'XXX8+CGG', 25, '1/1/2010',	1, 1,305320066);
-
 -- Insert Numero de Telefono
 INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25521659, 'GymASETEC')
 INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25517294, 'GymASETEC')
@@ -71,22 +69,4 @@ INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (27356999, '
 INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25896431, 'GymSC')
 INSERT INTO NumerosTelefono (NumeroTelefono, NombreSucursal) VALUES (25884632, 'GymSC')
 
-SELECT * FROM Empleado
-SELECT * FROM NumerosTelefono
-SELECT * FROM Cliente;
-SELECT * FROM Sucursal;
 
-SELECT Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, Horario, IdEmpleadoAdmin, NumeroTelefono
-FROM (Sucursal AS S JOIN NumerosTelefono AS NT ON S.Nombre = NT.NombreSucursal)
-WHERE Nombre = 'GymASETEC'
-
-INSERT INTO TratamientoSucursal(IdTratamientoSpa, NombreSucursal) VALUES (1, 'GymASETEC');
-INSERT INTO TratamientoSucursal(IdTratamientoSpa, NombreSucursal) VALUES (2, 'GymASETEC');
-INSERT INTO TratamientoSucursal(IdTratamientoSpa, NombreSucursal) VALUES (2, 'GymLimon');
-
-SELECT * FROM TratamientoSucursal
-
-SELECT TratamientoSpa.Nombre as NombreTratamiento
-FROM TratamientoSpa 
-Left Join TratamientoSucursal ON TratamientoSpa.Id = TratamientoSucursal.IdTratamientoSpa
-Where TratamientoSucursal.NombreSucursal is NULL;  
