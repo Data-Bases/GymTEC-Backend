@@ -21,6 +21,7 @@ namespace GymTEC_Backend.Repositories
         private const int Timeout = 1600;
         private const string GymTecSqlDiani = "Server=LAPTOP-SKUFJ66D\\SQLEXPRESS; Database=GymTEC; Trusted_Connection=True; Encrypt=False;";
         private const string GymTecSqlVale = "Server=ValesskasEnvy\\SQLEXPRESS; Database=GymTEC; Trusted_Connection=True; Encrypt=False;";
+        private const string CS_TCPIP = "Server=192.168.0.42,1433;Database=GymTEC;User Id=uaca;Password=pepe; Encrypt=False;";
         private readonly SqlOptions _sqlOptions;
 
         public GymTecRepository(IOptions<SqlOptions> options)
@@ -34,7 +35,7 @@ namespace GymTEC_Backend.Repositories
             using (IDbCommand command = new SqlCommand { CommandText = query, CommandType = CommandType.Text })
             {
                 command.CommandTimeout = Timeout;
-                command.Connection = new SqlConnection(GymTecSqlDiani);
+                command.Connection = new SqlConnection(CS_TCPIP);
                 command.Connection.Open();
                 return command.ExecuteReader();
             }
