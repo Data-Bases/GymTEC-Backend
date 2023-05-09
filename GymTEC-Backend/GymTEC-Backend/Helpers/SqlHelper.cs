@@ -559,7 +559,7 @@ namespace GymTEC_Backend.Helpers
         public static string CreateClass(ClassNoIdDto classDto)
         {
             var isGrupal = classDto.IsGrupal.Equals(true) ? 1 : 0;
-            classDto.Capacity = classDto.IsGrupal.Equals(true) ? 1 : classDto.Capacity;
+            classDto.Capacity = !classDto.IsGrupal.Equals(true) ? 1 : classDto.Capacity;
             var date = new SqlDateTime(classDto.Date).Value.ToString("MM-dd-yyyy");
             if (classDto.EmployeeId == 0)
             {
